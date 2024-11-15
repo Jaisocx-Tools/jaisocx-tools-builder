@@ -1,0 +1,45 @@
+{
+    "npm-registry-name": "@jaisocx",
+    "modules": [
+        {
+            "path": "modules/EventEmitter",
+            "name": "event-emitter",
+            "build": true,
+            "build-files": [
+                "EventEmitter.js"
+            ]
+        },
+        {
+            "path": "modules/Template",
+            "name": "template",
+            "build": true,
+            "dependencies": [
+                {
+                    "name": "@jaisocx/event-emitter",
+                    "path": "modules/EventEmitter"
+                }
+            ],
+            "build-files": [
+                "Template.js"
+            ]
+        },
+        {
+            "path": "examples/ExampleTemplate",
+            "name": "example-template",
+            "build": true,
+            "dependencies": [
+                {
+                    "name": "@jaisocx/event-emitter",
+                    "path": "modules/EventEmitter"
+                },
+                {
+                    "name": "@jaisocx/template",
+                    "path": "modules/Template"
+                }
+            ],
+            "build-files": [
+                "ExampleTemplate.js"
+            ]
+        }
+    ]
+}

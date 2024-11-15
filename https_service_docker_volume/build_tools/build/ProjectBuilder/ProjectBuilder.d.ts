@@ -1,0 +1,32 @@
+export declare class ProjectBuilder {
+    isLocalDevelopment: number;
+    absolutePathToProjectRoot: string;
+    relativePathFromRootTsConfigCatalogPath: string;
+    absolutePathFromRootTsConfigCatalogPath: string;
+    relativePathFromRootLintCatalog: string;
+    absolutePathFromRootLintCatalog: string;
+    relativePathFromRootWww: string;
+    absolutePathFromRootWww: string;
+    buildCatalogName: string;
+    buildESNextCatalogName: string;
+    buildESNextTSConfigName: string;
+    buildSimpleCatalogName: string;
+    constructor();
+    getIsLocalDevelopment(): number;
+    setIsLocalDevelopment(isLocalDevelopment: number): ProjectBuilder;
+    setAbsolutePathToProjectRoot(projectRoot: string): ProjectBuilder;
+    setAbsolutePath(propertyName: string, relativePath: string): ProjectBuilder;
+    setRelativePathFromRootTsConfigCatalogPath(relativePath: string): ProjectBuilder;
+    setRelativePathFromRootLintCatalog(relativePath: string): ProjectBuilder;
+    setRelativePathFromRootWww(relativePath: string): ProjectBuilder;
+    setBuildCatalogName(catalogName: string): ProjectBuilder;
+    setBuildESNextCatalogName(catalogName: string): ProjectBuilder;
+    setBuildESNextTSConfigName(tsConfigName: string): ProjectBuilder;
+    setBuildSimpleCatalogName(catalogName: string): ProjectBuilder;
+    getSpawnSyncPayload(contextRoot: string): any;
+    installModuleDependencies(moduleJson: any, modulePath: string): void;
+    buildSimple(moduleJson: any, modulePath: string): void;
+    lintSimpleBuild(eslintConfigCatalogPath: string, pathToEslint: string): void;
+    buildModule(moduleJson: any, rootPath: string): void;
+    build(dataJson: any): any;
+}

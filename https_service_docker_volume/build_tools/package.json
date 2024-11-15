@@ -1,0 +1,12 @@
+{
+  "name": "build-tools",
+  "version": "1.0.0",
+  "private": true,
+  "devDependencies": {
+    "typescript": "^4.x"
+  },
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json",
+    "watch": "tsc -w -p ./tsconfig.json"
+  }
+}
