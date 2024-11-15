@@ -1,3 +1,19 @@
-= README
+= JAISOCX TOOL BUILDER
 
-1233sdf
+== AIM OF THE PROJECT
+
+=== typescript modules development, local and synched to npm registry
+The project was started to provide the modular typescript development,
+with the ability to keep source code well structured in npm registry,
+however being able to develop a new typescript tool,
+and at once fix bugs or add new features in other own typescript modules, published on npm registry,
+keeping dependencies not broken and centralized.
+
+=== js files use in .html files the easiest way
+Another aim of the project is to prettify the transpiled .js results of typescript sources,
+and being able to use the prettified .js builds both for web ui tools in .html pages without any additional builds required,
+when published at a http server,
+and when in files explorer context menu over an .html file "Open with ..." =&gt; browser.
+
+Why? to be able to test a .js tool in each environment, 
+be able at once to check out modifying possibilities in the .js code,
