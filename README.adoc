@@ -16,4 +16,6 @@ when published at a http server,
 and when in files explorer context menu over an .html file "Open with ..." =&gt; browser.
 
 Why? to be able to test a .js tool in each environment, 
-be able at once to check out modifying possibilities in the .js code,
+to be able at once to check out modifying possibilities in the .js code,
+to reduce need of software and dependencies install, when intending a use of a js tool.
+
