@@ -1,4 +1,5 @@
-= JAISOCX TOOL BUILDER
+= JAISOCX TS TOOLS BUILDER
+:hardbreaks-option:
 
 == AIM OF THE PROJECT
 
