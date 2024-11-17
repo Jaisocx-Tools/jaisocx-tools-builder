@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Template Example</title>
+  </head>
+  <body>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="css/tree.css" rel="stylesheet" />
+
+    <script src="modules/EventEmitter/BuildSimple/EventEmitter.js"></script>
+    <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
+    <script src="modules/Template/BuildSimple/Template.js"></script>
+  
+    <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
+    <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
+    <script src="modules/Tree/BuildSimple/Tree.js"></script>
+
+    <script src="examples/ExampleTree/BuildSimple/ExampleTree.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const example = new ExampleTree();
+        example.init();
+      });
+    </script>
+  </body>
+</html>
+

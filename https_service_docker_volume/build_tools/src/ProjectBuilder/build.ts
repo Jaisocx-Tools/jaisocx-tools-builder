@@ -12,9 +12,9 @@ const builder = new ProjectBuilder();
 builder
   .setIsLocalDevelopment(1)
   .setAbsolutePathToProjectRoot(projectRoot)
-  .setRelativePathFromRootTsConfigCatalogPath('https_service_docker_volume/build_tools')
-  .setRelativePathFromRootLintCatalog('https_service_docker_volume')
-  .setRelativePathFromRootWww('https_service_docker_volume/www')
+  .setRelativePathFromRootTsConfigCatalogPath('build_tools')
+  .setRelativePathFromRootLintCatalog('.')
+  .setRelativePathFromRootWww('www')
   .setBuildCatalogName('build')
   .setBuildESNextCatalogName('buildESNext')
   .setBuildESNextTSConfigName('tsconfig.ESNext.json')

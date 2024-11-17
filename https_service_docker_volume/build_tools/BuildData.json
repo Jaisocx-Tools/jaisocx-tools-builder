@@ -4,15 +4,16 @@
     {
       "path": "modules/EventEmitter",
       "name": "event-emitter",
-      "build": true,
+      "build": false,
       "build-files": [
-        "EventEmitter.js"
+        "EventEmitter.js",
+        "LargeDomEventEmitter.js"
       ]
     },
     {
       "path": "modules/Template",
       "name": "template",
-      "build": true,
+      "build": false,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
@@ -24,8 +25,8 @@
       ]
     },
     {
-      "path": "examples/ExampleTemplate",
-      "name": "example-template",
+      "path": "modules/Tree",
+      "name": "tree",
       "build": true,
       "dependencies": [
         {
@@ -38,7 +39,41 @@
         }
       ],
       "build-files": [
+        "Tree.js",
+        "TreeMetadata.js",
+        "TreeConstants.js"
+      ]
+    },
+    {
+      "path": "examples/ExampleTemplate",
+      "name": "example-template",
+      "build": false,
+      "dependencies": [
+        {
+          "name": "@jaisocx/event-emitter",
+          "path": "modules/EventEmitter"
+        },
+        {
+          "name": "@jaisocx/template",
+          "path": "modules/Template"
+        }
+      ],
+      "build-files": [
         "ExampleTemplate.js"
+      ]
+    },
+    {
+      "path": "examples/Tree",
+      "name": "example-tree",
+      "build": true,
+      "dependencies": [
+        {
+          "name": "@jaisocx/tree",
+          "path": "modules/Tree"
+        }
+      ],
+      "build-files": [
+        "ExampleTree.js"
       ]
     }
   ]

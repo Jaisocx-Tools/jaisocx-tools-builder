@@ -1,0 +1,40 @@
+import { LargeDomEventEmitter } from '@jaisocx/event-emitter';
+import { Template } from "@jaisocx/template";
+import { ITreeRenderRetValue, IRenderTemplateData } from './Types';
+import { TreeMetadata } from './TreeMetadata';
+export declare class Tree extends LargeDomEventEmitter {
+    mainHtmlNodeId: string;
+    mainHolderHtmlNode: HTMLElement | null;
+    data: any | null;
+    renderingMode: number;
+    url: string | null;
+    isModifiable: boolean;
+    metadata: TreeMetadata;
+    template: Template;
+    contextMenuJSClass: any;
+    subtreeLength: number;
+    subtreeLengthDeep: number;
+    constructor();
+    setUrl(url: string | null): this;
+    setMainHtmlNodeId(mainHtmlNodeId: string): this;
+    setMetadata(metadata: TreeMetadata): this;
+    setModifiable(isModifiable: boolean): this;
+    setRenderingMode(mode: number): this;
+    load(): void;
+    render(nodes: any): this;
+    callRenderForSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
+        currentNodeSubtreeLength: number;
+        subtreeJsonNodesLength: number;
+    };
+    renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
+    getDataForRendering(node: any): IRenderTemplateData;
+    getDataForRenderingEase(key: string, value: any): IRenderTemplateData;
+    escapeHTMLForAttribute(str: string): string;
+    unescapeHTMLFromAttribute(str: string | undefined): string;
+    getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
+    addJSTreeEventListener(eventName: string, eventHandler: CallableFunction): Tree;
+    addJSTreeEventListeners(): Tree;
+    openButtonClickHandler(eventPayload: any): void;
+    treeNodeLableClickHandler(eventPayload: any): void;
+    contextMenuRender(eventPayload: any): void;
+}

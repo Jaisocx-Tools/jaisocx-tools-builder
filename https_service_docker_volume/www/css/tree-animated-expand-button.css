@@ -1,0 +1,190 @@
+@import url('/jstree/www/css/variables.css');
+.tree{
+    background-color: var(--background-color--tree);
+}
+
+.tree * {
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    border: 0px solid #fff;
+}
+
+
+.tree ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    list-style-type: none;
+}
+
+.tree ul li {
+    overflow: visible;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.tree ul li .jstree-html-node {
+    height: var(--size--jstree-html-node);
+    min-height: var(--size--jstree-html-node);
+    width: auto;
+
+    font-size: var(--size--jstree-html-node);
+    line-height: var(--size--jstree-html-node);
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin-bottom: 4px;
+}
+
+.tree ul li > ul {
+    margin-left: 22px;
+    border: var(--border--subtree-parent);
+}
+
+.tree .jstree-html-node-label {
+    border: var(--border--jstree-html-node);
+    background-color: inherit;
+    font-family: 'Open Sans';
+    font-size: 80%;
+    line-height: 95%;
+    min-height: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    padding-left: 2px;
+    padding-right: 20px;
+    text-decoration: none;
+    color: var(--text-color--dark);
+}
+.tree .jstree-html-node-label:hover {
+    color: var(--text-color--hover);
+}
+
+.tree .open-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    border: var(--border--jstree-html-node-open-button);
+    height: 100%;
+    width: var(--size--jstree-html-node);
+    margin: auto;
+}
+
+.tree .open-button > span {
+    display: none;
+    height: var(--open-button-size);
+    width: var(--open-button-size);
+
+    font-size: inherit;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+    background-attachment: local;
+}
+
+.tree .open-button > span.opened {
+    background-image: var(--open-button-opened--image-url);
+}
+.tree .open-button > span.closed {
+    background-image: var(--open-button-closed--image-url);
+    transform: rotate(90deg);
+}
+.tree .open-button > span.without-subtree {
+    background-image: var(--open-button-without-subtree--image-url);
+    color: crimson !important;
+}
+.tree .open-button > span.animated {
+    background-image: var(--open-button-animated--image-url);
+}
+
+.tree .open-button.toggle-with-subtree-opened:hover > span.opened,
+.tree .open-button.toggle-with-subtree-opened:hover > span.closed,
+.tree .open-button.toggle-with-subtree-closed:hover > span.opened,
+.tree .open-button.toggle-with-subtree-closed:hover > span.closed {
+    display: none;
+}
+
+.tree .open-button.toggle-with-subtree-opened:hover > span.animated,
+.tree .open-button.toggle-with-subtree-closed:hover > span.animated {
+    display: block;
+}
+
+.tree .toggle-with-subtree-closed span.opened {
+    display: none;
+}
+
+.tree .toggle-with-subtree-closed span.closed {
+    display: block;
+}
+
+.tree .toggle-with-subtree-closed span.without-subtree {
+    display: none;
+}
+
+
+.tree .toggle-with-subtree-opened span.opened {
+    display: block;
+}
+
+.tree .toggle-with-subtree-opened span.closed {
+    display: none;
+}
+
+.tree .toggle-with-subtree-opened span.without-subtree {
+    display: none;
+}
+
+
+.tree .toggle-without-subtree  span.opened {
+    display: none;
+}
+
+.tree .toggle-without-subtree span.closed {
+    display: none;
+}
+
+.tree .toggle-without-subtree span.without-subtree {
+    display: block;
+}
+
+
+.context-menu-container{
+    display: none;
+    position: fixed;
+    background-color: white;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 10px 10px 5px grey;
+}
+
+.context-menu-container ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.context-menu-container li{
+    border-bottom: 1px solid #ddd;
+    margin-top: 12px;
+    cursor: pointer;
+}
+.context-menu-container li:first-of-type{
+    margin-top: 0px;
+}

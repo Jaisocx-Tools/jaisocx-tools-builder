@@ -1,0 +1,271 @@
+@import url('/jstree/www/css/variables.css');
+
+.tree {
+    background-color: var(--background-color--tree);
+}
+
+.tree * {
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    border: 0px solid #fff;
+    white-space: normal;
+}
+
+.tree ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    list-style-type: none;
+}
+
+.tree ul li {
+    overflow: visible;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.tree ul li .jstree-html-node {
+    height: var(--size--jstree-html-node);
+    min-height: var(--size--jstree-html-node);
+    width: auto;
+
+    font-size: var(--size--jstree-html-node);
+    line-height: var(--size--jstree-html-node);
+    overflow: visible;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin: var(--node-margin);
+}
+
+.tree ul li > ul {
+    margin-left: 22px;
+    border: var(--border--subtree-parent);
+}
+
+.tree .jstree-html-node-holder-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    height: var(--icon-holder-size);
+    width: var(--icon-holder-size);
+
+    margin: var(--icon-margin);
+}
+
+.tree .jstree-html-node-holder-icon.icon-show {
+    display: flex;
+}
+
+.tree .jstree-html-node-holder-icon.icon-hide {
+    display: none;
+}
+
+.tree .jstree-html-node-holder-icon img {
+    display: block;
+
+    max-width: 100%;
+    max-height: 100%;
+
+    width: auto;
+    height: auto;
+
+    overflow: hidden;
+}
+
+.tree .jstree-html-node-label {
+    border: var(--border--jstree-html-node);
+    background-color: inherit;
+    font-family: 'Open Sans';
+    font-size: 80%;
+    min-height: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    padding-left: 2px;
+    padding-right: 20px;
+    text-decoration: none;
+    color: var(--text-color--dark);
+}
+.tree .jstree-html-node-label:hover {
+    color: var(--text-color--hover);
+}
+
+.tree .open-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    border: var(--border--jstree-html-node-open-button);
+    height: 100%;
+    width: var(--size--jstree-html-node);
+    margin: auto;
+}
+
+.tree .open-button > pre {
+    display: none;
+    height: var(--open-button-size);
+    width: var(--open-button-size);
+
+    font-size: inherit;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: content-box;
+    background-attachment: local;
+}
+
+.tree .open-button > .opened {
+    background-image: var(--open-button-opened--image-url);
+    transform: rotate(180deg);
+}
+.tree .open-button > pre {
+    background-image: var(--open-button-opened--image-url);
+    transform: rotate(90deg);
+}
+.tree .open-button > .without-subtree {
+    background-image: var(--open-button-without-subtree--image-url);
+    color: crimson !important;
+}
+
+.tree .open-button > .animated {
+    display: none;
+}
+
+.tree .open-button > .opened {
+    display: none;
+}
+
+.tree .open-button > pre {
+    display: block;
+}
+
+.tree .open-button > .without-subtree {
+    display: none;
+}
+
+.tree .toggle-with-subtree-opened > .opened {
+    display: block;
+}
+
+.tree .toggle-with-subtree-opened > pre {
+    display: none;
+}
+
+
+.tree .toggle-without-subtree > pre {
+    display: none;
+}
+
+.tree .toggle-without-subtree > .without-subtree {
+    display: block;
+}
+
+.json-context-menu-holder,
+.json-context-menu-holder * {
+    position: relative;
+
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+
+    border: 0px solid #fff;
+    white-space: normal;
+}
+
+.json-context-menu-holder {
+    display: none;
+    position: absolute !important;
+    top: var(--size--jstree-html-node);
+
+    background-color: white;
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    padding: 20px;
+    box-shadow: 10px 10px 5px #abb;
+
+    list-style-type: none;
+    margin: 0;
+    padding: 1.0rem;
+
+    width: auto;
+    overflow-x: visible;
+
+    z-index: 9999;
+}
+
+ul.json-context-menu-holder li { 
+    display: flex;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: stretch;
+
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+
+    width: auto;
+    min-width: 100%;
+}
+
+.json-context-menu-holder li .json-context-menu-item-holder-icon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    height: var(--icon-holder-size);
+    width: var(--icon-holder-size);
+    
+    margin: var(--icon-margin);
+}
+
+.json-context-menu-holder li .json-context-menu-item-holder-icon img {
+    display: block;
+
+    max-width: 100%;
+    max-height: 100%;
+    
+    width: auto;
+    height: auto;
+    
+    overflow: hidden;
+}
+
+.json-context-menu-holder li .json-context-menu-item-label {
+    white-space: pre;
+    line-break: strict;
+    font-family: Verdana;
+    font-size: 0.685rem;
+    line-height: 0.685rem;
+
+    padding: 0.3rem 0.8rem;
+    margin: 0.5rem 0;
+    background-color: #fffafa;
+    flex-grow: 1;
+    border-radius: 0.6rem;
+    border: 0.3px solid #fdb;
+}
+
+@media (max-width: 440px) {
+    .tree .open-button {
+        margin-right: 1rem;
+    }    
+}
+

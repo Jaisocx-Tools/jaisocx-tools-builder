@@ -1,0 +1,30 @@
+.tree {
+  --node-margin: 0 0 0.4rem 0;
+
+  --open-button-size: 60%;
+  --open-button-animated--image-url: url('/jstree/www/images/icons/button-animated.gif');
+  --open-button-opened--image-url: url('/jstree/www/images/icons/button-opened.png');
+  --open-button-without-subtree--image-url: url('/jstree/www/images/icons/button-without-subtree.svg');
+
+  --background-color--tree: #ffffff;
+
+  --size--jstree-html-node: 1.4rem;
+
+  --text-color--dark: #000000;
+  --text-color--hover: darkgreen;
+
+  --border--jstree-html-node: 0px solid #abc;
+  --border--subtree-parent: 0px solid #abc;
+  --border--jstree-html-node-open-button: 0px solid #abc;
+
+  --icon-margin: 0 0.4rem 0 0;
+  --icon-holder-size: 1.4rem;
+}
+
+@media (max-width: 440px) {
+  .tree {
+      --node-margin: 0 0 1.0rem 0;
+      --size--jstree-html-node: 2.2rem;
+      --icon-holder-size: 2.1rem;
+  }
+}

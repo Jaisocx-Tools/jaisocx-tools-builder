@@ -96,75 +96,25 @@ class ProjectBuilder {
         return {
             cwd: contextRoot,
             stdio: 'inherit',
-            //shell: 'bash',
-            shell: '/usr/bin/env bash',
+            shell: 'bash',
+            //shell: '/usr/bin/env bash',
             env: Object.assign(Object.assign({}, process.env), { PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') })
         };
     }
-    installModuleDependencies(moduleJson, modulePath) {
-        let dependencyCatalogPath = '';
-        let localDependency = null;
-        const dependencies = moduleJson["dependencies"];
-        if (dependencies && dependencies.length > 0) {
-            console.log(`Module [ ${moduleJson.name} ]: Installing npm dependencies at ${modulePath}...`);
-            if (this.getIsLocalDevelopment()) {
-                console.log(`Module [ ${moduleJson.name} ]: Local dev mode npm link method chosen`);
-                for (localDependency of dependencies) {
-                    dependencyCatalogPath = this.absolutePathFromRootWww + '/' + localDependency.path;
-                    (0, child_process_1.execSync)(`npm link`, this.getSpawnSyncPayload(dependencyCatalogPath));
-                    (0, child_process_1.execSync)(`npm link ${localDependency.name}`, this.getSpawnSyncPayload(modulePath));
-                }
-            }
-            else {
-                console.log(`Module [ ${moduleJson.name} ]: npm install from npm registry`);
-                //for (dependencyName of dependencies) {
-                //dependencyCatalogPath = rootPath + dependencyCatalogPath;
-                //execSync('npm run build', { cwd: modulePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
-                //}
-            }
+    build(dataJson) {
+        process.env = Object.assign(Object.assign({}, process.env), { PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') });
+        if (!dataJson.modules || 0 === dataJson.modules.length) {
+            throw new Error('no modules array set in BuildData.json');
         }
-        else {
-            console.log(`Module [ ${moduleJson.name} ]: No dependencies were set in BuildData.json`);
+        const modules = [
+            ...dataJson.modules.filter((moduleJson) => (true === moduleJson.build))
+        ];
+        if (!modules || 0 === modules.length) {
+            throw new Error('no modules marked to build in the BuildData.json');
         }
-    }
-    buildSimple(moduleJson, modulePath) {
-        let buildFileName = '';
-        let buildCatalogPath = '';
-        let buildFilePath = '';
-        let buildSimpleCatalogPath = '';
-        let buildSimpleFilePath = '';
-        const buildFiles = moduleJson["build-files"];
-        if (!buildFiles || (0 === buildFiles.length)) {
-            throw new Error(`Module [ ${moduleJson.name} ]: You forgot to set "build-files" array, You wish to provide for Simple Build!`);
+        for (let moduleJson of modules) {
+            this.buildModule(moduleJson, this.absolutePathToProjectRoot);
         }
-        for (buildFileName of buildFiles) {
-            buildCatalogPath = modulePath + '/' + this.buildESNextCatalogName;
-            buildFilePath = buildCatalogPath + '/' + buildFileName;
-            buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
-            buildSimpleFilePath = buildSimpleCatalogPath + '/' + buildFileName;
-            if (false === fs.existsSync(buildCatalogPath)) {
-                throw new Error(`Module [ ${moduleJson.name} ]: build catalog not found: ${buildCatalogPath}`);
-            }
-            if (false === fs.existsSync(buildSimpleCatalogPath)) {
-                fs.mkdirSync(buildSimpleCatalogPath, { recursive: true });
-            }
-            fs.copyFile(buildFilePath, buildSimpleFilePath, (err) => {
-                if (err) {
-                    console.error(`Module [ ${moduleJson.name} ]: Error copying file:`, err);
-                }
-                else {
-                    console.log(`Module [ ${moduleJson.name} ]: File ${buildFileName} copied successfully to ${buildSimpleFilePath}!`);
-                    try {
-                        this.lintSimpleBuild(modulePath, ('./' + this.buildSimpleCatalogName + '/' + buildFileName));
-                    }
-                    catch (e) { }
-                }
-            });
-        }
-    }
-    // prettifying .js
-    lintSimpleBuild(eslintConfigCatalogPath, pathToEslint) {
-        (0, child_process_1.execSync)(`npx eslint ${pathToEslint} --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
     }
     buildModule(moduleJson, rootPath) {
         console.log(`\n\n\n===============================`);
@@ -191,20 +141,81 @@ class ProjectBuilder {
         console.log(`Module [ ${moduleJson.name} ]: building simple .js for usage in .html in script tag as src`);
         this.buildSimple(moduleJson, modulePath);
     }
-    build(dataJson) {
-        process.env = Object.assign(Object.assign({}, process.env), { PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') });
-        if (!dataJson.modules || 0 === dataJson.modules.length) {
-            throw new Error('no modules array set in BuildData.json');
+    installModuleDependencies(moduleJson, modulePath) {
+        let dependencyCatalogPath = '';
+        let localDependency = null;
+        const dependencies = moduleJson["dependencies"];
+        if (dependencies && dependencies.length > 0) {
+            console.log(`Module [ ${moduleJson.name} ]: Installing npm dependencies at ${modulePath}...`);
+            if (this.getIsLocalDevelopment()) {
+                console.log(`Module [ ${moduleJson.name} ]: Local dev mode npm link method chosen`);
+                const localDependenciesNames = [];
+                for (localDependency of dependencies) {
+                    dependencyCatalogPath = this.absolutePathFromRootWww + '/' + localDependency.path;
+                    console.log(`cd && npm link in catalog: [ ${dependencyCatalogPath} ]`);
+                    (0, child_process_1.execSync)(`cd "${dependencyCatalogPath}" && npm link`, this.getSpawnSyncPayload(dependencyCatalogPath));
+                    localDependenciesNames.push(localDependency.name);
+                }
+                const modulesToLinkJoined = localDependenciesNames.join(" ");
+                const npmLinkCommand = `cd "${modulePath}" && npm link ${modulesToLinkJoined}`;
+                console.log(`${npmLinkCommand}`);
+                (0, child_process_1.execSync)(npmLinkCommand, this.getSpawnSyncPayload(modulePath));
+            }
+            else {
+                console.log(`Module [ ${moduleJson.name} ]: npm install from npm registry`);
+                //for (dependencyName of dependencies) {
+                //dependencyCatalogPath = rootPath + dependencyCatalogPath;
+                //execSync('npm run build', { cwd: modulePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
+                //}
+            }
         }
-        const modules = [
-            ...dataJson.modules.filter((moduleJson) => (true === moduleJson.build))
-        ];
-        if (!modules || 0 === modules.length) {
-            throw new Error('no modules marked to build in the BuildData.json');
+        else {
+            console.log(`Module [ ${moduleJson.name} ]: No dependencies were set in BuildData.json`);
         }
-        for (let moduleJson of modules) {
-            this.buildModule(moduleJson, this.absolutePathToProjectRoot);
+    }
+    buildSimple(moduleJson, modulePath) {
+        //let buildFileName: string = '';
+        let buildCatalogPath = '';
+        //let buildFilePath: string = '';
+        let buildSimpleCatalogPath = '';
+        //let buildSimpleFilePath: string = '';
+        const buildFiles = moduleJson["build-files"];
+        if (!buildFiles || (0 === buildFiles.length)) {
+            throw new Error(`Module [ ${moduleJson.name} ]: You forgot to set "build-files" array, You wish to provide for Simple Build!`);
         }
+        buildCatalogPath = modulePath + '/' + this.buildESNextCatalogName;
+        if (false === fs.existsSync(buildCatalogPath)) {
+            throw new Error(`Module [ ${moduleJson.name} ]: build catalog not found: ${buildCatalogPath}`);
+        }
+        buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
+        for (const buildFileName of buildFiles) {
+            const buildFilePath = buildCatalogPath + '/' + buildFileName;
+            const buildSimpleFilePath = buildSimpleCatalogPath + '/' + buildFileName;
+            if (false === fs.existsSync(buildSimpleCatalogPath)) {
+                fs.mkdirSync(buildSimpleCatalogPath, { recursive: true });
+            }
+            fs.copyFile(buildFilePath, buildSimpleFilePath, (err) => {
+                if (err) {
+                    console.error(`Module [ ${moduleJson.name} ]: Error copying file:`, err);
+                    return;
+                }
+                (function () {
+                    const fileName = buildFileName;
+                    // @ts-ignore
+                    const filePathToEslint = ('./' + this.buildSimpleCatalogName + '/' + fileName);
+                    console.log(`Module [ ${moduleJson.name} ]: Copy file [ ${fileName} ] success, catalog ${buildSimpleFilePath}!`);
+                    try {
+                        // @ts-ignore
+                        this.lintSimpleBuild(modulePath, filePathToEslint);
+                    }
+                    catch (e) { }
+                }).call(this);
+            });
+        }
+    }
+    // prettifying .js
+    lintSimpleBuild(eslintConfigCatalogPath, pathToEslint) {
+        (0, child_process_1.execSync)(`npx eslint ${pathToEslint} --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
     }
 }
 exports.ProjectBuilder = ProjectBuilder;

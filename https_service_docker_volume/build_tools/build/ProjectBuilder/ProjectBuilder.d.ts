@@ -24,9 +24,9 @@ export declare class ProjectBuilder {
     setBuildESNextTSConfigName(tsConfigName: string): ProjectBuilder;
     setBuildSimpleCatalogName(catalogName: string): ProjectBuilder;
     getSpawnSyncPayload(contextRoot: string): any;
+    build(dataJson: any): any;
+    buildModule(moduleJson: any, rootPath: string): void;
     installModuleDependencies(moduleJson: any, modulePath: string): void;
     buildSimple(moduleJson: any, modulePath: string): void;
     lintSimpleBuild(eslintConfigCatalogPath: string, pathToEslint: string): void;
-    buildModule(moduleJson: any, rootPath: string): void;
-    build(dataJson: any): any;
 }
