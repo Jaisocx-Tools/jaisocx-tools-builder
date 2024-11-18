@@ -9,6 +9,19 @@ and allows including other .adoc and .html files
 ////
 
 
+== STATUS OF THE PROJECT
+
+The Project is under development now, 2024-11-18.
+
+However the infrastructure for building a multi submodules .ts libraries is ready to use.
+
+- Assets feature for css and images files to enable a .ts lib to work after *npm install <of Your .ts lib>* is not started.
+
+- Tree class is under development, it renders well in .Metadata rendering mode, and not in .Ease mode for raw json modifying.
+
+
+
+
 
 == AIM OF THE PROJECT
 
