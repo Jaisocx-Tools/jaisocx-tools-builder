@@ -6,7 +6,7 @@ export interface IRenderingMode {
     Ease: number;
     Metadata: number;
 }
-export interface IRenderTemplateData {
+export interface IRenderTemplateRendererData {
     dataId: string;
     dataHolderId: string;
     dataOrder: string;

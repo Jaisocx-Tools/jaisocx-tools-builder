@@ -6,6 +6,11 @@ class LargeDomEventEmitter extends EventEmitter {
     this.EventArtDOMEventOptimized = "DOMEventOptimized";
   }
 
+  setDebug(debug) {
+    this.debug = debug;
+    return this;
+  }
+
   addDomEventListeners() {
         for (const eventName in this.eventsHandlersSetDom) {
       const eventHandlers = this.eventsHandlersSetDom[eventName];

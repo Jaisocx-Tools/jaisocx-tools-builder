@@ -7,6 +7,10 @@ export class LargeDomEventEmitter extends EventEmitter {
         this.mainHolderHtmlNode = null;
         this.EventArtDOMEventOptimized = 'DOMEventOptimized';
     }
+    setDebug(debug) {
+        this.debug = debug;
+        return this;
+    }
     addDomEventListeners() {
         // here is just the right assignment of few dom event listeners.
         // Don't edit here, please!

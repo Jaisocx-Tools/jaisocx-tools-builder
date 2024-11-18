@@ -5,6 +5,7 @@ export declare class LargeDomEventEmitter extends EventEmitter {
     mainHolderHtmlNode: HTMLElement | null;
     EventArtDOMEventOptimized: string;
     constructor();
+    setDebug(debug: boolean): LargeDomEventEmitter;
     addDomEventListeners(): LargeDomEventEmitter;
     addDomEventListener(eventName: string, selector: string, eventHandler: CallableFunction): LargeDomEventEmitter;
     emitDomEvent(eventName: string, payload: any): EventEmitResult[];

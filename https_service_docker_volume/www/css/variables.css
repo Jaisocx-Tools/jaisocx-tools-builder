@@ -2,9 +2,9 @@
   --node-margin: 0 0 0.4rem 0;
 
   --open-button-size: 60%;
-  --open-button-animated--image-url: url('/jstree/www/images/icons/button-animated.gif');
-  --open-button-opened--image-url: url('/jstree/www/images/icons/button-opened.png');
-  --open-button-without-subtree--image-url: url('/jstree/www/images/icons/button-without-subtree.svg');
+  --open-button-animated--image-url: url('icons/button-animated.gif');
+  --open-button-opened--image-url: url('icons/button-opened.png');
+  --open-button-without-subtree--image-url: url('icons/button-without-subtree.svg');
 
   --background-color--tree: #ffffff;
 

@@ -1,6 +1,6 @@
 import { LargeDomEventEmitter } from '@jaisocx/event-emitter';
-import { Template } from "@jaisocx/template";
-import { ITreeRenderRetValue, IRenderTemplateData } from './Types';
+import { TemplateRenderer } from "@jaisocx/template-renderer";
+import { ITreeRenderRetValue, IRenderTemplateRendererData } from './Types';
 import { TreeMetadata } from './TreeMetadata';
 export declare class Tree extends LargeDomEventEmitter {
     mainHtmlNodeId: string;
@@ -10,25 +10,27 @@ export declare class Tree extends LargeDomEventEmitter {
     url: string | null;
     isModifiable: boolean;
     metadata: TreeMetadata;
-    template: Template;
+    templateRenderer: TemplateRenderer;
     contextMenuJSClass: any;
     subtreeLength: number;
     subtreeLengthDeep: number;
     constructor();
+    setDebug(debug: boolean): Tree;
     setUrl(url: string | null): this;
     setMainHtmlNodeId(mainHtmlNodeId: string): this;
     setMetadata(metadata: TreeMetadata): this;
     setModifiable(isModifiable: boolean): this;
     setRenderingMode(mode: number): this;
     load(): void;
+    getDataType(value: any): string;
     render(nodes: any): this;
     callRenderForSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
         currentNodeSubtreeLength: number;
         subtreeJsonNodesLength: number;
     };
     renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
-    getDataForRendering(node: any): IRenderTemplateData;
-    getDataForRenderingEase(key: string, value: any): IRenderTemplateData;
+    getDataForRendering(node: any): IRenderTemplateRendererData;
+    getDataForRenderingEase(node: any): IRenderTemplateRendererData;
     escapeHTMLForAttribute(str: string): string;
     unescapeHTMLFromAttribute(str: string | undefined): string;
     getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;

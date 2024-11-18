@@ -18,6 +18,11 @@ export class LargeDomEventEmitter extends EventEmitter
         this.EventArtDOMEventOptimized = 'DOMEventOptimized';
     }
 
+    setDebug(debug: boolean): LargeDomEventEmitter {
+        this.debug = debug;
+        return this;
+    }
+
     addDomEventListeners(): LargeDomEventEmitter {
         // here is just the right assignment of few dom event listeners.
         // Don't edit here, please!

@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./command/build.sh",
-    "lint": "./command/lint.sh --catalog_to_check=\"./www/examples/ExampleTemplate/dist-simple\""
+    "lint": "./command/lint.sh --catalog_to_check=\"./www/examples/ExampleTemplateRenderer/dist-simple\""
   },
   "keywords": [],
   "author": "",

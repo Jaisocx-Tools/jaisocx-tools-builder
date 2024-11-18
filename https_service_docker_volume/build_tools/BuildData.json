@@ -11,8 +11,8 @@
       ]
     },
     {
-      "path": "modules/Template",
-      "name": "template",
+      "path": "modules/TemplateRenderer",
+      "name": "template-renderer",
       "build": false,
       "dependencies": [
         {
@@ -21,7 +21,7 @@
         }
       ],
       "build-files": [
-        "Template.js"
+        "TemplateRenderer.js"
       ]
     },
     {
@@ -34,8 +34,8 @@
           "path": "modules/EventEmitter"
         },
         {
-          "name": "@jaisocx/template",
-          "path": "modules/Template"
+          "name": "@jaisocx/template-renderer",
+          "path": "modules/TemplateRenderer"
         }
       ],
       "build-files": [
@@ -45,8 +45,8 @@
       ]
     },
     {
-      "path": "examples/ExampleTemplate",
-      "name": "example-template",
+      "path": "examples/ExampleTemplateRenderer",
+      "name": "example-template-renderer",
       "build": false,
       "dependencies": [
         {
@@ -54,18 +54,18 @@
           "path": "modules/EventEmitter"
         },
         {
-          "name": "@jaisocx/template",
-          "path": "modules/Template"
+          "name": "@jaisocx/template-renderer",
+          "path": "modules/TemplateRenderer"
         }
       ],
       "build-files": [
-        "ExampleTemplate.js"
+        "ExampleTemplateRenderer.js"
       ]
     },
     {
-      "path": "examples/Tree",
+      "path": "examples/ExampleTree",
       "name": "example-tree",
-      "build": true,
+      "build": false,
       "dependencies": [
         {
           "name": "@jaisocx/tree",

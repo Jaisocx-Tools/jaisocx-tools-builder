@@ -8,7 +8,7 @@ export interface IRenderingMode {
   Metadata: number;
 }
 
-export interface IRenderTemplateData {
+export interface IRenderTemplateRendererData {
   dataId: string;
   dataHolderId: string;
   dataOrder: string;

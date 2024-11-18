@@ -1,0 +1,1 @@
+export { ExampleTemplateRenderer } from './ExampleTemplateRenderer';

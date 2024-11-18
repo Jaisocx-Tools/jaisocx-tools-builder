@@ -18,11 +18,11 @@ TreeConstants.TreeEventsNames = {
 };
 TreeConstants.TEMPLATE__TREE_HTML_NODE = `
 <li 
-    data-id="{{ data-id }}" 
-    data-holder-id="{{ data-holder-id }}" 
-    data-order="{{ data-order }}">
+    data-id="{{ dataId }}" 
+    data-holder-id="{{ dataHolderId }}" 
+    data-order="{{ dataOrder }}">
 
-    <pre class="jstree-html-node" data-json="{{ data-json }}">
+    <pre class="jstree-html-node" data-json="{{ dataJson }}">
         <pre class="open-button  {{ openButtonStateClassName }}">
             <pre class="opened"></pre>
             <pre class="closed"></pre>
@@ -30,11 +30,11 @@ TreeConstants.TEMPLATE__TREE_HTML_NODE = `
             <pre class="animated"></pre>
         </pre>
 
-        <pre class="jstree-html-node-holder-icon {{ iconShow-className }}">
-            <img src="{{ icon-src }}" />
+        <pre class="jstree-html-node-holder-icon {{ iconShowClassName }}">
+            <img src="{{ iconSrc }}" />
         </pre>
 
-        <a href="{{ hyperlink }}" class="jstree-html-node-label">{{ label-text }}</a>
+        <a href="{{ hyperlink }}" class="jstree-html-node-label">{{ labelText }}</a>
     </pre>
     
     <ul></ul>

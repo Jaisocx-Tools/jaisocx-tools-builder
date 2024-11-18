@@ -1,4 +1,4 @@
-@import url('/jstree/www/css/variables.css');
+@import url('variables.css');
 .tree{
     background-color: var(--background-color--tree);
 }

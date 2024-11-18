@@ -2,7 +2,7 @@
 
 script_arg="${1}"
 script_arg_name="--catalog_to_check"
-catalog_to_check="./www/examples/ExampleTemplate/dist-simple"
+catalog_to_check="./www/examples/ExampleTemplateRenderer/dist-simple"
 
 ## plugin install command
 ## to reference the catalog, where package.json resides, with the eslint module .js files

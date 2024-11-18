@@ -10,7 +10,7 @@
             ]
         },
         {
-            "path": "modules/Template",
+            "path": "modules/TemplateRenderer",
             "name": "template",
             "build": true,
             "dependencies": [
@@ -20,11 +20,11 @@
                 }
             ],
             "build-files": [
-                "Template.js"
+                "TemplateRenderer.js"
             ]
         },
         {
-            "path": "examples/ExampleTemplate",
+            "path": "examples/ExampleTemplateRenderer",
             "name": "example-template",
             "build": true,
             "dependencies": [
@@ -33,12 +33,12 @@
                     "path": "modules/EventEmitter"
                 },
                 {
-                    "name": "@jaisocx/template",
-                    "path": "modules/Template"
+                    "name": "@jaisocx/template-renderer",
+                    "path": "modules/TemplateRenderer"
                 }
             ],
             "build-files": [
-                "ExampleTemplate.js"
+                "ExampleTemplateRenderer.js"
             ]
         }
     ]

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@jaisocx/event-emitter": "^1.0.x",
-    "@jaisocx/template": "^1.0.x"
+    "@jaisocx/template-renderer": "^1.0.x"
   },
   "devDependencies": {
     "typescript": "^4.x"
