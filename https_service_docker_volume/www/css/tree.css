@@ -68,6 +68,19 @@
     margin: var(--icon-margin);
 }
 
+.tree ul li.holder-datatype--object > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--datatype-object--image-url);
+}
+.tree ul li.holder-datatype--string > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--datatype-string--image-url);
+}
+
 .tree .jstree-html-node-holder-icon.icon-show {
     display: flex;
 }

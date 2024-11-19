@@ -7,15 +7,16 @@ export interface IRenderingMode {
     Metadata: number;
 }
 export interface IRenderTemplateRendererData {
+    iconSrc: string;
+    iconShowClassName: string;
+    labelText: string;
+    hyperlink: string;
+    cssClasses: string;
     dataId: string;
     dataHolderId: string;
     dataOrder: string;
     dataJson: string;
     openButtonStateClassName: string;
-    iconSrc: string;
-    iconShowClassName: string;
-    labelText: string;
-    hyperlink: string;
     hasSubtree: boolean;
 }
 export interface ITreeCssClassNames {
@@ -24,6 +25,12 @@ export interface ITreeCssClassNames {
     CLASS_ICON_SHOW: string;
     CLASS_ICON_HIDE: string;
     CLASS_AND_ID__CONTEXT_MENU: string;
+    CLASS_DATATYPE_OBJECT: string;
+    CLASS_DATATYPE_ARRAY: string;
+    CLASS_DATATYPE_STRING: string;
+    CLASS_DATATYPE_NUMBER: string;
+    CLASS_DATATYPE_BOOLEAN: string;
+    PREFIX__CLASS_DATATYPE: string;
 }
 export interface ITreeEventsNames {
     EVENT_NAME__AFTER_RENDER_ONE_NODE: string;

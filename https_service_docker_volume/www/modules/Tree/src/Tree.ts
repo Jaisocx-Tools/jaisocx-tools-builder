@@ -23,6 +23,9 @@ export class Tree extends LargeDomEventEmitter
 
   subtreeLength: number;
   subtreeLengthDeep: number;
+
+  nodesWithIcons: boolean;
+
   
   constructor() {
         super();
@@ -39,6 +42,8 @@ export class Tree extends LargeDomEventEmitter
 
         this.subtreeLength = 0;
         this.subtreeLengthDeep = 0;
+
+        this.nodesWithIcons = true;
 
         this.templateRenderer = new TemplateRenderer();
         /*this.templateRenderer
@@ -64,6 +69,11 @@ export class Tree extends LargeDomEventEmitter
 
     setDebug(debug: boolean): Tree {
       this.debug = debug;
+      return this;
+    }
+
+    setNodesWithIcons(withIcons: boolean): Tree {
+      this.nodesWithIcons = withIcons;
       return this;
     }
 
@@ -242,35 +252,20 @@ export class Tree extends LargeDomEventEmitter
       } else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
         if (subtreeNodesHolderDataType === 'object') {
           for(let propertyName in subtreeNodes) {
-            const propertyVale: any = subtreeNodes[propertyName];
-            const dataTypeElem: string = this.getDataType(propertyVale);
-            if (dataTypeElem === 'object') {
-              subtreeJsonNode = propertyVale;
-            } else {
-              subtreeJsonNode = {[propertyName]: propertyVale};
-            }
+            const propertyValue: any = subtreeNodes[propertyName];
+            const dataTypeElem: string = this.getDataType(propertyValue);
+            subtreeJsonNode = {[propertyName]: propertyValue};
             renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
             currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-            subtreeNodes[propertyName] = {...renderResult.node};
+            subtreeNodes[propertyName] = {...renderResult.node[propertyName]};
           }
         } else if (subtreeNodesHolderDataType === 'array') {
           for(let i=0; i < subtreeJsonNodesLength; i++) {
             const arrayElement: any = subtreeNodes[i];
-            const dataTypeElem: string = this.getDataType(arrayElement);
-            /*if (dataTypeElem === 'object') {
-              subtreeJsonNode = {[i]: arrayElement};
-            } else {
-              subtreeNodes[i] = {...renderResult.node[i]};
-            }*/
             const subtreeJsonArrayItem: object = {[i]: arrayElement};
             renderResult = this.renderOneTreeNode(subtreeJsonArrayItem, ul);
             currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-            // @ts-ignore
-            //if (dataTypeElem === 'object') {
-            //  subtreeNodes[i] = {...renderResult.node[i]};
-            //} else {
-              subtreeNodes[i] = {...renderResult.node[i]};
-            //}
+            subtreeNodes[i] = {...renderResult.node[i]};
           }
         }
       }
@@ -446,14 +441,17 @@ export class Tree extends LargeDomEventEmitter
             openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
         }
 
+        const cssClasses: string = this.getTreeNodeCssClasses(node);
+
         const dataForRendering: IRenderTemplateRendererData = {
             dataId: node[this.metadata.NODE__ID],
             dataHolderId: node[this.metadata.NODE__HOLDER_ID],
             dataOrder: node[this.metadata.NODE__ORDER],
             dataJson: this.escapeHTMLForAttribute(JSON.stringify(node)),
             openButtonStateClassName: openButtonClassName,
+            cssClasses: cssClasses,
             iconSrc: node[this.metadata.NODE_ICON__SRC],
-            iconShowClassName: (node[this.metadata.NODE_ICON__SRC]) ? "icon-show" : "icon-hide",
+            iconShowClassName: (this.nodesWithIcons || node[this.metadata.NODE_ICON__SRC]) ? "icon-show" : "icon-hide",
             labelText: node[this.metadata.NODE_LABEL__TEXT],
             hyperlink: node[this.metadata.NODE__HYPERLINK] ?? 'javascript: void(0);',
             hasSubtree: node.hasSubtree,
@@ -479,20 +477,59 @@ export class Tree extends LargeDomEventEmitter
         labelText = `"${key}": ${serializedJsonValue}`;
       }
 
+      const cssClasses: string = this.getTreeNodeCssClasses(value);
+
       const dataForRendering: IRenderTemplateRendererData = {
-          dataId: '',
-          dataHolderId: '',
-          dataOrder: '',
-          dataJson: this.escapeHTMLForAttribute(JSON.stringify(node)),
-          openButtonStateClassName: openButtonClassName,
-          iconSrc: '',
-          iconShowClassName: "icon-hide", // iconSrc ? "icon-show" : "icon-hide",
-          labelText: labelText,
-          hyperlink: 'javascript: void(0);',
-          hasSubtree: nodeHasSubtree,
+        iconSrc: '',
+        iconShowClassName: this.nodesWithIcons ? "icon-show" : "icon-hide",
+        labelText: labelText,
+        hyperlink: 'javascript: void(0);',
+        cssClasses: cssClasses,
+        dataId: '',
+        dataHolderId: '',
+        dataOrder: '',
+        dataJson: this.escapeHTMLForAttribute(JSON.stringify(node)),
+        openButtonStateClassName: openButtonClassName,
+        hasSubtree: nodeHasSubtree,
       };
 
       return dataForRendering;
+    }
+
+    getTreeNodeCssClasses(node: any): string {
+      const dataType: string = this.getDataType(node);
+      const cssClassesNodeValue: string = node[this.metadata.NODE__CSS_CLASS_NAME];
+      let cssClassesArray: string[] = [];
+      if (cssClassesNodeValue) {
+        cssClassesArray = cssClassesNodeValue.split(" ").map((cls: string) => cls.trim());
+      }
+
+      const dataTypeClassName: string = `${TreeConstants.TreeCssClassNames.PREFIX__CLASS_DATATYPE}${dataType}`;
+      const dataTypeClass: string = (
+        this.nodesWithIcons && 
+        (
+          (
+            !node[this.metadata.NODE_ICON__SRC] &&
+            (this.renderingMode === TreeConstants.RenderingMode.Metadata)
+          ) ||
+          (
+            this.renderingMode === TreeConstants.RenderingMode.Ease
+          )
+        )
+      ) ? dataTypeClassName : '';
+
+      let cssClasses: string = '';
+      if (
+        cssClassesArray.length !== 0 ||
+        dataTypeClass.length !== 0
+      ) {
+        cssClassesArray.unshift("class=\"");
+        cssClassesArray.push(dataTypeClass);
+        cssClassesArray.push("\"");
+        cssClasses = cssClassesArray.join(" ").replace("\" ", "\"").replace(" \"", "\"");
+      }
+
+      return cssClasses;
     }
 
     escapeHTMLForAttribute(str: string): string {

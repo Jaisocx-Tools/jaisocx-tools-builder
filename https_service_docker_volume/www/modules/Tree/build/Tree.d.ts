@@ -14,8 +14,10 @@ export declare class Tree extends LargeDomEventEmitter {
     contextMenuJSClass: any;
     subtreeLength: number;
     subtreeLengthDeep: number;
+    nodesWithIcons: boolean;
     constructor();
     setDebug(debug: boolean): Tree;
+    setNodesWithIcons(withIcons: boolean): Tree;
     setUrl(url: string | null): this;
     setMainHtmlNodeId(mainHtmlNodeId: string): this;
     setMetadata(metadata: TreeMetadata): this;
@@ -33,6 +35,7 @@ export declare class Tree extends LargeDomEventEmitter {
     renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
     getDataForRendering(node: any): IRenderTemplateRendererData;
     getDataForRenderingEase(node: any, nodeHasSubtree: boolean): IRenderTemplateRendererData;
+    getTreeNodeCssClasses(node: any): string;
     escapeHTMLForAttribute(str: string): string;
     unescapeHTMLFromAttribute(str: string | undefined): string;
     getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;

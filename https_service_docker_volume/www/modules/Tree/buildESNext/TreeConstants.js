@@ -10,6 +10,12 @@ TreeConstants.TreeCssClassNames = {
     CLASS_ICON_SHOW: 'icon-show',
     CLASS_ICON_HIDE: 'icon-hide',
     CLASS_AND_ID__CONTEXT_MENU: 'context-menu-container',
+    CLASS_DATATYPE_OBJECT: 'holder-datatype--object',
+    CLASS_DATATYPE_ARRAY: 'holder-datatype--array',
+    CLASS_DATATYPE_STRING: 'holder-datatype--string',
+    CLASS_DATATYPE_NUMBER: 'holder-datatype--number',
+    CLASS_DATATYPE_BOOLEAN: 'holder-datatype--boolean',
+    PREFIX__CLASS_DATATYPE: 'holder-datatype--',
 };
 TreeConstants.TreeEventsNames = {
     EVENT_NAME__AFTER_RENDER_ONE_NODE: 'afterRenderOneNode',
@@ -20,7 +26,8 @@ TreeConstants.TEMPLATE__TREE_HTML_NODE = `
 <li 
     data-id="{{ dataId }}" 
     data-holder-id="{{ dataHolderId }}" 
-    data-order="{{ dataOrder }}">
+    data-order="{{ dataOrder }}"
+    {{ cssClasses }}>
 
     <pre class="jstree-html-node" data-json="{{ dataJson }}">
         <pre class="open-button  {{ openButtonStateClassName }}">

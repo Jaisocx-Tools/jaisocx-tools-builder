@@ -18,7 +18,7 @@
           "cssClassName": "hyperlink"
         },
         {
-          "icon": "images/custom-theme-icons/folder.png",
+          "icon": "images/custom-theme-icons/catalog.png",
           "label": "echo html",
           "opened": true,
           "subtree": [
