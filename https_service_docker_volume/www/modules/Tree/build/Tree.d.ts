@@ -23,14 +23,16 @@ export declare class Tree extends LargeDomEventEmitter {
     setRenderingMode(mode: number): this;
     load(): void;
     getDataType(value: any): string;
+    getInModeMetadataDataNodeIsTreeItem(node: object): boolean;
     render(nodes: any): this;
     callRenderForSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
         currentNodeSubtreeLength: number;
         subtreeJsonNodesLength: number;
+        subtreeNodes: any;
     };
     renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
     getDataForRendering(node: any): IRenderTemplateRendererData;
-    getDataForRenderingEase(node: any): IRenderTemplateRendererData;
+    getDataForRenderingEase(node: any, nodeHasSubtree: boolean): IRenderTemplateRendererData;
     escapeHTMLForAttribute(str: string): string;
     unescapeHTMLFromAttribute(str: string | undefined): string;
     getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
