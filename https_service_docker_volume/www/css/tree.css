@@ -68,6 +68,12 @@
     margin: var(--icon-margin);
 }
 
+.tree ul li.holder-datatype--array > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--datatype-array--image-url);
+}
 .tree ul li.holder-datatype--object > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
     background-position: center;
     background-repeat: no-repeat;
@@ -79,6 +85,18 @@
     background-repeat: no-repeat;
     background-size: contain;
     background-image: var(--datatype-string--image-url);
+}
+.tree ul li.holder-datatype--number > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--datatype-number--image-url);
+}
+.tree ul li.holder-datatype--boolean > .jstree-html-node > .jstree-html-node-holder-icon.icon-show {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--datatype-boolean--image-url);
 }
 
 .tree .jstree-html-node-holder-icon.icon-show {

@@ -6,8 +6,11 @@
   --open-button-opened--image-url: url('images/icons/button-opened.png');
   --open-button-without-subtree--image-url: url('images/icons/button-without-subtree.svg');
 
+  --datatype-array--image-url: url('images/custom-theme-icons/house.png');
   --datatype-object--image-url: url('images/custom-theme-icons/track.png');
+  --datatype-number--image-url: url('images/custom-theme-icons/html.png');
   --datatype-string--image-url: url('images/custom-theme-icons/money-transfer.png');
+  --datatype-boolean--image-url: url('images/custom-theme-icons/html-intence.png');
 
   --background-color--tree: #ffffff;
 
