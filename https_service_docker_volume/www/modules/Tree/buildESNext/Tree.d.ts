@@ -15,9 +15,11 @@ export declare class Tree extends LargeDomEventEmitter {
     subtreeLength: number;
     subtreeLengthDeep: number;
     nodesWithIcons: boolean;
+    nodesAllOpened: boolean;
     constructor();
     setDebug(debug: boolean): Tree;
     setNodesWithIcons(withIcons: boolean): Tree;
+    setNodesAllOpened(opened: boolean): Tree;
     setUrl(url: string | null): Tree;
     setMainHtmlNodeId(mainHtmlNodeId: string): Tree;
     setMetadata(metadata: TreeMetadata): Tree;

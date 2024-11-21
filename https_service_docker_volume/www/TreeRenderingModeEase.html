@@ -160,6 +160,7 @@
           .setDebug(true)
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
           .setNodesWithIcons(true)
+          .setNodesAllOpened(true)
           .setModifiable(false)
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
           .addJSTreeEventListener (
@@ -174,7 +175,7 @@
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
-          .setNodesWithIcons(true)
+          .setNodesAllOpened(false)
           .render(treeJson);        
       });
     </script>

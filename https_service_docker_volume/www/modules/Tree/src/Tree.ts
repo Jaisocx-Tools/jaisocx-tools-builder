@@ -25,7 +25,7 @@ export class Tree extends LargeDomEventEmitter
   subtreeLengthDeep: number;
 
   nodesWithIcons: boolean;
-
+  nodesAllOpened: boolean;
   
   constructor() {
         super();
@@ -44,6 +44,7 @@ export class Tree extends LargeDomEventEmitter
         this.subtreeLengthDeep = 0;
 
         this.nodesWithIcons = true;
+        this.nodesAllOpened = false;
 
         this.templateRenderer = new TemplateRenderer();
         /*this.templateRenderer
@@ -74,6 +75,10 @@ export class Tree extends LargeDomEventEmitter
 
     setNodesWithIcons(withIcons: boolean): Tree {
       this.nodesWithIcons = withIcons;
+      return this;
+    }
+    setNodesAllOpened(opened: boolean): Tree {
+      this.nodesAllOpened = opened;
       return this;
     }
 

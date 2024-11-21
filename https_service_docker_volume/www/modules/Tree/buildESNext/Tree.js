@@ -16,6 +16,7 @@ export class Tree extends LargeDomEventEmitter {
         this.subtreeLength = 0;
         this.subtreeLengthDeep = 0;
         this.nodesWithIcons = true;
+        this.nodesAllOpened = false;
         this.templateRenderer = new TemplateRenderer();
         /*this.templateRenderer
             .addThisClassEventListener (
@@ -42,6 +43,10 @@ export class Tree extends LargeDomEventEmitter {
     }
     setNodesWithIcons(withIcons) {
         this.nodesWithIcons = withIcons;
+        return this;
+    }
+    setNodesAllOpened(opened) {
+        this.nodesAllOpened = opened;
         return this;
     }
     setUrl(url) {
