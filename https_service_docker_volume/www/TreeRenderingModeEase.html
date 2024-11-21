@@ -6,7 +6,7 @@
 
     <link href="css/tree.css" rel="stylesheet" />
     <link href="css/fonts.css" rel="stylesheet" />
-    <link href="css/theme-engineering-view.css" rel="stylesheet" />
+    <link href="css/theme-funny.css" rel="stylesheet" />
     
     <script src="modules/EventEmitter/BuildSimple/EventEmitter.js"></script>
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
@@ -15,8 +15,6 @@
     <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
     <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
     <script src="modules/Tree/BuildSimple/Tree.js"></script>
-
-    <!--<script src="examples/ExampleTree/BuildSimple/ExampleTree.js"></script>-->
 
     <script>
     const treeJson = [
@@ -147,18 +145,17 @@
     </head>
   <body>
 
+    <div id="example-tree-holder-rendering-mode-ease-custom-theme" class="theme-funny"></div>
     <div id="example-tree-holder-rendering-mode-ease"></div>
-    <div id="example-tree-holder-rendering-mode-ease-custom-theme" class="engineering-view"></div>
 
     <script>
-      // debug feature is not yet ready,
       // this example renders in a Tree view json as is.
       // the setting for this is the setRenderingMode method.
       document.addEventListener('DOMContentLoaded', () => {
         const tree = new Tree();
         tree
           .setDebug(false)
-          .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
+          .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setNodesWithIcons(true)
           .setNodesAllOpened(false)
           .setModifiable(false)
@@ -171,10 +168,10 @@
           )
           .render(treeJson);
 
+        // here only with required setters
         const treeCustomTheme = new Tree();
         treeCustomTheme
-          .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
-          .setRenderingMode(TreeConstants.RenderingMode.Ease)
+          .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
           .render(treeJson);        
       });
     </script>

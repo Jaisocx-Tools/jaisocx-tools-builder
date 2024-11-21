@@ -1,3 +1,11 @@
+export interface ITreeDefaults {
+  debug: boolean;
+  renderingMode: number;
+  nodesWithIcons: boolean;
+  nodesAllOpened: boolean;
+  isModifiable: boolean;
+}
+
 export interface ITreeRenderRetValue {
   currentNodeSubtreeLength: number;
   node: any;

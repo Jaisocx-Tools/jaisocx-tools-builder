@@ -6,18 +6,14 @@ import { TreeMetadata } from './TreeMetadata';
 export class Tree extends LargeDomEventEmitter {
     constructor() {
         super();
-        this.debug = false;
+        this.debug = TreeConstants.Defaults.debug;
         this.mainHtmlNodeId = '';
         this.mainHolderHtmlNode = null;
         this.url = '';
-        this.isModifiable = false;
         this.data = null;
-        this.renderingMode = TreeConstants.RenderingMode.Metadata;
         this.metadata = new TreeMetadata();
         this.subtreeLength = 0;
         this.subtreeLengthDeep = 0;
-        this.nodesWithIcons = true;
-        this.nodesAllOpened = false;
         this.templateRenderer = new TemplateRenderer();
         /*this.templateRenderer
             .addThisClassEventListener (
@@ -37,44 +33,59 @@ export class Tree extends LargeDomEventEmitter {
                 }
             );*/
         this.contextMenuJSClass = null;
-        this.setDebug(false);
+        // DEFAULT VALUES ARE FROM CONSTANTS CLASS
+        this.setDebug(TreeConstants.Defaults.debug);
+        this.renderingMode = TreeConstants.Defaults.renderingMode;
+        this.nodesWithIcons = TreeConstants.Defaults.nodesWithIcons;
+        this.nodesAllOpened = TreeConstants.Defaults.nodesAllOpened;
+        this.isModifiable = TreeConstants.Defaults.isModifiable;
     }
     setDebug(debug) {
+        // optional method
         super.setDebug(debug);
         this.templateRenderer.setDebug(debug);
         this.debug = debug;
         return this;
     }
     setNodesWithIcons(withIcons) {
+        // optional method
         this.nodesWithIcons = withIcons;
         return this;
     }
     setNodesAllOpened(opened) {
+        // optional method
         this.nodesAllOpened = opened;
         return this;
     }
     setUrl(url) {
+        // optional method
         this.url = url;
         return this;
     }
     setMainHtmlNodeId(mainHtmlNodeId) {
+        // required method
         this.mainHtmlNodeId = mainHtmlNodeId;
         return this;
     }
     setMetadata(metadata) {
+        // optional method
         this.metadata = metadata;
         return this;
     }
     setModifiable(isModifiable) {
+        // optional method
         this.isModifiable = isModifiable;
         return this;
     }
     setRenderingMode(mode) {
+        // optional method
         this.renderingMode = mode;
         return this;
     }
     load(url) {
-        this.url = url;
+        if (url && url.length) {
+            this.url = url;
+        }
         if (!this.url || !this.mainHtmlNodeId) {
             throw new Error("No url set");
         }

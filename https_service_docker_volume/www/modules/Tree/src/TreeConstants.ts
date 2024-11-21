@@ -1,4 +1,5 @@
-import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames } from './Types';
+import { Tree } from './Tree';
+import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
 
 
 export class TreeConstants
@@ -57,6 +58,13 @@ export class TreeConstants
     <ul></ul>
 </li>        
         `;
-        
+    
+    static readonly Defaults: ITreeDefaults = {
+        debug: false,
+        renderingMode: TreeConstants.RenderingMode.Ease,
+        nodesWithIcons: true,
+        nodesAllOpened: false,
+        isModifiable: false,
+    }    
 }
 

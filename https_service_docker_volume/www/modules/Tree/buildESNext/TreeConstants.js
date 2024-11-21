@@ -48,3 +48,10 @@ TreeConstants.TEMPLATE__TREE_HTML_NODE = `
     <ul></ul>
 </li>        
         `;
+TreeConstants.Defaults = {
+    debug: false,
+    renderingMode: TreeConstants.RenderingMode.Ease,
+    nodesWithIcons: true,
+    nodesAllOpened: false,
+    isModifiable: false,
+};
