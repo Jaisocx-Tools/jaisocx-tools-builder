@@ -1,4 +1,5 @@
-.tree > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show
+.theme-funny .tree > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show,
+.tree.theme-funny > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show
 {
   --datatype-array--image-url: url('images/custom-theme-icons/house.png');
   --datatype-object--image-url: url('images/custom-theme-icons/house.png');
