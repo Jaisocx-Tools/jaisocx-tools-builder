@@ -157,10 +157,10 @@
       document.addEventListener('DOMContentLoaded', () => {
         const tree = new Tree();
         tree
-          .setDebug(true)
+          .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
           .setNodesWithIcons(true)
-          .setNodesAllOpened(true)
+          .setNodesAllOpened(false)
           .setModifiable(false)
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
           .addJSTreeEventListener (
@@ -175,7 +175,6 @@
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
-          .setNodesAllOpened(false)
           .render(treeJson);        
       });
     </script>

@@ -12,7 +12,7 @@
 
   --node-margin: 0 0 0.18rem 0;
 
-  --open-button-size: 90%;
+  --open-button-size: 68%;
   --open-button-animated--image-url: url('images/icons/button-animated.gif');
   --open-button-opened--image-url: url('images/icons/button-opened.png');
   --open-button-without-subtree--image-url: url('images/icons/button-without-subtree.svg');
@@ -34,7 +34,7 @@
   --border--subtree-parent: 0px solid #abc;
   --border--jstree-html-node-open-button: 0px solid #abc;
 
-  --icon-margin: 0 0.4rem 0 0;
+  --icon-margin: 0 0.3rem 0 0;
   --icon-holder-size: 1.0rem;
 }
 

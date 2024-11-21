@@ -26,30 +26,30 @@ export declare class Tree extends LargeDomEventEmitter {
     setModifiable(isModifiable: boolean): Tree;
     setRenderingMode(mode: number): Tree;
     load(url: string | null): Tree;
-    getDataType(value: any): string;
-    getInModeMetadataDataNodeIsTreeItem(node: object): boolean;
     render(nodes: any): this;
     renderSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
         currentNodeSubtreeLength: number;
         subtreeJsonNodesLength: number;
         subtreeNodes: any;
     };
-    updateDataNodeIdAndPath(node: any, holder: HTMLElement): any;
+    renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
     checkDataNodeSubtree(node: any): {
         subtreeNodeDataType: string;
         hasSubtree: boolean;
         subtreeJsonNodes: any;
     };
-    renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
+    updateDataNodeIdAndPath(node: any, holder: HTMLElement): any;
     getDataForRendering(node: any): IRenderTemplateRendererData;
     getDataForRenderingEase(node: any, nodeHasSubtree: boolean): IRenderTemplateRendererData;
     getTreeNodeCssClasses(node: any): string;
-    escapeHTMLForAttribute(str: string): string;
-    unescapeHTMLFromAttribute(str: string | undefined): string;
-    getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
     addJSTreeEventListener(eventName: string, eventHandler: CallableFunction): Tree;
     addJSTreeEventListeners(): Tree;
     openButtonClickHandler(eventPayload: any): void;
     treeNodeLableClickHandler(eventPayload: any): void;
+    getDataType(value: any): string;
+    getInModeMetadataDataNodeIsTreeItem(node: object): boolean;
+    escapeHTMLForAttribute(str: string): string;
+    unescapeHTMLFromAttribute(str: string | undefined): string;
+    getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
     contextMenuRender(eventPayload: any): void;
 }
