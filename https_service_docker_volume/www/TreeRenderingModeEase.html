@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="css/tree.css" rel="stylesheet" />
+    <link href="css/fonts.css" rel="stylesheet" />
+    <link href="css/theme-engineering-view.css" rel="stylesheet" />
     
     <script src="modules/EventEmitter/BuildSimple/EventEmitter.js"></script>
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
@@ -146,6 +148,7 @@
   <body>
 
     <div id="example-tree-holder-rendering-mode-ease"></div>
+    <div id="example-tree-holder-rendering-mode-ease-custom-theme" class="engineering-view"></div>
 
     <script>
       // debug feature is not yet ready,
@@ -166,6 +169,13 @@
             }
           )
           .render(treeJson);
+
+        const treeCustomTheme = new Tree();
+        treeCustomTheme
+          .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
+          .setRenderingMode(TreeConstants.RenderingMode.Ease)
+          .setNodesWithIcons(true)
+          .render(treeJson);        
       });
     </script>
   </body>

@@ -9,6 +9,7 @@ TreeConstants.RenderingMode = {
     Metadata: 2,
 };
 TreeConstants.TreeCssClassNames = {
+    MAIN_CLASS_NAME: 'tree',
     CLASS_OPENED: 'toggle-with-subtree-opened',
     CLASS_WITHOUT_SUBTREE: 'toggle-without-subtree',
     CLASS_ICON_SHOW: 'icon-show',

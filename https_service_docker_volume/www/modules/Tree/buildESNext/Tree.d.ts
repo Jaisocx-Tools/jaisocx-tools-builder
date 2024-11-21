@@ -18,19 +18,25 @@ export declare class Tree extends LargeDomEventEmitter {
     constructor();
     setDebug(debug: boolean): Tree;
     setNodesWithIcons(withIcons: boolean): Tree;
-    setUrl(url: string | null): this;
-    setMainHtmlNodeId(mainHtmlNodeId: string): this;
-    setMetadata(metadata: TreeMetadata): this;
-    setModifiable(isModifiable: boolean): this;
-    setRenderingMode(mode: number): this;
-    load(): void;
+    setUrl(url: string | null): Tree;
+    setMainHtmlNodeId(mainHtmlNodeId: string): Tree;
+    setMetadata(metadata: TreeMetadata): Tree;
+    setModifiable(isModifiable: boolean): Tree;
+    setRenderingMode(mode: number): Tree;
+    load(url: string | null): Tree;
     getDataType(value: any): string;
     getInModeMetadataDataNodeIsTreeItem(node: object): boolean;
     render(nodes: any): this;
-    callRenderForSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
+    renderSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
         currentNodeSubtreeLength: number;
         subtreeJsonNodesLength: number;
         subtreeNodes: any;
+    };
+    updateDataNodeIdAndPath(node: any, holder: HTMLElement): any;
+    checkDataNodeSubtree(node: any): {
+        subtreeNodeDataType: string;
+        hasSubtree: boolean;
+        subtreeJsonNodes: any;
     };
     renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
     getDataForRendering(node: any): IRenderTemplateRendererData;

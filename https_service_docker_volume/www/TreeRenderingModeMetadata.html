@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link href="css/tree.css" rel="stylesheet" />
-    
+
     <script src="modules/EventEmitter/BuildSimple/EventEmitter.js"></script>
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
     <script src="modules/TemplateRenderer/BuildSimple/TemplateRenderer.js"></script>
-  
+
     <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
     <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
     <script src="modules/Tree/BuildSimple/Tree.js"></script>
@@ -67,10 +67,8 @@
         }
       ]
     }
-];
-    </script>
+  ];
 
-    <script>
       // in this json structure the subtree node for sublevel tree nodes is not the array,
       // but the associative array, the object with keys, being not rendered in the Tree,
       // and object values all of type object, containing Tree node data, like label text, link address, and others.
@@ -125,8 +123,16 @@
     </head>
   <body>
 
+    <h1>Tree examples</h1>
+
+    <h2>json subtree type array</h2>
     <div id="example-tree-holder_SubtreeArrayOfObjects"></div>
+
+    <h2>json subtree type object</h2>
     <div id="example-tree-holder_SubtreeLikeObjects"></div>
+
+    <h2>load by url (should work only when published at an http server)</h2>
+    <div id="example-tree-holder_load_by_url"></div>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {
@@ -159,6 +165,13 @@
             }
           )
           .render(treeJson_SubtreeLikeObjects);
+
+        // example to load by url
+        const tree_load_by_url = new Tree();
+        tree_load_by_url
+            .setMainHtmlNodeId("example-tree-holder_load_by_url")
+            .load("JsonDataExamples/tree-data.json");
+
       });
     </script>
   </body>

@@ -20,6 +20,7 @@ export interface IRenderTemplateRendererData {
     hasSubtree: boolean;
 }
 export interface ITreeCssClassNames {
+    MAIN_CLASS_NAME: string;
     CLASS_OPENED: string;
     CLASS_WITHOUT_SUBTREE: string;
     CLASS_ICON_SHOW: string;

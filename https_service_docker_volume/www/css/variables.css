@@ -1,6 +1,8 @@
 .tree {
   --node-margin: 0 0 0.4rem 0;
 
+  --node-label--font-family: 'Niconne';
+
   --open-button-size: 60%;
   --open-button-animated--image-url: url('images/icons/button-animated.gif');
   --open-button-opened--image-url: url('images/icons/button-opened.png');

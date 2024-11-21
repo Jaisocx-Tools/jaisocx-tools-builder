@@ -1,0 +1,48 @@
+.engineering-view .tree > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show, 
+.tree.engineering-view > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show
+{
+  --datatype-array--image-url: url('images/custom-theme-icons/zip/icons8-json-pulsar-gradient/icons8-json-96.png');
+  --datatype-object--image-url: url('images/custom-theme-icons/zip/icons8-json-pulsar-gradient/icons8-json-96.png');
+}
+
+.engineering-view .tree, 
+.tree.engineering-view {
+
+  --node-label--font-family: 'Baloo Paaji 2';
+
+  --node-margin: 0 0 0.18rem 0;
+
+  --open-button-size: 90%;
+  --open-button-animated--image-url: url('images/icons/button-animated.gif');
+  --open-button-opened--image-url: url('images/icons/button-opened.png');
+  --open-button-without-subtree--image-url: url('images/icons/button-without-subtree.svg');
+
+  --datatype-array--image-url: url('images/custom-theme-icons/zip/icons8-view-array-pulsar-gradient/icons8-view-array-96.png');
+  --datatype-object--image-url: url('images/custom-theme-icons/zip/icons8-static-view-level2-blue-ui/icons8-static-view-level2-80.png');
+  --datatype-number--image-url: url('images/custom-theme-icons/engineering/icons8-3-100.png');
+  --datatype-string--image-url: url('images/custom-theme-icons/zip/icons8-font-style-formatting-pulsar-gradient/icons8-font-style-formatting-96.png');
+  --datatype-boolean--image-url: url('images/custom-theme-icons/zip/icons8-true-false-parakeet-color/icons8-true-false-96.png');
+
+  --background-color--tree: #ffffff;
+
+  --size--jstree-html-node: 1.0rem;
+
+  --text-color--dark: #000000;
+  --text-color--hover: darkgreen;
+
+  --border--jstree-html-node: 0px solid #abc;
+  --border--subtree-parent: 0px solid #abc;
+  --border--jstree-html-node-open-button: 0px solid #abc;
+
+  --icon-margin: 0 0.4rem 0 0;
+  --icon-holder-size: 1.0rem;
+}
+
+@media (max-width: 440px) {
+  .engineering-view .tree, 
+  .tree.engineering-view {
+      --node-margin: 0 0 0.4rem 0;
+      --size--jstree-html-node: 1.2rem;
+      --icon-holder-size: 1.2rem;
+  }
+}

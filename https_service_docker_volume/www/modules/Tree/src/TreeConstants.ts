@@ -9,6 +9,8 @@ export class TreeConstants
     }
     
     static readonly TreeCssClassNames: ITreeCssClassNames  = {
+        MAIN_CLASS_NAME: 'tree',
+
         CLASS_OPENED: 'toggle-with-subtree-opened',
         CLASS_WITHOUT_SUBTREE: 'toggle-without-subtree',
         CLASS_ICON_SHOW: 'icon-show',

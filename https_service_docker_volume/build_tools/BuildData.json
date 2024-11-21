@@ -5,6 +5,7 @@
       "path": "modules/EventEmitter",
       "name": "event-emitter",
       "build": false,
+      "build-simple-enable": true,
       "build-files": [
         "EventEmitter.js",
         "LargeDomEventEmitter.js"
@@ -14,6 +15,7 @@
       "path": "modules/TemplateRenderer",
       "name": "template-renderer",
       "build": false,
+      "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
@@ -28,6 +30,7 @@
       "path": "modules/Tree",
       "name": "tree",
       "build": true,
+      "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
@@ -48,6 +51,7 @@
       "path": "examples/ExampleTemplateRenderer",
       "name": "example-template-renderer",
       "build": false,
+      "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
@@ -66,6 +70,7 @@
       "path": "examples/ExampleTree",
       "name": "example-tree",
       "build": false,
+      "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/tree",

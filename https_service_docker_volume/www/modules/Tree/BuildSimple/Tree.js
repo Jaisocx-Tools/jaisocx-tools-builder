@@ -6,7 +6,7 @@ class Tree extends LargeDomEventEmitter {
     this.url = "";
     this.isModifiable = false;
     this.data = null;
-    this.renderingMode = TreeConstants.RenderingMode.Ease;
+    this.renderingMode = TreeConstants.RenderingMode.Metadata;
     this.metadata = new TreeMetadata();
     this.subtreeLength = 0;
     this.subtreeLengthDeep = 0;
@@ -67,9 +67,11 @@ class Tree extends LargeDomEventEmitter {
     return this;
   }
 
-  load() {
-        if (!this.url || !this.mainHtmlNodeId) {
-      return;
+  load(url) {
+    this.url = url;
+
+    if (!this.url || !this.mainHtmlNodeId) {
+      throw new Error("No url set");
     }
 
     fetch(this.url)
@@ -77,6 +79,7 @@ class Tree extends LargeDomEventEmitter {
       .then((json) => {
         this.render(json);
       });
+    return this;
   }
 
   getDataType(value) {
@@ -97,11 +100,21 @@ class Tree extends LargeDomEventEmitter {
     if (!this.mainHolderHtmlNode) {
       throw new Error("Tree holder html node ID did not match any html node in this html doc.");
     }
+    // set main css class name to the main tree holder html node
+    if (this.mainHolderHtmlNode.classList
+            && !this.mainHolderHtmlNode.classList.contains(TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME)) {
+      this.mainHolderHtmlNode.classList.add(TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME);
+    } else
 
-    this.mainHolderHtmlNode.className = "tree";
+      if (!this.mainHolderHtmlNode.classList) {
+        this.mainHolderHtmlNode.className = (TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME);
+      }
+    // add an html holder node for subtree html nodes
     const ul = document.createElement("UL");
     this.mainHolderHtmlNode.append(ul);
+    // get datatype of the main json data node
     const dataType = this.getDataType(nodes);
+    // get info on subtree nodes amount
     let subtreeNodesCount = 0;
 
     if (dataType === "object") {
@@ -113,7 +126,7 @@ class Tree extends LargeDomEventEmitter {
         this.data = [...nodes];
         subtreeNodesCount = this.data.length;
       }
-
+    // exit throwing exception, if the tree json data is empty
     if (subtreeNodesCount === 0) {
       throw new Error("Tree json data is empty.");
     }
@@ -122,7 +135,7 @@ class Tree extends LargeDomEventEmitter {
 
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
             if (dataType === "array") {
-        subtreeRenderResult = this.callRenderForSubtree(this.data, dataType, ul);
+        subtreeRenderResult = this.renderSubtree(this.data, dataType, ul);
         // @ts-ignore
         this.subtreeLength = subtreeRenderResult.subtreeJsonNodesLength;
         // @ts-ignore
@@ -142,7 +155,7 @@ class Tree extends LargeDomEventEmitter {
             this.subtreeLengthDeep = currentNodeSubtreeLength;
           } else {
           // the root json data node is the associative array of tree item data nodes, suggested, if not so, then will not be rendered.
-            subtreeRenderResult = this.callRenderForSubtree(this.data, dataType, ul);
+            subtreeRenderResult = this.renderSubtree(this.data, dataType, ul);
             // @ts-ignore
             this.subtreeLength = subtreeRenderResult.subtreeJsonNodesLength;
             // @ts-ignore
@@ -183,7 +196,7 @@ class Tree extends LargeDomEventEmitter {
     return this;
   }
 
-  callRenderForSubtree(subtreeNodes, subtreeNodesHolderDataType, subtreeHtmlHolder) {
+  renderSubtree(subtreeNodes, subtreeNodesHolderDataType, subtreeHtmlHolder) {
     const ul = subtreeHtmlHolder;
     let subtreeJsonNodesLength = 0;
 
@@ -205,7 +218,7 @@ class Tree extends LargeDomEventEmitter {
           subtreeJsonNode = subtreeNodes[propertyName];
           renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
           currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-          subtreeNodes[propertyName] = { ...renderResult.node };
+          subtreeNodes[propertyName] = renderResult.node;
         }
             } else
 
@@ -215,7 +228,7 @@ class Tree extends LargeDomEventEmitter {
             renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
             currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
             // @ts-ignore
-            subtreeNodes[i] = { ...renderResult.node };
+            subtreeNodes[i] = renderResult.node;
           }
             }
         } else
@@ -228,7 +241,7 @@ class Tree extends LargeDomEventEmitter {
             subtreeJsonNode = { [propertyName]: propertyValue };
             renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
             currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-            subtreeNodes[propertyName] = { ...renderResult.node[propertyName] };
+            subtreeNodes[propertyName] = renderResult.node[propertyName];
           }
             } else
 
@@ -238,7 +251,7 @@ class Tree extends LargeDomEventEmitter {
               const subtreeJsonArrayItem = { [i]: arrayElement };
               renderResult = this.renderOneTreeNode(subtreeJsonArrayItem, ul);
               currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-              subtreeNodes[i] = { ...renderResult.node[i] };
+              subtreeNodes[i] = renderResult.node[i];
             }
             }
         }
@@ -247,15 +260,7 @@ class Tree extends LargeDomEventEmitter {
     return { currentNodeSubtreeLength, subtreeJsonNodesLength, subtreeNodes };
   }
 
-  renderOneTreeNode(node, holder) {
-        if (this.debug) {
-      console.log(node);
-    }
-
-    if (this.metadata === null) {
-      throw new Error("TreeMetdata is null");
-    }
-
+  updateDataNodeIdAndPath(node, holder) {
     let id = node[this.metadata.NODE__ID];
     let holderId = node[this.metadata.NODE__HOLDER_ID];
     let holderJson = null;
@@ -287,50 +292,66 @@ class Tree extends LargeDomEventEmitter {
       ...holderJson[this.metadata.NODE__PATH],
       id,
     ];
+    return node;
+  }
+
+  checkDataNodeSubtree(node) {
     let subtreeJsonNodes = null;
+    let subtreeNodeDataType = "";
     let hasSubtree = false;
-    let nodeValueDataType = "";
 
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
       subtreeJsonNodes = node[this.metadata.SUBTREE];
-      hasSubtree = !!subtreeJsonNodes;
-      nodeValueDataType = this.getDataType(subtreeJsonNodes);
+      subtreeNodeDataType = this.getDataType(subtreeJsonNodes);
 
-      if (hasSubtree && nodeValueDataType === "object") {
+      if (subtreeNodeDataType === "object") {
         hasSubtree = Object.keys(subtreeJsonNodes).length !== 0;
       } else
 
-        if (hasSubtree && nodeValueDataType === "array") {
+        if (subtreeNodeDataType === "array") {
           hasSubtree = subtreeJsonNodes.length !== 0;
         }
-        } else
+      // @ts-ignore
+      delete (node[this.metadata.SUBTREE]);
+      // @ts-ignore
+      node.hasSubtree = hasSubtree;
+    } else
 
       if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
         const nodeValue = Object.values(node)[0];
-        nodeValueDataType = this.getDataType(nodeValue);
+        subtreeJsonNodes = nodeValue;
+        subtreeNodeDataType = this.getDataType(nodeValue);
 
-        if (nodeValueDataType === "array") {
+        if (subtreeNodeDataType === "array") {
           hasSubtree = (nodeValue.length !== 0);
         } else
 
-          if (nodeValueDataType === "object") {
+          if (subtreeNodeDataType === "object") {
             hasSubtree = (Object.keys(nodeValue).length !== 0);
           } else {
             hasSubtree = false;
           }
-
-        if (hasSubtree) {
-          subtreeJsonNodes = nodeValue;
-        } else {
-          subtreeJsonNodes = null;
-        }
         }
 
-    const nodeClone = { ...node };
-    // @ts-ignore
-    delete (nodeClone[this.metadata.SUBTREE]);
-    // @ts-ignore
-    nodeClone.hasSubtree = hasSubtree;
+    if (!hasSubtree) {
+      subtreeJsonNodes = null;
+    }
+
+    return { subtreeNodeDataType, hasSubtree, subtreeJsonNodes };
+  }
+
+  renderOneTreeNode(node, holder) {
+        if (this.debug) {
+      console.log(node);
+    }
+
+    if (this.metadata === null) {
+      throw new Error("TreeMetdata is null");
+    }
+
+    let nodeClone = { ...node };
+    nodeClone = this.updateDataNodeIdAndPath(nodeClone, holder);
+    const { subtreeNodeDataType, hasSubtree, subtreeJsonNodes } = this.checkDataNodeSubtree(nodeClone);
     let dataForRendering = null;
 
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
@@ -338,7 +359,7 @@ class Tree extends LargeDomEventEmitter {
     } else
 
       if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
-        dataForRendering = this.getDataForRenderingEase(node, hasSubtree);
+        dataForRendering = this.getDataForRenderingEase(nodeClone, hasSubtree);
       }
 
     const nodeHtml = this.templateRenderer
@@ -355,10 +376,10 @@ class Tree extends LargeDomEventEmitter {
       throw new Error("Rendiring broken, wrong html structure built.");
     }
     // @ts-ignore
-    const className = node[this.metadata.NODE__CSS_CLASS_NAME];
+    const datanodeDefinedCssClassName = nodeClone[this.metadata.NODE__CSS_CLASS_NAME];
 
-    if (className) {
-      li.className = className;
+    if (datanodeDefinedCssClassName && datanodeDefinedCssClassName.length !== 0) {
+      li.className = datanodeDefinedCssClassName;
     }
 
     const eventAfterRenderOneNodePayload = {
@@ -369,7 +390,7 @@ class Tree extends LargeDomEventEmitter {
 
     if (!hasSubtree) {
       this.emitEvent(TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE, eventAfterRenderOneNodePayload);
-      return { currentNodeSubtreeLength: 0, node: { ...node } };
+      return { currentNodeSubtreeLength: 0, node: nodeClone };
     }
 
     const ul = li.getElementsByTagName("UL")[0];
@@ -379,25 +400,25 @@ class Tree extends LargeDomEventEmitter {
     /* } else {
             ul.style.display = 'none';
         } */
-    const subtreeRenderResult = this.callRenderForSubtree(subtreeJsonNodes, nodeValueDataType, ul);
+    const subtreeRenderResult = this.renderSubtree(subtreeJsonNodes, subtreeNodeDataType, ul);
     // @ts-ignore
     nodeClone.subtreeLength = subtreeRenderResult.subtreeJsonNodesLength;
     // @ts-ignore
     nodeClone.subtreeLengthDeep = subtreeRenderResult.currentNodeSubtreeLength;
 
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
-      node[this.metadata.SUBTREE] = subtreeRenderResult.subtreeNodes;
+      nodeClone[this.metadata.SUBTREE] = subtreeRenderResult.subtreeNodes;
     } else
 
       if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
-        const propName = Object.keys(node)[0];
-        node[propName] = subtreeRenderResult.subtreeNodes;
+        const propName = Object.keys(nodeClone)[0];
+        nodeClone[propName] = subtreeRenderResult.subtreeNodes;
       }
 
     this.emitEvent(TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE, eventAfterRenderOneNodePayload);
     return {
       currentNodeSubtreeLength: subtreeRenderResult.currentNodeSubtreeLength,
-      node: { ...node },
+      node: nodeClone,
     };
   }
 
@@ -469,7 +490,7 @@ class Tree extends LargeDomEventEmitter {
     const cssClassesNodeValue = node[this.metadata.NODE__CSS_CLASS_NAME];
     let cssClassesArray = [];
 
-    if (cssClassesNodeValue) {
+    if (cssClassesNodeValue && (typeof cssClassesNodeValue === "string") && cssClassesNodeValue.length !== 0) {
       cssClassesArray = cssClassesNodeValue.split(" ").map((cls) => cls.trim());
     }
 
