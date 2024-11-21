@@ -20,7 +20,8 @@ class ExampleTemplateRenderer {
     holderHtmlNode = document.querySelector(this.holderHtmlNodeSelector);
 
     if (!holderHtmlNode) {
-      return;
+
+            return;
     }
 
     const html = this.TemplateRenderer
@@ -28,6 +29,6 @@ class ExampleTemplateRenderer {
       .setData(this.data)
       .render();
     holderHtmlNode.insertAdjacentHTML("afterbegin", html);
-    return;
   }
+
 }

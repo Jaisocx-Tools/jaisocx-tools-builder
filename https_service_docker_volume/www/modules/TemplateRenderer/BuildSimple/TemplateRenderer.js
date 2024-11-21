@@ -8,16 +8,19 @@ class TemplateRenderer extends EventEmitter {
 
   setDebug(debug) {
     this.debug = debug;
+
     return this;
   }
 
   setData(data) {
     this.data = data;
+
     return this;
   }
 
   setTemplate(template) {
     this.template = template;
+
     return this;
   }
 
@@ -40,11 +43,9 @@ class TemplateRenderer extends EventEmitter {
       if (this.debug) {
         console.log("renderedHtml before afterRender event emitted", eventResult, renderedHtml);
       }
-        } else
-
-      if (this.debug) {
-        console.log("afterRender event did not change html");
-      }
+        } else if (this.debug) {
+      console.log("afterRender event did not change html");
+    }
 
     return renderedHtml;
   }
@@ -54,6 +55,7 @@ class TemplateRenderer extends EventEmitter {
 
     for (const placeholderName in dataForRendering) {
       const stringToReplace = `{{ ${placeholderName} }}`;
+
       // @ts-ignore
       let valueToSet = dataForRendering[placeholderName];
 

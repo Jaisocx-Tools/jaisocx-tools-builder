@@ -7,23 +7,24 @@ class EventEmitter {
 
   setDebug(toDebug) {
     this.debug = toDebug;
+
     return this;
   }
 
   isObjectEmpty(obj) {
-    // Check if the object is null or undefined
+        // Check if the object is null or undefined
     if (obj === undefined || obj === null) {
-      return true;
+            return true;
     }
-    // Check if the object is an actual object and not another type
+
     if (typeof obj !== "object") {
-      return false;
+            return false;
     }
-    // Check if the object has any own properties
+
     if (Object.keys(obj).length === 0) {
-      return true;
+            return true;
     }
-    // If all checks pass, the object is not undefined, null, or empty
+
     return false;
   }
 
@@ -33,6 +34,7 @@ class EventEmitter {
     }
 
     this.eventsHandlersSetThisClass[eventName].push(eventHandler);
+
     return this;
   }
 
@@ -44,7 +46,7 @@ class EventEmitter {
     }
 
     if (this.isObjectEmpty(this.eventsHandlersSetThisClass)) {
-      return results;
+            return results;
     }
 
     const eventHandlers = this.eventsHandlersSetThisClass[eventName];
@@ -87,7 +89,7 @@ class EventEmitter {
             }()));
 
       if (result && result.payloadReturned) {
-        // @ts-ignore
+                // @ts-ignore
         payload = result.payloadReturned;
       }
         }

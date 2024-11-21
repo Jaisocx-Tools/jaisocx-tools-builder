@@ -36,7 +36,7 @@ module.exports = {
       const beforeLineDiff = node.loc.start.line - before.loc.end.line;
       const afterLineDiff = after.loc.start.line - node.loc.end.line;
 
-      if (beforeLineDiff !== lines) {
+      if (beforeLineDiff !== 0 && beforeLineDiff !== lines) {
         const whiteSpacesNumber = node.loc.start.column;
         contextReport(
           node,
@@ -90,6 +90,16 @@ module.exports = {
         if (node.parent && node.parent.type === 'VariableDeclarator') {
           checkBlockSpacing(node, BEFORE_AND_AFTER);
         }
+      },
+      Program() {
+        const allComments = sourceCode.getAllComments();
+
+        allComments.forEach((comment) => {
+          checkBlockSpacing(comment, BEFORE);
+        });
+      },
+      ReturnStatement(node) {
+        checkBlockSpacing(node, BEFORE);
       },
     };
   }

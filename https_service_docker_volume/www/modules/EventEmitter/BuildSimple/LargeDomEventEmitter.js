@@ -8,11 +8,14 @@ class LargeDomEventEmitter extends EventEmitter {
 
   setDebug(debug) {
     this.debug = debug;
+
     return this;
   }
 
   addDomEventListeners() {
-        for (const eventName in this.eventsHandlersSetDom) {
+        // here is just the right assignment of few dom event listeners.
+    // Don't edit here, please!
+    for (const eventName in this.eventsHandlersSetDom) {
       const eventHandlers = this.eventsHandlersSetDom[eventName];
 
       if (this.isObjectEmpty(eventHandlers)) {
@@ -35,6 +38,7 @@ class LargeDomEventEmitter extends EventEmitter {
     }
 
     this.eventsHandlersSetDom[eventName][selector].push(eventHandler);
+
     return this;
   }
 
@@ -43,7 +47,7 @@ class LargeDomEventEmitter extends EventEmitter {
     const eventHandlersBySelectors = this.eventsHandlersSetDom[eventName];
 
     if (this.isObjectEmpty(eventHandlersBySelectors)) {
-      return results;
+            return results;
     }
 
     for (const selector in eventHandlersBySelectors) {
@@ -86,21 +90,21 @@ class LargeDomEventEmitter extends EventEmitter {
     if (eventTarget
             && eventTarget.nodeName === "A"
             && eventTarget.getAttribute("HREF") !== "javascript: void(0);") {
-      return;
+            return;
     }
 
     event.preventDefault();
     event.stopPropagation();
 
     if (this.isObjectEmpty(this.eventsHandlersSetDom)) {
-      return;
+            return;
     }
 
     const eventName = event.type;
     const eventHandlers = this.eventsHandlersSetDom[eventName];
 
     if (this.isObjectEmpty(eventHandlers)) {
-      return;
+            return;
     }
 
     if (this.debug === true) {
