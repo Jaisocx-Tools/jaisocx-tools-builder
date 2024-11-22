@@ -4,11 +4,18 @@ export interface ITreeDefaults {
   nodesWithIcons: boolean;
   nodesAllOpened: boolean;
   isModifiable: boolean;
+  dataTypesCssClassesEnabled: boolean;
 }
 
 export interface ITreeRenderRetValue {
   currentNodeSubtreeLength: number;
   node: any;
+}
+
+export interface IRenderSubtreeResult {
+  currentNodeSubtreeLength: number;
+  subtreeJsonNodesLength: number;
+  //subtreeNodes: any;
 }
 
 export interface IRenderingMode {
@@ -32,6 +39,8 @@ export interface IRenderTemplateRendererData {
 
 export interface ITreeCssClassNames {
   MAIN_CLASS_NAME: string;
+
+  CLASS_NAME_WITH_ICONS: string;
   
   CLASS_OPENED: string;
   CLASS_WITHOUT_SUBTREE: string;
@@ -53,5 +62,16 @@ export interface ITreeEventsNames {
   EVENT_NAME__AFTER_RENDER_ONE_NODE: string;
   EVENT_NAME__TREE_NODE_EXPAND_BUTTON__CLICK: string;
   EVENT_NAME__TREE_NODE_LABEL__CLICK: string;
+}
+
+export interface IDataType {
+  ARRAY: number;
+  OBJECT: number;
+  STRING: number;
+  NUMBER: number;
+  BOOLEAN: number;
+  NO_SUBTREE: number;
+
+  [key: string]: number;
 }
 

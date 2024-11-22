@@ -1,16 +1,27 @@
 import { Tree } from './Tree';
-import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
+import { IDataType, IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
 
 
 export class TreeConstants
 {
-    static readonly RenderingMode: IRenderingMode = {
+    static DataType: IDataType = {
+        ARRAY: 1,
+        OBJECT: 2,
+        STRING: 3,
+        NUMBER: 4,
+        BOOLEAN: 5,
+        NO_SUBTREE: 6,
+    }
+      
+    static RenderingMode: IRenderingMode = {
         Ease: 1,
         Metadata: 2,
     }
     
-    static readonly TreeCssClassNames: ITreeCssClassNames  = {
+    static TreeCssClassNames: ITreeCssClassNames  = {
         MAIN_CLASS_NAME: 'tree',
+
+        CLASS_NAME_WITH_ICONS: 'with-icons',
 
         CLASS_OPENED: 'toggle-with-subtree-opened',
         CLASS_WITHOUT_SUBTREE: 'toggle-without-subtree',
@@ -27,13 +38,13 @@ export class TreeConstants
         PREFIX__CLASS_DATATYPE: 'holder-datatype--',
     }
     
-    static readonly TreeEventsNames: ITreeEventsNames = {
+    static TreeEventsNames: ITreeEventsNames = {
         EVENT_NAME__AFTER_RENDER_ONE_NODE: 'afterRenderOneNode',
         EVENT_NAME__TREE_NODE_EXPAND_BUTTON__CLICK: 'openButtonClick',
         EVENT_NAME__TREE_NODE_LABEL__CLICK: 'treeNodeLabelClick',
     }    
 
-    static readonly TEMPLATE__TREE_HTML_NODE: string = `
+    static TEMPLATE__TREE_HTML_NODE: string = `
 <li 
     data-id="{{ dataId }}" 
     data-holder-id="{{ dataHolderId }}" 
@@ -59,12 +70,13 @@ export class TreeConstants
 </li>        
         `;
     
-    static readonly Defaults: ITreeDefaults = {
+    static Defaults: ITreeDefaults = {
         debug: false,
         renderingMode: TreeConstants.RenderingMode.Ease,
         nodesWithIcons: true,
         nodesAllOpened: false,
         isModifiable: false,
+        dataTypesCssClassesEnabled: true,
     }    
 }
 
