@@ -6,6 +6,7 @@ TreeConstants.RenderingMode = {
 };
 TreeConstants.TreeCssClassNames = {
     MAIN_CLASS_NAME: 'tree',
+    CLASS_NAME_WITH_ICONS: 'with-icons',
     CLASS_OPENED: 'toggle-with-subtree-opened',
     CLASS_WITHOUT_SUBTREE: 'toggle-without-subtree',
     CLASS_ICON_SHOW: 'icon-show',
@@ -54,4 +55,5 @@ TreeConstants.Defaults = {
     nodesWithIcons: true,
     nodesAllOpened: false,
     isModifiable: false,
+    dataTypesCssClassesEnabled: true,
 };

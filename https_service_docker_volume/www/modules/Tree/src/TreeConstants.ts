@@ -1,18 +1,9 @@
 import { Tree } from './Tree';
-import { IDataType, IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
+import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
 
 
 export class TreeConstants
 {
-    static DataType: IDataType = {
-        ARRAY: 1,
-        OBJECT: 2,
-        STRING: 3,
-        NUMBER: 4,
-        BOOLEAN: 5,
-        NO_SUBTREE: 6,
-    }
-      
     static RenderingMode: IRenderingMode = {
         Ease: 1,
         Metadata: 2,

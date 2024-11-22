@@ -2,6 +2,9 @@ import { LargeDomEventEmitter } from '@jaisocx/event-emitter';
 import { TemplateRenderer } from "@jaisocx/template-renderer";
 import { TreeConstants } from './TreeConstants';
 import { TreeMetadata } from './TreeMetadata';
+import { TreeAdapterModeMetadata } from './TreeAdapterModeMetadata';
+import { TreeAdapterModeEase } from './TreeAdapterModeEase';
+import { ArrayOrObjectPackage } from './ArrayOrObjectPackage';
 // Tree main class
 export class Tree extends LargeDomEventEmitter {
     constructor() {
@@ -39,6 +42,8 @@ export class Tree extends LargeDomEventEmitter {
         this.nodesWithIcons = TreeConstants.Defaults.nodesWithIcons;
         this.nodesAllOpened = TreeConstants.Defaults.nodesAllOpened;
         this.isModifiable = TreeConstants.Defaults.isModifiable;
+        this.dataTypesCssClassesEnabled = TreeConstants.Defaults.dataTypesCssClassesEnabled;
+        this.adapter = new TreeAdapterModeEase();
     }
     setDebug(debug) {
         // optional method
@@ -82,6 +87,10 @@ export class Tree extends LargeDomEventEmitter {
         this.renderingMode = mode;
         return this;
     }
+    setDataTypesCssClassesEnabled(dataTypesCssEnabled) {
+        this.dataTypesCssClassesEnabled = dataTypesCssEnabled;
+        return this;
+    }
     load(url) {
         if (url && url.length) {
             this.url = url;
@@ -96,11 +105,42 @@ export class Tree extends LargeDomEventEmitter {
         });
         return this;
     }
+    adaptRenderingModeSubcalls() {
+        if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
+            this.adapter = new TreeAdapterModeMetadata();
+            if (this.dataTypesCssClassesEnabled === true) {
+                this.getTreeNodeCssClasses = this.adapter.getTreeNodeCssClasses__dataTypesCssClassesEnabled.bind(this);
+            }
+            else {
+                this.getTreeNodeCssClasses = this.adapter.getTreeNodeCssClasses__dataTypesCssClassesDisabled.bind(this);
+            }
+        }
+        else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
+            this.adapter = new TreeAdapterModeEase();
+            if (this.dataTypesCssClassesEnabled === true) {
+                this.getTreeNodeCssClasses = this.adapter.getTreeNodeCssClasses__dataTypesCssClassesEnabled.bind(this);
+            }
+            else {
+                //this.getTreeNodeCssClasses = this.getTreeNodeCssClasses__dataTypesCssClassesDisabled__renderingModeMetadata.bind(this);
+            }
+        }
+        this.getSubtreeNodeToRender = this.adapter.getSubtreeNodeToRender.bind(this);
+        this.checkDataNodeSubtree = this.adapter.checkDataNodeSubtree.bind(this);
+        this.getDataForRendering = this.adapter.getDataForRendering.bind(this);
+    }
+    reRender() {
+        this.render(this.data);
+        return this;
+    }
     render(nodes) {
         this.mainHolderHtmlNode = document.getElementById(this.mainHtmlNodeId);
         if (!this.mainHolderHtmlNode) {
             throw new Error("Tree holder html node ID did not match any html node in this html doc.");
         }
+        if (this.metadata === null) {
+            throw new Error("TreeMetdata is null");
+        }
+        this.adaptRenderingModeSubcalls();
         // set main css class name to the main tree holder html node
         if (this.mainHolderHtmlNode.classList &&
             !this.mainHolderHtmlNode.classList.contains(TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME)) {
@@ -109,35 +149,41 @@ export class Tree extends LargeDomEventEmitter {
         else if (!this.mainHolderHtmlNode.classList) {
             this.mainHolderHtmlNode.className = (TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME);
         }
+        if (this.nodesWithIcons === true) {
+            this.mainHolderHtmlNode.classList.add(TreeConstants.TreeCssClassNames.CLASS_NAME_WITH_ICONS);
+        }
+        else {
+            this.mainHolderHtmlNode.classList.remove(TreeConstants.TreeCssClassNames.CLASS_NAME_WITH_ICONS);
+        }
         // add an html holder node for subtree html nodes
         let ul = document.createElement('UL');
         this.mainHolderHtmlNode.append(ul);
         // get datatype of the main json data node
-        const dataType = this.getDataType(nodes);
+        const dataType = ArrayOrObjectPackage.getDataType(nodes);
+        let isArray = 0;
+        if (dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) {
+            isArray = 1;
+        }
+        else if (dataType !== ArrayOrObjectPackage.JsonDataType.OBJECT) {
+            throw new Error("Arrays or Objects supported. This JSON Data is not iterable.");
+        }
         // get info on subtree nodes amount
-        let subtreeNodesCount = 0;
-        if (dataType === 'object') {
-            this.data = Object.assign({}, nodes);
-            subtreeNodesCount = Object.keys(this.data).length;
-        }
-        else if (dataType === 'array') {
-            this.data = [...nodes];
-            subtreeNodesCount = this.data.length;
-        }
+        const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, nodes);
+        let subtreeNodesCount = itemsAmount;
         // exit throwing exception, if the tree json data is empty
         if (subtreeNodesCount === 0) {
             throw new Error("Tree json data is empty.");
         }
         let subtreeRenderResult;
         if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
-            if (dataType === 'array') {
-                subtreeRenderResult = this.renderSubtree(this.data, dataType, ul);
+            if (isArray === 1) {
+                subtreeRenderResult = this.renderSubtree(isArray, this.data, ul);
                 // @ts-ignore
-                this.subtreeLength = subtreeRenderResult.subtreeJsonNodesLength;
+                this.subtreeLength = subtreeNodesCount;
                 // @ts-ignore
-                this.subtreeLengthDeep = subtreeRenderResult.currentNodeSubtreeLength;
+                this.subtreeLengthDeep = subtreeRenderResult;
             }
-            else if (dataType === 'object') {
+            else if (isArray === 0) {
                 const isTreeItem = this.getInModeMetadataDataNodeIsTreeItem(this.data);
                 // the root json data node is the tree item data node
                 if (isTreeItem) {
@@ -151,11 +197,11 @@ export class Tree extends LargeDomEventEmitter {
                 }
                 else {
                     // the root json data node is the associative array of tree item data nodes, suggested, if not so, then will not be rendered.
-                    subtreeRenderResult = this.renderSubtree(this.data, dataType, ul);
+                    subtreeRenderResult = this.renderSubtree(isArray, this.data, ul);
                     // @ts-ignore
-                    this.subtreeLength = subtreeRenderResult.subtreeJsonNodesLength;
+                    this.subtreeLength = subtreeNodesCount;
                     // @ts-ignore
-                    this.subtreeLengthDeep = subtreeRenderResult.currentNodeSubtreeLength;
+                    this.subtreeLengthDeep = subtreeRenderResult;
                 }
             }
         }
@@ -176,78 +222,41 @@ export class Tree extends LargeDomEventEmitter {
         this.addJSTreeEventListeners();
         return this;
     }
-    renderSubtree(subtreeNodes, subtreeNodesHolderDataType, subtreeHtmlHolder) {
-        const ul = subtreeHtmlHolder;
-        let subtreeJsonNodesLength = 0;
-        if (subtreeNodesHolderDataType === 'array') {
-            subtreeJsonNodesLength = subtreeNodes.length;
-        }
-        else if (subtreeNodesHolderDataType === 'object') {
-            subtreeJsonNodesLength = Object.keys(subtreeNodes).length;
-        }
-        let subtreeJsonNode = null;
-        let currentNodeSubtreeLength = 0;
-        let renderResult = null;
-        if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
-            if (subtreeNodesHolderDataType === 'object') {
-                for (let propertyName in subtreeNodes) {
-                    subtreeJsonNode = subtreeNodes[propertyName];
-                    renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
-                    currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-                    subtreeNodes[propertyName] = renderResult.node;
-                }
-            }
-            else if (subtreeNodesHolderDataType === 'array') {
-                for (let i = 0; i < subtreeJsonNodesLength; i++) {
-                    subtreeJsonNode = subtreeNodes[i];
-                    renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
-                    currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-                    // @ts-ignore
-                    subtreeNodes[i] = renderResult.node;
-                }
-            }
-        }
-        else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
-            if (subtreeNodesHolderDataType === 'object') {
-                for (let propertyName in subtreeNodes) {
-                    const propertyValue = subtreeNodes[propertyName];
-                    const dataTypeElem = this.getDataType(propertyValue);
-                    subtreeJsonNode = { [propertyName]: propertyValue };
-                    renderResult = this.renderOneTreeNode(subtreeJsonNode, ul);
-                    currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-                    subtreeNodes[propertyName] = renderResult.node[propertyName];
-                }
-            }
-            else if (subtreeNodesHolderDataType === 'array') {
-                for (let i = 0; i < subtreeJsonNodesLength; i++) {
-                    const arrayElement = subtreeNodes[i];
-                    const subtreeJsonArrayItem = { [i]: arrayElement };
-                    renderResult = this.renderOneTreeNode(subtreeJsonArrayItem, ul);
-                    currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
-                    subtreeNodes[i] = renderResult.node[i];
-                }
-            }
-        }
-        currentNodeSubtreeLength += subtreeJsonNodesLength;
-        return { currentNodeSubtreeLength, subtreeJsonNodesLength, subtreeNodes };
+    renderSubtree(isArray, subtreeNodes, subtreeHtmlHolder) {
+        const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, subtreeNodes);
+        const renderSubtreeResult = ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(isArray, subtreeNodes, this.renderSubtreeCallback.bind(this), subtreeHtmlHolder, objectKeys);
+        return renderSubtreeResult;
     }
+    renderSubtreeCallback(isArray, loopCounter, loopPropertyValue, loopPropertyKey, arrayOrObject, previousCallbackResult, callbackPayload) {
+        let currentNodeSubtreeLength = (previousCallbackResult) ? previousCallbackResult : 0;
+        const subtreeHtmlHolder = callbackPayload;
+        let subtreeJsonNode = this.getSubtreeNodeToRender(loopPropertyValue, loopPropertyKey);
+        // RENDERING ONE TREE NODE
+        const renderResult = this.renderOneTreeNode(subtreeJsonNode, subtreeHtmlHolder);
+        currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
+        if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
+            arrayOrObject[loopPropertyKey] = renderResult.node;
+        }
+        else {
+            arrayOrObject[loopPropertyKey] = renderResult.node[loopPropertyKey];
+        }
+        return currentNodeSubtreeLength;
+    }
+    // FINISH ADAPTIVE renderSubtree() AND IT'S IMPLS BLOCK
+    // FINISH ADAPTIVE METHODS AND THEIR IMPLS BLOCK
     renderOneTreeNode(node, holder) {
         if (this.debug) {
             console.log(node);
         }
-        if (this.metadata === null) {
-            throw new Error("TreeMetdata is null");
-        }
         let nodeClone = Object.assign({}, node);
-        nodeClone = this.updateDataNodeIdAndPath(nodeClone, holder);
-        let { subtreeNodeDataType, hasSubtree, subtreeJsonNodes } = this.checkDataNodeSubtree(nodeClone);
-        let dataForRendering = null;
-        if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
-            dataForRendering = this.getDataForRendering(nodeClone);
+        // UNDER DEVELOPMENT OPTION, TO USE FOR MODIFYING TREE AND SYNCHING JSON DATA
+        if (this.isModifiable === true) {
+            nodeClone = this.updateDataNodeIdAndPath(nodeClone, holder);
         }
-        else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
-            dataForRendering = this.getDataForRenderingEase(nodeClone, hasSubtree);
-        }
+        // TODO: ADAPTER ?
+        let { isArray, subtreeNodeDataType, subtreeNodeDataTypeString, hasSubtree, subtreeJsonNodes } = this.checkDataNodeSubtree(nodeClone);
+        // TODO: ADAPTER, EXTENSIBILITY FEATURE
+        let dataForRendering = this.getDataForRendering(nodeClone, subtreeNodeDataTypeString, hasSubtree);
         const nodeHtml = this.templateRenderer
             .setTemplate(TreeConstants.TEMPLATE__TREE_HTML_NODE)
             // @ts-ignore
@@ -303,44 +312,6 @@ export class Tree extends LargeDomEventEmitter {
             node: nodeClone
         };
     }
-    // GET INFO ON JSON DATA NODE SUBTREE 
-    checkDataNodeSubtree(node) {
-        let subtreeJsonNodes = null;
-        let subtreeNodeDataType = '';
-        let hasSubtree = false;
-        if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
-            subtreeJsonNodes = node[this.metadata.SUBTREE];
-            subtreeNodeDataType = this.getDataType(subtreeJsonNodes);
-            if (subtreeNodeDataType === 'object') {
-                hasSubtree = Object.keys(subtreeJsonNodes).length !== 0;
-            }
-            else if (subtreeNodeDataType === 'array') {
-                hasSubtree = subtreeJsonNodes.length !== 0;
-            }
-            // @ts-ignore
-            delete (node[this.metadata.SUBTREE]);
-            // @ts-ignore
-            node.hasSubtree = hasSubtree;
-        }
-        else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
-            const nodeValue = Object.values(node)[0];
-            subtreeJsonNodes = nodeValue;
-            subtreeNodeDataType = this.getDataType(nodeValue);
-            if (subtreeNodeDataType === 'array') {
-                hasSubtree = (nodeValue.length !== 0);
-            }
-            else if (subtreeNodeDataType === 'object') {
-                hasSubtree = (Object.keys(nodeValue).length !== 0);
-            }
-            else {
-                hasSubtree = false;
-            }
-        }
-        if (!hasSubtree) {
-            subtreeJsonNodes = null;
-        }
-        return { subtreeNodeDataType, hasSubtree, subtreeJsonNodes };
-    }
     // TEMPORARY IMPL TO KEEP POINTERS TO JSON DATA NODES IN HTML TREE NODES IN HTML NODE DATA ATTRIBUTES
     updateDataNodeIdAndPath(node, holder) {
         let id = node[this.metadata.NODE__ID];
@@ -371,87 +342,32 @@ export class Tree extends LargeDomEventEmitter {
         ];
         return node;
     }
-    // TEMPLATE RENDERING HELPERS BLOCK
-    getDataForRendering(node) {
-        var _a;
-        let openButtonClassName = '';
-        if (!node.hasSubtree) {
-            openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_WITHOUT_SUBTREE;
-            // @ts-ignore
-        }
-        else if (node[this.metadata.NODE__OPENED] === true ||
-            this.nodesAllOpened === true) {
-            openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
-        }
-        const cssClasses = this.getTreeNodeCssClasses(node);
-        const dataForRendering = {
-            dataId: node[this.metadata.NODE__ID],
-            dataHolderId: node[this.metadata.NODE__HOLDER_ID],
-            dataOrder: node[this.metadata.NODE__ORDER],
-            dataJson: this.escapeHTMLForAttribute(JSON.stringify(node)),
-            openButtonStateClassName: openButtonClassName,
-            cssClasses: cssClasses,
-            iconSrc: node[this.metadata.NODE_ICON__SRC],
-            iconShowClassName: (this.nodesWithIcons || node[this.metadata.NODE_ICON__SRC]) ? "icon-show" : "icon-hide",
-            labelText: node[this.metadata.NODE_LABEL__TEXT],
-            hyperlink: (_a = node[this.metadata.NODE__HYPERLINK]) !== null && _a !== void 0 ? _a : 'javascript: void(0);',
-            hasSubtree: node.hasSubtree,
-        };
-        return dataForRendering;
+    // ADAPTIVE PLACEHOLDERS
+    getSubtreeNodeToRender(loopPropertyValue, loopPropertyKey) {
+        return null;
     }
-    getDataForRenderingEase(node, nodeHasSubtree) {
-        const key = Object.keys(node)[0];
-        const value = node[key];
-        let openButtonClassName = '';
-        let labelText = `"${key}"`;
-        if (!nodeHasSubtree) {
-            openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_WITHOUT_SUBTREE;
-            const serializedJsonValue = this.escapeHTMLForAttribute(JSON.stringify(value));
-            labelText = `"${key}": ${serializedJsonValue}`;
-        }
-        else if (node[this.metadata.NODE__OPENED] === true ||
-            this.nodesAllOpened === true) {
-            openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
-        }
-        const cssClasses = this.getTreeNodeCssClasses(value);
-        const dataForRendering = {
+    checkDataNodeSubtree(node) {
+        return { isArray: 0, subtreeNodeDataType: 1, subtreeNodeDataTypeString: '', hasSubtree: true, subtreeJsonNodes: null };
+    }
+    getDataForRendering(node, dataTypeString, hasSubtree) {
+        return {
             iconSrc: '',
-            iconShowClassName: this.nodesWithIcons ? "icon-show" : "icon-hide",
-            labelText: labelText,
-            hyperlink: 'javascript: void(0);',
-            cssClasses: cssClasses,
+            iconShowClassName: '',
+            labelText: '',
+            hyperlink: '',
+            cssClasses: '',
             dataId: '',
             dataHolderId: '',
             dataOrder: '',
-            dataJson: this.escapeHTMLForAttribute(JSON.stringify(node)),
-            openButtonStateClassName: openButtonClassName,
-            hasSubtree: nodeHasSubtree,
+            dataJson: '',
+            openButtonStateClassName: '',
+            hasSubtree: true
         };
-        return dataForRendering;
     }
-    getTreeNodeCssClasses(node) {
-        const dataType = this.getDataType(node);
-        const cssClassesNodeValue = node[this.metadata.NODE__CSS_CLASS_NAME];
-        let cssClassesArray = [];
-        if (cssClassesNodeValue && (typeof cssClassesNodeValue === 'string') && cssClassesNodeValue.length !== 0) {
-            cssClassesArray = cssClassesNodeValue.split(" ").map((cls) => cls.trim());
-        }
-        const dataTypeClassName = `${TreeConstants.TreeCssClassNames.PREFIX__CLASS_DATATYPE}${dataType}`;
-        const dataTypeClass = (this.nodesWithIcons &&
-            ((!node[this.metadata.NODE_ICON__SRC] &&
-                (this.renderingMode === TreeConstants.RenderingMode.Metadata)) ||
-                (this.renderingMode === TreeConstants.RenderingMode.Ease))) ? dataTypeClassName : '';
-        let cssClasses = '';
-        if (cssClassesArray.length !== 0 ||
-            dataTypeClass.length !== 0) {
-            cssClassesArray.unshift("class=\"");
-            cssClassesArray.push(dataTypeClass);
-            cssClassesArray.push("\"");
-            cssClasses = cssClassesArray.join(" ").replace("\" ", "\"").replace(" \"", "\"");
-        }
-        return cssClasses;
+    getTreeNodeCssClasses(dataType, node) {
+        return '';
     }
-    // END TEMPLATE RENDERING HELPERS BLOCK
+    // FINISH BLOCK ADAPTIVE PLACEHOLDERS
     // EVENTS BLOCK
     addJSTreeEventListener(eventName, eventHandler) {
         // the holder class LargeDomEventListenersOverheadOptimizer method call
@@ -504,10 +420,6 @@ export class Tree extends LargeDomEventEmitter {
             treeHtmlNode, treeHtmlNodeHolder: treeHtmlNode.closest('li') }));
     }
     // END EVENTS BLOCK
-    // HELPERS METHODS BLOCK
-    getDataType(value) {
-        return Array.isArray(value) ? 'array' : (typeof value);
-    }
     getInModeMetadataDataNodeIsTreeItem(node) {
         // @ts-ignore
         const nodeLabelTextPropertyValue = node[this.metadata.NODE_LABEL__TEXT];

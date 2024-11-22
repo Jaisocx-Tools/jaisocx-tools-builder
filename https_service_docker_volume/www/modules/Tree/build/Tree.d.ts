@@ -1,6 +1,6 @@
 import { LargeDomEventEmitter } from '@jaisocx/event-emitter';
 import { TemplateRenderer } from "@jaisocx/template-renderer";
-import { ITreeRenderRetValue, IRenderTemplateRendererData } from './Types';
+import { ITreeRenderRetValue, IRenderTemplateRendererData, ITreeAdapter } from './Types';
 import { TreeMetadata } from './TreeMetadata';
 export declare class Tree extends LargeDomEventEmitter {
     mainHtmlNodeId: string;
@@ -16,6 +16,8 @@ export declare class Tree extends LargeDomEventEmitter {
     subtreeLengthDeep: number;
     nodesWithIcons: boolean;
     nodesAllOpened: boolean;
+    dataTypesCssClassesEnabled: boolean;
+    adapter: ITreeAdapter;
     constructor();
     setDebug(debug: boolean): Tree;
     setNodesWithIcons(withIcons: boolean): Tree;
@@ -25,28 +27,29 @@ export declare class Tree extends LargeDomEventEmitter {
     setMetadata(metadata: TreeMetadata): Tree;
     setModifiable(isModifiable: boolean): Tree;
     setRenderingMode(mode: number): Tree;
+    setDataTypesCssClassesEnabled(dataTypesCssEnabled: boolean): Tree;
     load(url: string | null): Tree;
-    render(nodes: any): this;
-    renderSubtree(subtreeNodes: any, subtreeNodesHolderDataType: string, subtreeHtmlHolder: HTMLElement): {
-        currentNodeSubtreeLength: number;
-        subtreeJsonNodesLength: number;
-        subtreeNodes: any;
-    };
+    adaptRenderingModeSubcalls(): void;
+    reRender(): Tree;
+    render(nodes: any): Tree;
+    renderSubtree(isArray: number, subtreeNodes: any, subtreeHtmlHolder: HTMLElement): number;
+    renderSubtreeCallback(isArray: number, loopCounter: number, loopPropertyValue: any, loopPropertyKey: any, arrayOrObject: any, previousCallbackResult: number | null, callbackPayload: any): number;
     renderOneTreeNode(node: any, holder: HTMLElement): ITreeRenderRetValue;
+    updateDataNodeIdAndPath(node: any, holder: HTMLElement): any;
+    getSubtreeNodeToRender(loopPropertyValue: any, loopPropertyKey: any): any;
     checkDataNodeSubtree(node: any): {
-        subtreeNodeDataType: string;
+        isArray: number;
+        subtreeNodeDataType: number;
+        subtreeNodeDataTypeString: string;
         hasSubtree: boolean;
         subtreeJsonNodes: any;
     };
-    updateDataNodeIdAndPath(node: any, holder: HTMLElement): any;
-    getDataForRendering(node: any): IRenderTemplateRendererData;
-    getDataForRenderingEase(node: any, nodeHasSubtree: boolean): IRenderTemplateRendererData;
-    getTreeNodeCssClasses(node: any): string;
+    getDataForRendering(node: any, dataTypeString: string, hasSubtree: boolean): IRenderTemplateRendererData;
+    getTreeNodeCssClasses(dataType: string, node: any): string;
     addJSTreeEventListener(eventName: string, eventHandler: CallableFunction): Tree;
     addJSTreeEventListeners(): Tree;
     openButtonClickHandler(eventPayload: any): void;
     treeNodeLableClickHandler(eventPayload: any): void;
-    getDataType(value: any): string;
     getInModeMetadataDataNodeIsTreeItem(node: object): boolean;
     escapeHTMLForAttribute(str: string): string;
     unescapeHTMLFromAttribute(str: string | undefined): string;

@@ -64,14 +64,36 @@ export interface ITreeEventsNames {
   EVENT_NAME__TREE_NODE_LABEL__CLICK: string;
 }
 
-export interface IDataType {
-  ARRAY: number;
-  OBJECT: number;
-  STRING: number;
-  NUMBER: number;
-  BOOLEAN: number;
-  NO_SUBTREE: number;
+export interface ITreeAdapter {
 
-  [key: string]: number;
+  getSubtreeNodeToRender (
+    loopPropertyValue: any, 
+    loopPropertyKey: any
+  ): any;
+
+  checkDataNodeSubtree (
+    node: any
+  ): { 
+    isArray: number, 
+    subtreeNodeDataType: number, 
+    subtreeNodeDataTypeString: string,
+    hasSubtree: boolean, 
+    subtreeJsonNodes: any 
+  };
+
+  getDataForRendering (
+    node: any, 
+    dataTypeString: string,
+    nodeHasSubtree: boolean
+  ): IRenderTemplateRendererData;
+
+  getTreeNodeCssClasses__dataTypesCssClassesEnabled (
+    dataType: string,
+    node: any
+  ): string;
+
+  getTreeNodeCssClasses__dataTypesCssClassesDisabled (
+    dataType: string,
+    node: any
+  ): string;
 }
-

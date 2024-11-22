@@ -44,7 +44,10 @@
       "build-files": [
         "Tree.js",
         "TreeMetadata.js",
-        "TreeConstants.js"
+        "TreeConstants.js",
+        "TreeAdapterModeMetadata.js",
+        "TreeAdapterModeEase.js",
+        "ArrayOrObjectPackage.js"
       ]
     },
     {
