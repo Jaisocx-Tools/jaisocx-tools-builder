@@ -62,7 +62,11 @@ export class LargeDomEventEmitter extends EventEmitter {
                 }
                 const result = eventHandler.call(this, payload);
                 results.push({
-                    eventArt: this.EventArtDOMEventOptimized, eventName, selector, payload, result,
+                    eventArt: this.EventArtDOMEventOptimized,
+                    eventName,
+                    selector,
+                    payload,
+                    result,
                 });
                 if (result && result.payloadReturned) {
                     payload = result.payloadReturned;
@@ -91,6 +95,6 @@ export class LargeDomEventEmitter extends EventEmitter {
         if (this.debug === true) {
             console.log("optimized event handler");
         }
-        this.emitDomEvent(eventName, { event });
+        this.emitDomEvent(eventName, { event, });
     }
 }

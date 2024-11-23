@@ -1,6 +1,6 @@
 import { Tree } from "./Tree";
 import {
-  IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults,
+  IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults
 } from "./Types";
 
 export class TreeConstants {

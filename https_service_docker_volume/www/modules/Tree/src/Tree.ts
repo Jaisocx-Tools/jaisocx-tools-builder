@@ -1,10 +1,10 @@
 import {
-  EventEmitter, LargeDomEventEmitter, EventEmitResult, EventHandlerReturnValue,
+  EventEmitter, LargeDomEventEmitter, EventEmitResult, EventHandlerReturnValue
 } from "@jaisocx/event-emitter";
 import { TemplateRenderer } from "@jaisocx/template-renderer";
 
 import {
-  ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, IRenderSubtreeResult, ITreeAdapter,
+  ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, IRenderSubtreeResult, ITreeAdapter
 } from "./Types";
 import { TreeConstants } from "./TreeConstants";
 import { TreeMetadata } from "./TreeMetadata";
@@ -219,7 +219,7 @@ export class Tree extends LargeDomEventEmitter {
     if (
       this.mainHolderHtmlNode.classList
           && !this.mainHolderHtmlNode.classList.contains(
-            TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME,
+            TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME
           )
     ) {
       this.mainHolderHtmlNode.classList.add(TreeConstants.TreeCssClassNames.MAIN_CLASS_NAME);
@@ -249,7 +249,10 @@ export class Tree extends LargeDomEventEmitter {
     }
 
     // get info on subtree nodes amount
-    const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, this.data);
+    const { itemsAmount, objectKeys, } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
+      isArray,
+      this.data
+    );
     const subtreeNodesCount: number = itemsAmount;
 
     // exit throwing exception, if the tree json data is empty
@@ -257,7 +260,7 @@ export class Tree extends LargeDomEventEmitter {
       throw new Error("Tree json data is empty.");
     }
 
-    const flatNodeHolderClone: any = { _pathArray: ["this.data"] };
+    const flatNodeHolderClone: any = { _pathArray: ["this.data",], };
     let subtreeRenderResult: any;
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
       if (isArray === 1) {
@@ -266,7 +269,7 @@ export class Tree extends LargeDomEventEmitter {
           this.data,
           flatNodeHolderClone,
           objectKeys,
-          ul,
+          ul
         );
 
         // @ts-ignore
@@ -282,10 +285,10 @@ export class Tree extends LargeDomEventEmitter {
             this.data,
             0,
             "Top",
-            { _pathArray: ["this.data"] },
-            ul,
+            { _pathArray: ["this.data",], },
+            ul
           );
-          const { currentNodeSubtreeLength } = renderResult;
+          const { currentNodeSubtreeLength, } = renderResult;
           this.data = renderResult.node;
           // @ts-ignore
           this.subtreeLength = subtreeNodesCount;
@@ -298,7 +301,7 @@ export class Tree extends LargeDomEventEmitter {
             this.data,
             flatNodeHolderClone,
             objectKeys,
-            ul,
+            ul
           );
 
           // @ts-ignore
@@ -309,13 +312,13 @@ export class Tree extends LargeDomEventEmitter {
       }
     } else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
       const renderResult: any = this.renderOneTreeNode(
-        { "Json Root": this.data },
+        { "Json Root": this.data, },
         0,
         "Top",
-        { _pathArray: ["this.data"] },
-        ul,
+        { _pathArray: ["this.data",], },
+        ul
       );
-      const { currentNodeSubtreeLength } = renderResult;
+      const { currentNodeSubtreeLength, } = renderResult;
       // this.data = renderResult.node[0];
 
       // @ts-ignore
@@ -325,7 +328,10 @@ export class Tree extends LargeDomEventEmitter {
     }
 
     if (this.debug) {
-      console.log("Tree.data", this.data);
+      console.log(
+        "Tree.data",
+        this.data
+      );
     }
 
     // all eventsHandlers, assigned with addJSTreeEventListener,
@@ -336,7 +342,7 @@ export class Tree extends LargeDomEventEmitter {
   }
 
   checkDataNodeSubtree(
-    node: any,
+    node: any
   ): {
       isArray: number,
       subtreeNodeDataType: number,
@@ -354,7 +360,7 @@ export class Tree extends LargeDomEventEmitter {
       subtreeJsonNodes = Object.values(node)[0];
     }
 
-    const { dataTypeString, dataType } = ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
+    const { dataTypeString, dataType, } = ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
     const isArray: number = ((dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
     if (
       (!subtreeJsonNodes)
@@ -372,9 +378,9 @@ export class Tree extends LargeDomEventEmitter {
         objectKeys: null,
       };
     }
-    const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
+    const { itemsAmount, objectKeys, } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
       isArray,
-      subtreeJsonNodes,
+      subtreeJsonNodes
     );
 
     hasSubtree = (itemsAmount !== 0);
@@ -394,14 +400,17 @@ export class Tree extends LargeDomEventEmitter {
     subtreeNodes: any,
     flatNodeHolderClone: any,
     objectKeys: string[]|null,
-    subtreeHtmlHolder: HTMLElement,
+    subtreeHtmlHolder: HTMLElement
   ): number {
     const renderSubtreeResult: any = ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(
       isArray,
       subtreeNodes,
       this.renderSubtreeCallback.bind(this),
-      { subtreeHtmlHolder, flatNodeHolderClone },
-      objectKeys,
+      {
+        subtreeHtmlHolder,
+        flatNodeHolderClone,
+      },
+      objectKeys
     );
 
     return renderSubtreeResult;
@@ -414,14 +423,14 @@ export class Tree extends LargeDomEventEmitter {
     loopPropertyKey: any,
     arrayOrObject: any,
     previousCallbackResult: number|null,
-    callbackPayload: any,
+    callbackPayload: any
   ): number {
     let currentNodeSubtreeLength: number = (previousCallbackResult) || 0;
-    const { subtreeHtmlHolder, flatNodeHolderClone } = callbackPayload;
+    const { subtreeHtmlHolder, flatNodeHolderClone, } = callbackPayload;
 
     const subtreeJsonNode: object = this.getSubtreeNodeToRender(
       loopPropertyValue,
-      loopPropertyKey,
+      loopPropertyKey
     );
 
     // RENDERING ONE TREE NODE
@@ -430,7 +439,7 @@ export class Tree extends LargeDomEventEmitter {
       loopCounter,
       loopPropertyKey,
       flatNodeHolderClone,
-      subtreeHtmlHolder,
+      subtreeHtmlHolder
     );
 
     currentNodeSubtreeLength += renderResult.currentNodeSubtreeLength;
@@ -449,7 +458,7 @@ export class Tree extends LargeDomEventEmitter {
     nodePosition: number,
     nodeKey: any,
     flatNodeHolderClone: any,
-    holder: HTMLElement,
+    holder: HTMLElement
   ): ITreeRenderRetValue {
     if (this.debug) {
       console.log(node);
@@ -460,7 +469,7 @@ export class Tree extends LargeDomEventEmitter {
       nodePosition,
       nodeKey,
       flatNodeHolderClone,
-      holder,
+      holder
     );
 
     const {
@@ -475,7 +484,12 @@ export class Tree extends LargeDomEventEmitter {
         } = this.checkDataNodeSubtree(node);
 
     // TODO: EXTENSIBILITY FEATURE
-    const dataForRendering: IRenderTemplateRendererData|null = this.getDataForRendering(node, nodeClone, subtreeNodeDataTypeString, hasSubtree);
+    const dataForRendering: IRenderTemplateRendererData|null = this.getDataForRendering(
+      node,
+      nodeClone,
+      subtreeNodeDataTypeString,
+      hasSubtree
+    );
 
     const nodeHtml: string = this.templateRenderer
       .setTemplate(TreeConstants.TEMPLATE__TREE_HTML_NODE)
@@ -485,7 +499,7 @@ export class Tree extends LargeDomEventEmitter {
 
     holder.insertAdjacentHTML(
       "beforeend",
-      nodeHtml,
+      nodeHtml
     );
 
     // @ts-ignore
@@ -504,10 +518,13 @@ export class Tree extends LargeDomEventEmitter {
     if (!hasSubtree) {
       this.emitEvent(
         TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE,
-        eventAfterRenderOneNodePayload,
+        eventAfterRenderOneNodePayload
       );
 
-      return { currentNodeSubtreeLength: 0, node: nodeClone };
+      return {
+        currentNodeSubtreeLength: 0,
+        node: nodeClone,
+      };
     }
 
     const ul: HTMLElement|null = li.getElementsByTagName("UL")[0] as HTMLElement;
@@ -527,12 +544,12 @@ export class Tree extends LargeDomEventEmitter {
       subtreeJsonNodes,
       nodeClone,
       objectKeys,
-      ul,
+      ul
     );
 
     this.emitEvent(
       TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE,
-      eventAfterRenderOneNodePayload,
+      eventAfterRenderOneNodePayload
     );
 
     return {
@@ -547,13 +564,13 @@ export class Tree extends LargeDomEventEmitter {
     nodePosition: number,
     nodeKey: any,
     flatNodeHolderClone: any,
-    holder: HTMLElement,
+    holder: HTMLElement
   ): any {
     const id: string = node[this.metadata.NODE__ID] ?? null;
     const holderId: string = node[this.metadata.NODE__HOLDER_ID] ?? null;
     const flatCloneHolderId: string = flatNodeHolderClone._flatClone ? flatNodeHolderClone._flatClone[this.metadata.NODE__ID] : null;
 
-    const pathInJsonOfNodeHolder: string[] = flatNodeHolderClone._pathArray ?? ["ROOT-unhandled"];
+    const pathInJsonOfNodeHolder: string[] = flatNodeHolderClone._pathArray ?? ["ROOT-unhandled",];
     let pathKeyInNodeHolder = JSON.stringify(nodeKey);
 
     if ((pathInJsonOfNodeHolder.length > 1) && this.renderingMode === TreeConstants.RenderingMode.Metadata) {
@@ -591,7 +608,7 @@ export class Tree extends LargeDomEventEmitter {
       _path: pathInJsonString,
     };
 
-    const nodeClone: any = { ...technicFields };
+    const nodeClone: any = { ...technicFields, };
 
     return nodeClone;
   }
@@ -599,7 +616,7 @@ export class Tree extends LargeDomEventEmitter {
   // ADAPTIVE PLACEHOLDERS
   getSubtreeNodeToRender(
     loopPropertyValue: any,
-    loopPropertyKey: any,
+    loopPropertyKey: any
   ): any {
     return null;
   }
@@ -608,7 +625,7 @@ export class Tree extends LargeDomEventEmitter {
     node: any,
     flatNodeClone: any,
     dataTypeString: string,
-    hasSubtree: boolean,
+    hasSubtree: boolean
   ): IRenderTemplateRendererData {
     return {
       iconSrc: "",
@@ -627,7 +644,7 @@ export class Tree extends LargeDomEventEmitter {
 
   getTreeNodeCssClasses(
     dataType: string,
-    node: any,
+    node: any
   ): string {
     return "";
   }
@@ -635,9 +652,15 @@ export class Tree extends LargeDomEventEmitter {
   // FINISH BLOCK ADAPTIVE PLACEHOLDERS
 
   // EVENTS BLOCK
-  addJSTreeEventListener(eventName: string, eventHandler: CallableFunction): Tree {
+  addJSTreeEventListener(
+    eventName: string,
+    eventHandler: CallableFunction
+  ): Tree {
     // the holder class LargeDomEventListenersOverheadOptimizer method call
-    this.addThisClassEventListener(eventName, eventHandler);
+    this.addThisClassEventListener(
+      eventName,
+      eventHandler
+    );
 
     return this;
   }
@@ -651,20 +674,20 @@ export class Tree extends LargeDomEventEmitter {
     this.addDomEventListener(
       "click",
       ".open-button",
-      this.openButtonClickHandler.bind(this),
+      this.openButtonClickHandler.bind(this)
     );
 
     this.addDomEventListener(
       "click",
       ".jstree-html-node-label",
-      this.treeNodeLableClickHandler.bind(this),
+      this.treeNodeLableClickHandler.bind(this)
     );
 
     if (this.isModifiable) {
       this.addDomEventListener(
         "dblclick",
         ".jstree-html-node-holder-icon",
-        this.contextMenuRender,
+        this.contextMenuRender
       );
     }
 
@@ -698,7 +721,7 @@ export class Tree extends LargeDomEventEmitter {
 
     this.emitEvent(
       TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_EXPAND_BUTTON__CLICK,
-      eventPayload,
+      eventPayload
     );
   }
 
@@ -708,7 +731,11 @@ export class Tree extends LargeDomEventEmitter {
 
     const jsonNode = JSON.parse(this.unescapeHTMLFromAttribute(treeHtmlNode.dataset.json));
     if (this.debug === true) {
-      console.log(eventPayload.event.type, treeHtmlNode, jsonNode);
+      console.log(
+        eventPayload.event.type,
+        treeHtmlNode,
+        jsonNode
+      );
     }
 
     this.emitEvent(
@@ -718,7 +745,7 @@ export class Tree extends LargeDomEventEmitter {
         jsonNode,
         treeHtmlNode,
         treeHtmlNodeHolder: treeHtmlNode.closest("li"),
-      },
+      }
     );
   }
   // END EVENTS BLOCK
@@ -735,10 +762,22 @@ export class Tree extends LargeDomEventEmitter {
 
   escapeHTMLForAttribute(str: string): string {
     return str
-      .replace(/"/g, "&quot;") // Replace double quotes
-      .replace(/'/g, "&#39;") // Replace single quotes
-      .replace(/</g, "&lt;") // Replace <
-      .replace(/>/g, "&gt;"); // Replace >
+      .replace(
+        /"/g,
+        "&quot;"
+      ) // Replace double quotes
+      .replace(
+        /'/g,
+        "&#39;"
+      ) // Replace single quotes
+      .replace(
+        /</g,
+        "&lt;"
+      ) // Replace <
+      .replace(
+        />/g,
+        "&gt;"
+      ); // Replace >
   }
 
   unescapeHTMLFromAttribute(str: string|undefined): string {
@@ -746,10 +785,22 @@ export class Tree extends LargeDomEventEmitter {
       return "";
     }
     return str
-      .replace(/&quot;/g, "\"") // Replace double quotes
-      .replace(/&#39;/g, "'") // Replace single quotes
-      .replace(/&lt;/g, "<") // Replace <
-      .replace(/&gt;/g, ">"); // Replace >
+      .replace(
+        /&quot;/g,
+        "\""
+      ) // Replace double quotes
+      .replace(
+        /&#39;/g,
+        "'"
+      ) // Replace single quotes
+      .replace(
+        /&lt;/g,
+        "<"
+      ) // Replace <
+      .replace(
+        /&gt;/g,
+        ">"
+      ); // Replace >
   }
 
   getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement|null): string {

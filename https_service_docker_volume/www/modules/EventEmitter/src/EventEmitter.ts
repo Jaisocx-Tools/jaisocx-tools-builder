@@ -45,7 +45,7 @@ export class EventEmitter {
   // where You wish to provide the interface of optional adding a custom event listener in Your JS class.
   addThisClassEventListener(
     eventName: string,
-    eventHandler: CallableFunction,
+    eventHandler: CallableFunction
   ): EventEmitter {
     if (!this.eventsHandlersSetThisClass[eventName]) {
       this.eventsHandlersSetThisClass[eventName] = [];
@@ -58,11 +58,17 @@ export class EventEmitter {
 
   // this.emitEvent method call You can place inside Your js code,
   // where You wish to provide the interface of optional adding a custom event listener in Your JS class.
-  emitEvent(eventName: string, payload: any): EventEmitResult[] {
+  emitEvent(
+    eventName: string,
+    payload: any
+  ): EventEmitResult[] {
     const results: EventEmitResult[] = [];
 
     if (this.debug) {
-      console.log("event emitted", eventName);
+      console.log(
+        "event emitted",
+        eventName
+      );
     }
 
     if (this.isObjectEmpty(this.eventsHandlersSetThisClass)) {
@@ -72,7 +78,10 @@ export class EventEmitter {
     const eventHandlers = this.eventsHandlersSetThisClass[eventName];
     if (!eventHandlers || eventHandlers.length === 0) {
       if (this.debug) {
-        console.log("no event handler for this event", eventName);
+        console.log(
+          "no event handler for this event",
+          eventName
+        );
       }
 
       return results;
@@ -80,7 +89,10 @@ export class EventEmitter {
 
     for (const eventHandler of eventHandlers) {
       if (this.debug) {
-        console.log("got event handler", eventName);
+        console.log(
+          "got event handler",
+          eventName
+        );
       }
 
       if (!eventHandler || typeof eventHandler !== "function") {
@@ -88,17 +100,24 @@ export class EventEmitter {
           console.log(
             "event handler is not a function",
             eventName,
-            eventHandler,
+            eventHandler
           );
         }
         continue;
       }
 
       if (this.debug) {
-        console.log("calling event handler", eventName, eventHandler);
+        console.log(
+          "calling event handler",
+          eventName,
+          eventHandler
+        );
       }
 
-      const result: any = eventHandler.call(this, payload);
+      const result: any = eventHandler.call(
+        this,
+        payload
+      );
 
       const thisClass: EventEmitter = this;
       results.push((new class implements EventEmitResult {

@@ -38,7 +38,7 @@ export class ArrayOrObjectPackage {
 
   public static getArrayOrObjectItemsAmount(
     isArray: number,
-    arrayOrObject: any,
+    arrayOrObject: any
   ): {itemsAmount: number, objectKeys: string[]|null} {
     let itemsAmount: number = 0;
     let objectKeys: string[]|null = null;
@@ -61,7 +61,7 @@ export class ArrayOrObjectPackage {
     arrayOrObject: any,
     callback: CallableFunction,
     callbackPayload: any,
-    objectKeys: string[]|null,
+    objectKeys: string[]|null
   ): any {
     const isArray: number = ((dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
     const callbackResult: any = ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(
@@ -69,7 +69,7 @@ export class ArrayOrObjectPackage {
       arrayOrObject,
       callback,
       callbackPayload,
-      objectKeys,
+      objectKeys
     );
 
     return callbackResult;
@@ -80,7 +80,7 @@ export class ArrayOrObjectPackage {
     arrayOrObject: any,
     callback: CallableFunction,
     callbackPayload: any,
-    objectKeys: string[]|null,
+    objectKeys: string[]|null
   ): any {
     // expects isArray = 1 true
 
@@ -104,7 +104,15 @@ export class ArrayOrObjectPackage {
       for (loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++) {
         arrayElement = arrayOrObject[loopCounter];
 
-        callbackResult = callback(isArray, loopCounter, arrayElement, loopCounter, arrayOrObject, callbackResult, callbackPayload);
+        callbackResult = callback(
+          isArray,
+          loopCounter,
+          arrayElement,
+          loopCounter,
+          arrayOrObject,
+          callbackResult,
+          callbackPayload
+        );
       }
     } else {
       // subtree type is object
@@ -117,7 +125,15 @@ export class ArrayOrObjectPackage {
         loopPropertyName = subtreeNodesKeys[loopCounter];
         loopPropertyValue = subtreeNodesValues[loopCounter];
 
-        callbackResult = callback(isArray, loopCounter, loopPropertyValue, loopPropertyName, arrayOrObject, callbackResult, callbackPayload);
+        callbackResult = callback(
+          isArray,
+          loopCounter,
+          loopPropertyValue,
+          loopPropertyName,
+          arrayOrObject,
+          callbackResult,
+          callbackPayload
+        );
       }
     }
 

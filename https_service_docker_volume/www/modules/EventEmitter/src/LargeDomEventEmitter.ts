@@ -34,7 +34,10 @@ export class LargeDomEventEmitter extends EventEmitter {
 
       // here we add one dom event listener for each event, like click, contextmenu, dblcick and others, when any
       // @ts-ignore
-      this.mainHolderHtmlNode.addEventListener(eventName, this.optimizedDomEventHandler.bind(this));
+      this.mainHolderHtmlNode.addEventListener(
+        eventName,
+        this.optimizedDomEventHandler.bind(this)
+      );
     }
 
     return this;
@@ -47,7 +50,7 @@ export class LargeDomEventEmitter extends EventEmitter {
   addDomEventListener(
     eventName: string,
     selector: string,
-    eventHandler: CallableFunction,
+    eventHandler: CallableFunction
   ): LargeDomEventEmitter {
     if (!this.eventsHandlersSetDom[eventName]) {
       this.eventsHandlersSetDom[eventName] = {};
@@ -65,7 +68,7 @@ export class LargeDomEventEmitter extends EventEmitter {
   // Don't edit here, please
   emitDomEvent(
     eventName: string,
-    payload: any,
+    payload: any
   ): EventEmitResult[] {
     const results: EventEmitResult[] = [];
 
@@ -92,9 +95,16 @@ export class LargeDomEventEmitter extends EventEmitter {
           continue;
         }
 
-        const result: EventHandlerReturnValue|undefined = eventHandler.call(this, payload);
+        const result: EventHandlerReturnValue|undefined = eventHandler.call(
+          this,
+          payload
+        );
         results.push({
-          eventArt: this.EventArtDOMEventOptimized, eventName, selector, payload, result,
+          eventArt: this.EventArtDOMEventOptimized,
+          eventName,
+          selector,
+          payload,
+          result,
         });
         if (result && result.payloadReturned) {
           payload = result.payloadReturned;
@@ -134,7 +144,7 @@ export class LargeDomEventEmitter extends EventEmitter {
 
     this.emitDomEvent(
       eventName,
-      { event },
+      { event, }
     );
   }
 }

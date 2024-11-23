@@ -19,8 +19,8 @@ module.exports = {
     "es6": true,
   },
   "rules": {
-    // Enforce indentation with 2 spaces
-    "no-mixed-spaces-and-tabs": "error",         // Disallow mixed spaces and tabs for indentation
+    "indent": ["error", INDENT, { "SwitchCase": 1 }], // INDENT number spaces per indentation level
+    "no-mixed-spaces-and-tabs": "error", 
     "quotes": ["error", "double"],
   },
   "overrides": [
@@ -30,7 +30,6 @@ module.exports = {
         "json-format",
       ],
       "rules": {
-        "indent": ["error", INDENT, { "SwitchCase": 1 }], // INDENT number spaces per indentation level
         "json-format/sort-package-json": "error",  // Example: Ensures consistency in package.json
         "quote-props": ["error", "always"],
         "quotes": ["error", "double"],
@@ -61,7 +60,6 @@ module.exports = {
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
       ],
       rules: {
-        "indent": ["error", INDENT, { "SwitchCase": 1 }], // INDENT number spaces per indentation level
         "max-len": ["error", { code: MAX_LINE_LENGTH }],
         "semi": ["error", "always"],
         "no-extra-semi": "error",
@@ -90,7 +88,6 @@ module.exports = {
         "jaisocx",
       ],
       "rules": {
-        "indent": ["error", INDENT, { "SwitchCase": 1 }], // INDENT number spaces per indentation level
         "jaisocx/class-statement-cleanup": "error",
         "jaisocx/line-delimiters": "error",
         "jaisocx/multiline-args": "error",

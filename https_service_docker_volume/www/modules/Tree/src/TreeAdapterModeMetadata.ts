@@ -8,7 +8,7 @@ import { IRenderTemplateRendererData, ITreeAdapter } from "./Types";
 export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter {
   getSubtreeNodeToRender(
     loopPropertyValue: any,
-    loopPropertyKey: any,
+    loopPropertyKey: any
   ): any {
     return loopPropertyValue;
   }
@@ -17,7 +17,7 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
     node: any,
     flatNodeClone: any,
     dataTypeString: string,
-    hasSubtree: boolean,
+    hasSubtree: boolean
   ): IRenderTemplateRendererData {
     let openButtonClassName: string = "";
 
@@ -32,7 +32,10 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
       openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
     }
 
-    const cssClasses: string = this.getTreeNodeCssClasses(dataTypeString, node);
+    const cssClasses: string = this.getTreeNodeCssClasses(
+      dataTypeString,
+      node
+    );
 
     const dataForRendering: IRenderTemplateRendererData = {
       dataId: node[this.metadata.NODE__ID],
@@ -53,7 +56,7 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
 
   getTreeNodeCssClasses__dataTypesCssClassesEnabled(
     dataTypeString: string,
-    node: any,
+    node: any
   ): string {
     const cssClassesNodeValue: string = node[this.metadata.NODE__CSS_CLASS_NAME];
 
@@ -73,7 +76,7 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
 
   getTreeNodeCssClasses__dataTypesCssClassesDisabled(
     dataTypeString: string,
-    node: any,
+    node: any
   ): string {
     const cssClassesNodeValue: string = node[this.metadata.NODE__CSS_CLASS_NAME];
 
@@ -93,7 +96,10 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
     throw new Error("Method not implemented.");
   }
 
-  getTreeNodeCssClasses(dataTypeString: string, value: any): string {
+  getTreeNodeCssClasses(
+    dataTypeString: string,
+    value: any
+  ): string {
     throw new Error("Method not implemented.");
   }
   // finish dummy placeholders

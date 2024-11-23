@@ -174,13 +174,13 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
             throw new Error("Arrays or Objects supported. This JSON Data is not iterable.");
         }
         // get info on subtree nodes amount
-        const { itemsAmount, objectKeys } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, this.data);
+        const { itemsAmount, objectKeys, } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, this.data);
         const subtreeNodesCount = itemsAmount;
         // exit throwing exception, if the tree json data is empty
         if (subtreeNodesCount === 0) {
             throw new Error("Tree json data is empty.");
         }
-        const flatNodeHolderClone = { _pathArray: ["this.data"] };
+        const flatNodeHolderClone = { _pathArray: ["this.data",], };
         let subtreeRenderResult;
         if (this.renderingMode === TreeConstants_1.TreeConstants.RenderingMode.Metadata) {
             if (isArray === 1) {
@@ -194,8 +194,8 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
                 const isTreeItem = this.getInModeMetadataDataNodeIsTreeItem(this.data);
                 // the root json data node is the tree item data node
                 if (isTreeItem) {
-                    const renderResult = this.renderOneTreeNode(this.data, 0, "Top", { _pathArray: ["this.data"] }, ul);
-                    const { currentNodeSubtreeLength } = renderResult;
+                    const renderResult = this.renderOneTreeNode(this.data, 0, "Top", { _pathArray: ["this.data",], }, ul);
+                    const { currentNodeSubtreeLength, } = renderResult;
                     this.data = renderResult.node;
                     // @ts-ignore
                     this.subtreeLength = subtreeNodesCount;
@@ -213,8 +213,8 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
             }
         }
         else if (this.renderingMode === TreeConstants_1.TreeConstants.RenderingMode.Ease) {
-            const renderResult = this.renderOneTreeNode({ "Json Root": this.data }, 0, "Top", { _pathArray: ["this.data"] }, ul);
-            const { currentNodeSubtreeLength } = renderResult;
+            const renderResult = this.renderOneTreeNode({ "Json Root": this.data, }, 0, "Top", { _pathArray: ["this.data",], }, ul);
+            const { currentNodeSubtreeLength, } = renderResult;
             // this.data = renderResult.node[0];
             // @ts-ignore
             this.subtreeLength = subtreeNodesCount;
@@ -238,7 +238,7 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
         else if (this.renderingMode === TreeConstants_1.TreeConstants.RenderingMode.Ease) {
             subtreeJsonNodes = Object.values(node)[0];
         }
-        const { dataTypeString, dataType } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
+        const { dataTypeString, dataType, } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
         const isArray = ((dataType === ArrayOrObjectPackage_1.ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
         if ((!subtreeJsonNodes)
             || ((dataType !== ArrayOrObjectPackage_1.ArrayOrObjectPackage.JsonDataType.ARRAY)
@@ -252,7 +252,7 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
                 objectKeys: null,
             };
         }
-        const { itemsAmount, objectKeys } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, subtreeJsonNodes);
+        const { itemsAmount, objectKeys, } = ArrayOrObjectPackage_1.ArrayOrObjectPackage.getArrayOrObjectItemsAmount(isArray, subtreeJsonNodes);
         hasSubtree = (itemsAmount !== 0);
         return {
             isArray,
@@ -264,12 +264,15 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
         };
     }
     renderSubtree(isArray, subtreeNodes, flatNodeHolderClone, objectKeys, subtreeHtmlHolder) {
-        const renderSubtreeResult = ArrayOrObjectPackage_1.ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(isArray, subtreeNodes, this.renderSubtreeCallback.bind(this), { subtreeHtmlHolder, flatNodeHolderClone }, objectKeys);
+        const renderSubtreeResult = ArrayOrObjectPackage_1.ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(isArray, subtreeNodes, this.renderSubtreeCallback.bind(this), {
+            subtreeHtmlHolder,
+            flatNodeHolderClone,
+        }, objectKeys);
         return renderSubtreeResult;
     }
     renderSubtreeCallback(isArray, loopCounter, loopPropertyValue, loopPropertyKey, arrayOrObject, previousCallbackResult, callbackPayload) {
         let currentNodeSubtreeLength = (previousCallbackResult) || 0;
-        const { subtreeHtmlHolder, flatNodeHolderClone } = callbackPayload;
+        const { subtreeHtmlHolder, flatNodeHolderClone, } = callbackPayload;
         const subtreeJsonNode = this.getSubtreeNodeToRender(loopPropertyValue, loopPropertyKey);
         // RENDERING ONE TREE NODE
         const renderResult = this.renderOneTreeNode(subtreeJsonNode, loopCounter, loopPropertyKey, flatNodeHolderClone, subtreeHtmlHolder);
@@ -308,7 +311,10 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
         };
         if (!hasSubtree) {
             this.emitEvent(TreeConstants_1.TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE, eventAfterRenderOneNodePayload);
-            return { currentNodeSubtreeLength: 0, node: nodeClone };
+            return {
+                currentNodeSubtreeLength: 0,
+                node: nodeClone,
+            };
         }
         const ul = li.getElementsByTagName("UL")[0];
         // @ts-ignore
@@ -332,7 +338,7 @@ class Tree extends event_emitter_1.LargeDomEventEmitter {
         const id = (_a = node[this.metadata.NODE__ID]) !== null && _a !== void 0 ? _a : null;
         const holderId = (_b = node[this.metadata.NODE__HOLDER_ID]) !== null && _b !== void 0 ? _b : null;
         const flatCloneHolderId = flatNodeHolderClone._flatClone ? flatNodeHolderClone._flatClone[this.metadata.NODE__ID] : null;
-        const pathInJsonOfNodeHolder = (_c = flatNodeHolderClone._pathArray) !== null && _c !== void 0 ? _c : ["ROOT-unhandled"];
+        const pathInJsonOfNodeHolder = (_c = flatNodeHolderClone._pathArray) !== null && _c !== void 0 ? _c : ["ROOT-unhandled",];
         let pathKeyInNodeHolder = JSON.stringify(nodeKey);
         if ((pathInJsonOfNodeHolder.length > 1) && this.renderingMode === TreeConstants_1.TreeConstants.RenderingMode.Metadata) {
             const subtreePropName = JSON.stringify(this.metadata.SUBTREE);

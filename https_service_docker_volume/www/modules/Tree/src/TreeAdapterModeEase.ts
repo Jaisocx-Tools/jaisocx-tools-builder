@@ -8,9 +8,9 @@ import { IRenderTemplateRendererData, ITreeAdapter } from "./Types";
 export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
   getSubtreeNodeToRender(
     loopPropertyValue: any,
-    loopPropertyKey: any,
+    loopPropertyKey: any
   ): any {
-    const subtreeJsonNode: object = { [loopPropertyKey]: loopPropertyValue };
+    const subtreeJsonNode: object = { [loopPropertyKey]: loopPropertyValue, };
 
     return subtreeJsonNode;
   }
@@ -19,7 +19,7 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
     node: any,
     flatNodeClone: any,
     dataTypeString: string,
-    nodeHasSubtree: boolean,
+    nodeHasSubtree: boolean
   ): IRenderTemplateRendererData {
     const key: string = Object.keys(node)[0];
     const value: any = node[key] ?? "";
@@ -37,7 +37,10 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
       openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
     }
 
-    const cssClasses: string = (this.dataTypesCssClassesEnabled === true) ? this.getTreeNodeCssClasses(dataTypeString, value) : "";
+    const cssClasses: string = (this.dataTypesCssClassesEnabled === true) ? this.getTreeNodeCssClasses(
+      dataTypeString,
+      value
+    ) : "";
 
     const dataForRendering: IRenderTemplateRendererData = {
       iconSrc: "",
@@ -58,7 +61,7 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
 
   getTreeNodeCssClasses__dataTypesCssClassesEnabled(
     dataTypeString: string,
-    node: any,
+    node: any
   ): string {
     const cssClassesArray: string[] = [
       ("class=\""),
@@ -72,7 +75,10 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
     return cssClasses;
   }
 
-  getTreeNodeCssClasses__dataTypesCssClassesDisabled(dataTypeString: string, node: any): string {
+  getTreeNodeCssClasses__dataTypesCssClassesDisabled(
+    dataTypeString: string,
+    node: any
+  ): string {
     throw new Error("Method not implemented.");
   }
 
@@ -81,7 +87,10 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
     throw new Error("Method not implemented.");
   }
 
-  getTreeNodeCssClasses(dataTypeString: string, value: any): string {
+  getTreeNodeCssClasses(
+    dataTypeString: string,
+    value: any
+  ): string {
     throw new Error("Method not implemented.");
   }
   // finish dummy placeholders

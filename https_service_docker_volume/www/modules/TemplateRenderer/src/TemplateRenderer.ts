@@ -34,11 +34,14 @@ export class TemplateRenderer extends EventEmitter {
   render(): string {
     let renderedHtml = this.replaceTemplateRendererWithDataForRendering(
       this.template,
-      this.data,
+      this.data
     );
 
     if (this.debug) {
-      console.log("renderedHtml before afterRender event emitted", renderedHtml);
+      console.log(
+        "renderedHtml before afterRender event emitted",
+        renderedHtml
+      );
     }
 
     const eventResult: EventEmitResult[] = this.emitEvent(
@@ -46,7 +49,7 @@ export class TemplateRenderer extends EventEmitter {
       {
         html: renderedHtml,
         data: this.data,
-      },
+      }
     );
 
     if (eventResult.length > 0) {
@@ -54,7 +57,11 @@ export class TemplateRenderer extends EventEmitter {
       renderedHtml = eventResult[last].result.payloadReturned.html;
 
       if (this.debug) {
-        console.log("renderedHtml before afterRender event emitted", eventResult, renderedHtml);
+        console.log(
+          "renderedHtml before afterRender event emitted",
+          eventResult,
+          renderedHtml
+        );
       }
     } else if (this.debug) {
       console.log("afterRender event did not change html");
@@ -63,7 +70,10 @@ export class TemplateRenderer extends EventEmitter {
     return renderedHtml;
   }
 
-  replaceTemplateRendererWithDataForRendering(template: string, dataForRendering: object): string {
+  replaceTemplateRendererWithDataForRendering(
+    template: string,
+    dataForRendering: object
+  ): string {
     let renderedHtml = template;
 
     for (const placeholderName in dataForRendering) {
@@ -75,7 +85,10 @@ export class TemplateRenderer extends EventEmitter {
         valueToSet = "";
       }
 
-      renderedHtml = renderedHtml.replace(stringToReplace, valueToSet);
+      renderedHtml = renderedHtml.replace(
+        stringToReplace,
+        valueToSet
+      );
     }
 
     return renderedHtml;

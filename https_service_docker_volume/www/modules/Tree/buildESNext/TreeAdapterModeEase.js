@@ -2,7 +2,7 @@ import { TreeAdapter } from "./TreeAdapter";
 import { TreeConstants } from "./TreeConstants";
 export class TreeAdapterModeEase extends TreeAdapter {
     getSubtreeNodeToRender(loopPropertyValue, loopPropertyKey) {
-        const subtreeJsonNode = { [loopPropertyKey]: loopPropertyValue };
+        const subtreeJsonNode = { [loopPropertyKey]: loopPropertyValue, };
         return subtreeJsonNode;
     }
     getDataForRendering(node, flatNodeClone, dataTypeString, nodeHasSubtree) {

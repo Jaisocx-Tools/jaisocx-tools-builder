@@ -1,24 +1,27 @@
 "use strict";
 
 const eslintPluginJsonFormat = require("eslint-plugin-json-format");
-const eslintPluginJaisocx = require("eslint-plugin-jaisocx");
+const eslintPluginJaisocx = require("../../../build_tools/src/EslintPlugins/EslintPluginJaisocxJS/eslint-plugin-jaisocx");
+
+const MAX_LINE_LENGTH = 128;
+const INDENT = 2;
+
 
 module.exports = {
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
   "env": {
     "browser": true,
     "node": true,
     "es6": true,
   },
-  "extends": [
-    "airbnb"
-  ],
-  "plugins": [
-    "jaisocx",
-  ],
   "rules": {
-    // Enforce indentation with 2 spaces
-    "indent": ["error", 2, { "SwitchCase": 1 }], // 2 spaces per indentation level
-    "no-mixed-spaces-and-tabs": "error",         // Disallow mixed spaces and tabs for indentation
+    "indent": ["error", INDENT, { "SwitchCase": 1 }], // INDENT number spaces per indentation level
+    "no-mixed-spaces-and-tabs": "error", 
+    "quotes": ["error", "double"],
   },
   "overrides": [
     {
@@ -30,23 +33,76 @@ module.exports = {
         "json-format/sort-package-json": "error",  // Example: Ensures consistency in package.json
         "quote-props": ["error", "always"],
         "quotes": ["error", "double"],
+        "comma-dangle": [
+          "error", {
+            "arrays": "never",
+            "objects": "never",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+          }
+        ],
+      },
+    },
+    {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "project": "./tsconfig.json"
+      },
+      "plugins": [
+        "@typescript-eslint",
+        "jaisocx"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+      ],
+      rules: {
+        "max-len": ["error", { code: MAX_LINE_LENGTH }],
+        "semi": ["error", "always"],
+        "no-extra-semi": "error",
+        "jaisocx/line-delimiters": "error",
+        "jaisocx/multiline-args": "error",
+        "comma-dangle": [
+          "error", {
+            "arrays": "always",
+            "objects": "always",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+          }
+        ],
+        //"@typescript-eslint/no-unused-vars": ["warn"],
+        //"@typescript-eslint/no-explicit-any": ["warn"],
       },
     },
     {
       "files": [
         "*.js"
       ],
-      "env": {
-        
-      },
+      "extends": [
+      ],
+      "plugins": [
+        "jaisocx",
+      ],
       "rules": {
         "jaisocx/class-statement-cleanup": "error",
         "jaisocx/line-delimiters": "error",
-        //"jaisocx/multiline-args": "error",
-        "max-len": ["error", { code: 80 }], // line length
-        "semi": ["error", "always"], // Require semicolons
-        "no-extra-semi": "error",  // Remove extra semicolons
-        "quotes": ["error", "double"], // all quotes double
+        "jaisocx/multiline-args": "error",
+        "comma-dangle": [
+          "error", {
+            "arrays": "always",
+            "objects": "always",
+            "imports": "never",
+            "exports": "never",
+            "functions": "never"
+          }
+        ],
+        "max-len": ["error", { code: MAX_LINE_LENGTH }],
+        "semi": ["error", "always"],
+        "no-extra-semi": "error",
       },
     },
   ],
