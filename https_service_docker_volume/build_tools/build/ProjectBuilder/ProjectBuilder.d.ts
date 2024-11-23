@@ -29,4 +29,5 @@ export declare class ProjectBuilder {
     installModuleDependencies(moduleJson: any, modulePath: string): void;
     buildSimple(moduleJson: any, modulePath: string): void;
     lintSimpleBuild(eslintConfigCatalogPath: string, pathToEslint: string): void;
+    prettifyWithEslint(eslintConfigCatalogPath: string, pathToEslint: string): void;
 }

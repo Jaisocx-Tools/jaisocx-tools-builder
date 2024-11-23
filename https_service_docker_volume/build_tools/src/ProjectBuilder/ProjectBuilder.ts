@@ -150,6 +150,10 @@ export class ProjectBuilder {
     );
     console.log(result);
 
+    try {
+      this.prettifyWithEslint(modulePath, "src/**/*.ts");
+    } catch (e: any) {}
+
     const result2: any = execSync(
       `tsc -p ./tsconfig.json`, 
       this.getSpawnSyncPayload(modulePath)
@@ -272,6 +276,13 @@ export class ProjectBuilder {
       `npx eslint ${pathToEslint} --fix`, 
       this.getSpawnSyncPayload(eslintConfigCatalogPath)
     );
+  }
+  prettifyWithEslint(eslintConfigCatalogPath: string, pathToEslint: string): void {
+    const result: any = execSync(
+      `npx eslint ${pathToEslint} --fix`, 
+      this.getSpawnSyncPayload(eslintConfigCatalogPath)
+    );
+    //console.log(result);
   }
 }
 

@@ -1,4 +1,4 @@
-import { EventEmitResult } from './Types';
+import { EventEmitResult } from "./Types";
 export declare class EventEmitter {
     eventsHandlersSetThisClass: any;
     debug: boolean;

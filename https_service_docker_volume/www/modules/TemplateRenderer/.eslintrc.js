@@ -1,20 +1,19 @@
 "use strict";
 
 const eslintPluginJsonFormat = require("eslint-plugin-json-format");
-const eslintPluginJaisocx = require("./../../../build_tools/src/EslintPlugins/EslintPluginJaisocxJS/eslint-plugin-jaisocx");
+const eslintPluginJaisocx = require("../../../build_tools/src/EslintPlugins/EslintPluginJaisocxJS/eslint-plugin-jaisocx");
 
 module.exports = {
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "airbnb"
+  ],
   "env": {
     "browser": true,
     "node": true,
     "es6": true,
   },
-  "extends": [
-    "airbnb"
-  ],
-  "plugins": [
-    "jaisocx",
-  ],
   "rules": {
     // Enforce indentation with 2 spaces
     "indent": ["error", 2, { "SwitchCase": 1 }], // 2 spaces per indentation level
@@ -33,16 +32,43 @@ module.exports = {
       },
     },
     {
+      "files": ["*.ts"],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2020,
+        "project": "./tsconfig.json"
+      },
+      "plugins": ["@typescript-eslint"],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "airbnb"
+      ],
+      rules: {
+        "max-len": ["error", { code: 80 }],
+        "semi": ["error", "always"],
+        "no-extra-semi": "error",
+        "quotes": ["error", "double"],
+        "@typescript-eslint/no-unused-vars": ["warn"],
+        "@typescript-eslint/no-explicit-any": ["warn"],
+      },
+    },
+    {
       "files": [
         "*.js"
       ],
-      "env": {
-        
-      },
+      "extends": [
+        "eslint:recommended",
+        "airbnb"
+      ],
+      "plugins": [
+        "jaisocx",
+      ],
       "rules": {
         "jaisocx/class-statement-cleanup": "error",
         "jaisocx/line-delimiters": "error",
-        //"jaisocx/multiline-args": "error",
+        "jaisocx/multiline-args": "error",
         "max-len": ["error", { code: 80 }], // line length
         "semi": ["error", "always"], // Require semicolons
         "no-extra-semi": "error",  // Remove extra semicolons

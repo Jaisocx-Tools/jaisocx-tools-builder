@@ -1,4 +1,4 @@
-import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from './Types';
+import { IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults } from "./Types";
 export declare class TreeConstants {
     static RenderingMode: IRenderingMode;
     static TreeCssClassNames: ITreeCssClassNames;

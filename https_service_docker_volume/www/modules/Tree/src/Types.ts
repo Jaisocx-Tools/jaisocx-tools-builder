@@ -15,7 +15,7 @@ export interface ITreeRenderRetValue {
 export interface IRenderSubtreeResult {
   currentNodeSubtreeLength: number;
   subtreeJsonNodesLength: number;
-  //subtreeNodes: any;
+  // subtreeNodes: any;
 }
 
 export interface IRenderingMode {
@@ -41,7 +41,7 @@ export interface ITreeCssClassNames {
   MAIN_CLASS_NAME: string;
 
   CLASS_NAME_WITH_ICONS: string;
-  
+
   CLASS_OPENED: string;
   CLASS_WITHOUT_SUBTREE: string;
   CLASS_ICON_SHOW: string;
@@ -67,22 +67,13 @@ export interface ITreeEventsNames {
 export interface ITreeAdapter {
 
   getSubtreeNodeToRender (
-    loopPropertyValue: any, 
+    loopPropertyValue: any,
     loopPropertyKey: any
   ): any;
 
-  checkDataNodeSubtree (
-    node: any
-  ): { 
-    isArray: number, 
-    subtreeNodeDataType: number, 
-    subtreeNodeDataTypeString: string,
-    hasSubtree: boolean, 
-    subtreeJsonNodes: any 
-  };
-
   getDataForRendering (
-    node: any, 
+    node: any,
+    flatNodeClone: any,
     dataTypeString: string,
     nodeHasSubtree: boolean
   ): IRenderTemplateRendererData;

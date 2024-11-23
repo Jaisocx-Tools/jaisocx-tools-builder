@@ -1,5 +1,7 @@
 class ExampleTemplateRenderer {
-    constructor() {
+  
+
+  constructor() {
     this.data = {
       message: "Hello World!",
     };
@@ -20,8 +22,9 @@ class ExampleTemplateRenderer {
     holderHtmlNode = document.querySelector(this.holderHtmlNodeSelector);
 
     if (!holderHtmlNode) {
+      
 
-            return;
+      return;
     }
 
     const html = this.TemplateRenderer

@@ -12,8 +12,16 @@
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
     <script src="modules/TemplateRenderer/BuildSimple/TemplateRenderer.js"></script>
 
+  
+    <script src="modules/Tree/BuildSimple/ArrayOrObjectPackage.js"></script>
+
     <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
     <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
+    
+    <script src="modules/Tree/BuildSimple/TreeAdapter.js"></script>
+    <script src="modules/Tree/BuildSimple/TreeAdapterModeEase.js"></script>
+    <script src="modules/Tree/BuildSimple/TreeAdapterModeMetadata.js"></script>
+
     <script src="modules/Tree/BuildSimple/Tree.js"></script>
 
     <script>
@@ -143,7 +151,7 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder_SubtreeArrayOfObjects")
           .setNodesWithIcons(true)
-          .setNodesAllOpened(true)
+          .setNodesAllOpened(false)
           .setModifiable(false)
           .setRenderingMode(TreeConstants.RenderingMode.Metadata)
           .addJSTreeEventListener (
@@ -151,8 +159,8 @@
             (evt) => {
               console.log(evt);
             }
-          )
-          .render(treeJson_SubtreeArrayOfObjects);
+          );
+          //.render(treeJson_SubtreeArrayOfObjects);
 
 
         // minimum setters amount required

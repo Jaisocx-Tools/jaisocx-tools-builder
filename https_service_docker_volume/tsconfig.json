@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES6",               // Output JavaScript version
-    "module": "ESNext",            // Use the ES module system
-    "outDir": "./dist",            // Specify the output directory for compiled files
-    "rootDir": "./src",            // Set the root directory for your source code
+    "module": "CommonJS",            // Use the ES module system
+    "rootDir": "./src",
+    "outDir": "build",
     "declaration": true,           // Generate .d.ts files for TypeScript modules
     "esModuleInterop": true,       // Ensures compatibility with CommonJS modules
     "strict": true,                // Enable all strict type-checking options
@@ -12,6 +12,6 @@
     "skipLibCheck": true,          // Skip library type checking for faster compilation
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "build", "buildESNext", "BuildSimple"]
 }

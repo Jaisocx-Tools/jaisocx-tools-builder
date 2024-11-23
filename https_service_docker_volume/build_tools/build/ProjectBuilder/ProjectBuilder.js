@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProjectBuilder = void 0;
 const child_process_1 = require("child_process");
@@ -128,6 +138,10 @@ class ProjectBuilder {
         console.log(`Module [ ${moduleJson.name} ]: Transpiling TypeScript code in ${modulePath}`);
         const result = (0, child_process_1.execSync)(`ls -la src`, this.getSpawnSyncPayload(modulePath));
         console.log(result);
+        try {
+            this.prettifyWithEslint(modulePath, "src/**/*.ts");
+        }
+        catch (e) { }
         const result2 = (0, child_process_1.execSync)(`tsc -p ./tsconfig.json`, this.getSpawnSyncPayload(modulePath));
         console.log(result2);
         const result3 = (0, child_process_1.execSync)(`tsc -p ./${this.buildESNextTSConfigName}`, this.getSpawnSyncPayload(modulePath));
@@ -216,6 +230,10 @@ class ProjectBuilder {
     // prettifying .js
     lintSimpleBuild(eslintConfigCatalogPath, pathToEslint) {
         (0, child_process_1.execSync)(`npx eslint ${pathToEslint} --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
+    }
+    prettifyWithEslint(eslintConfigCatalogPath, pathToEslint) {
+        const result = (0, child_process_1.execSync)(`npx eslint ${pathToEslint} --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
+        //console.log(result);
     }
 }
 exports.ProjectBuilder = ProjectBuilder;

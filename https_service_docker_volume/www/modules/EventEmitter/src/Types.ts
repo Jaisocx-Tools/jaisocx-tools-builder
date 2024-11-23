@@ -10,4 +10,3 @@ export interface EventEmitResult {
   payload: any;
   result: any;
 }
-

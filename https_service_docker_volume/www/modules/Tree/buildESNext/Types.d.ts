@@ -53,14 +53,7 @@ export interface ITreeEventsNames {
 }
 export interface ITreeAdapter {
     getSubtreeNodeToRender(loopPropertyValue: any, loopPropertyKey: any): any;
-    checkDataNodeSubtree(node: any): {
-        isArray: number;
-        subtreeNodeDataType: number;
-        subtreeNodeDataTypeString: string;
-        hasSubtree: boolean;
-        subtreeJsonNodes: any;
-    };
-    getDataForRendering(node: any, dataTypeString: string, nodeHasSubtree: boolean): IRenderTemplateRendererData;
+    getDataForRendering(node: any, flatNodeClone: any, dataTypeString: string, nodeHasSubtree: boolean): IRenderTemplateRendererData;
     getTreeNodeCssClasses__dataTypesCssClassesEnabled(dataType: string, node: any): string;
     getTreeNodeCssClasses__dataTypesCssClassesDisabled(dataType: string, node: any): string;
 }

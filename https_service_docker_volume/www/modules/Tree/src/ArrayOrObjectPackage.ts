@@ -9,9 +9,7 @@ export interface IJsonDataType {
   [key: string]: number;
 }
 
-
 export class ArrayOrObjectPackage {
-
   static readonly JsonDataType: IJsonDataType = {
     ARRAY: 1,
     OBJECT: 2,
@@ -19,20 +17,20 @@ export class ArrayOrObjectPackage {
     NUMBER: 4,
     BOOLEAN: 5,
     NO_SUBTREE: 6,
-  }
+  };
 
   public static getDataTypeStringAndConst(value: any): { dataTypeString: string, dataType: number } {
-    const dataTypeString: string = Array.isArray(value) ? 'array' : (typeof value);
+    const dataTypeString: string = Array.isArray(value) ? "array" : (typeof value);
     const dataType: number = ArrayOrObjectPackage.JsonDataType[dataTypeString.toUpperCase()];
 
     return {
       dataTypeString,
-      dataType
+      dataType,
     };
   }
 
   public static getDataType(value: any): number {
-    const dataTypeString: string = Array.isArray(value) ? 'array' : (typeof value);
+    const dataTypeString: string = Array.isArray(value) ? "array" : (typeof value);
     const dataType: number = ArrayOrObjectPackage.JsonDataType[dataTypeString.toUpperCase()];
 
     return dataType;
@@ -40,7 +38,7 @@ export class ArrayOrObjectPackage {
 
   public static getArrayOrObjectItemsAmount(
     isArray: number,
-    arrayOrObject: any
+    arrayOrObject: any,
   ): {itemsAmount: number, objectKeys: string[]|null} {
     let itemsAmount: number = 0;
     let objectKeys: string[]|null = null;
@@ -53,8 +51,8 @@ export class ArrayOrObjectPackage {
     }
 
     return {
-      itemsAmount, 
-      objectKeys
+      itemsAmount,
+      objectKeys,
     };
   }
 
@@ -63,15 +61,15 @@ export class ArrayOrObjectPackage {
     arrayOrObject: any,
     callback: CallableFunction,
     callbackPayload: any,
-    objectKeys: string[]|null
+    objectKeys: string[]|null,
   ): any {
-    const isArray: number = (( dataType === ArrayOrObjectPackage.JsonDataType.ARRAY ) ? 1 : 0);
+    const isArray: number = ((dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
     const callbackResult: any = ArrayOrObjectPackage.iterateOverArrayOrObjectDefined(
       isArray,
       arrayOrObject,
       callback,
       callbackPayload,
-      objectKeys
+      objectKeys,
     );
 
     return callbackResult;
@@ -82,7 +80,7 @@ export class ArrayOrObjectPackage {
     arrayOrObject: any,
     callback: CallableFunction,
     callbackPayload: any,
-    objectKeys: string[]|null
+    objectKeys: string[]|null,
   ): any {
     // expects isArray = 1 true
 
@@ -91,7 +89,7 @@ export class ArrayOrObjectPackage {
 
     let subtreeNodesKeys: string[] = [];
     let subtreeNodesValues: any[] = [];
-    let loopPropertyName: string = '';
+    let loopPropertyName: string = "";
     let loopPropertyValue: any = {};
 
     let arrayOrObjectItemsAmount: number = 1;
@@ -100,31 +98,27 @@ export class ArrayOrObjectPackage {
 
     if (isArray === 1) {
       // subtree type is array
-      
-      loopPropertyName = '';
-      arrayOrObjectItemsAmount = arrayOrObject.length;
-      for ( loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++ ) {
 
+      loopPropertyName = "";
+      arrayOrObjectItemsAmount = arrayOrObject.length;
+      for (loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++) {
         arrayElement = arrayOrObject[loopCounter];
 
         callbackResult = callback(isArray, loopCounter, arrayElement, loopCounter, arrayOrObject, callbackResult, callbackPayload);
       }
-
     } else {
       // subtree type is object
 
-      subtreeNodesKeys = ( objectKeys !== null ) ? objectKeys : Object.keys(arrayOrObject);
+      subtreeNodesKeys = (objectKeys !== null) ? objectKeys : Object.keys(arrayOrObject);
       subtreeNodesValues = Object.values(arrayOrObject);
 
       arrayOrObjectItemsAmount = subtreeNodesKeys.length;
-      for ( loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++ ) {
-
-        loopPropertyName  = subtreeNodesKeys[loopCounter];
+      for (loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++) {
+        loopPropertyName = subtreeNodesKeys[loopCounter];
         loopPropertyValue = subtreeNodesValues[loopCounter];
 
         callbackResult = callback(isArray, loopCounter, loopPropertyValue, loopPropertyName, arrayOrObject, callbackResult, callbackPayload);
       }
-
     }
 
     return callbackResult;

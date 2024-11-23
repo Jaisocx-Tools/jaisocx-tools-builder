@@ -1,14 +1,14 @@
 export class ArrayOrObjectPackage {
     static getDataTypeStringAndConst(value) {
-        const dataTypeString = Array.isArray(value) ? 'array' : (typeof value);
+        const dataTypeString = Array.isArray(value) ? "array" : (typeof value);
         const dataType = ArrayOrObjectPackage.JsonDataType[dataTypeString.toUpperCase()];
         return {
             dataTypeString,
-            dataType
+            dataType,
         };
     }
     static getDataType(value) {
-        const dataTypeString = Array.isArray(value) ? 'array' : (typeof value);
+        const dataTypeString = Array.isArray(value) ? "array" : (typeof value);
         const dataType = ArrayOrObjectPackage.JsonDataType[dataTypeString.toUpperCase()];
         return dataType;
     }
@@ -24,7 +24,7 @@ export class ArrayOrObjectPackage {
         }
         return {
             itemsAmount,
-            objectKeys
+            objectKeys,
         };
     }
     static iterateOverArrayOrObject(dataType, arrayOrObject, callback, callbackPayload, objectKeys) {
@@ -38,13 +38,13 @@ export class ArrayOrObjectPackage {
         let arrayElement = {};
         let subtreeNodesKeys = [];
         let subtreeNodesValues = [];
-        let loopPropertyName = '';
+        let loopPropertyName = "";
         let loopPropertyValue = {};
         let arrayOrObjectItemsAmount = 1;
         let callbackResult = null;
         if (isArray === 1) {
             // subtree type is array
-            loopPropertyName = '';
+            loopPropertyName = "";
             arrayOrObjectItemsAmount = arrayOrObject.length;
             for (loopCounter = 0; loopCounter < arrayOrObjectItemsAmount; loopCounter++) {
                 arrayElement = arrayOrObject[loopCounter];

@@ -1,19 +1,19 @@
-import { EventEmitter, EventEmitResult, EventHandlerReturnValue } from '@jaisocx/event-emitter';
-
+import { EventEmitter, EventEmitResult, EventHandlerReturnValue } from "@jaisocx/event-emitter";
 
 export class TemplateRenderer extends EventEmitter {
   EVENT_NAME__AFTER_RENDER: string;
 
-  data: Object;
+  data: object;
+
   template: string;
-  
+
   constructor() {
-      super();
+    super();
 
-      this.EVENT_NAME__AFTER_RENDER = 'afterRender';
+    this.EVENT_NAME__AFTER_RENDER = "afterRender";
 
-      this.data = {};
-      this.template = '';
+    this.data = {};
+    this.template = "";
   }
 
   setDebug(debug: boolean): TemplateRenderer {
@@ -21,65 +21,63 @@ export class TemplateRenderer extends EventEmitter {
     return this;
   }
 
-  setData(data: Object): TemplateRenderer {
-      this.data = data;
-      return this;
+  setData(data: object): TemplateRenderer {
+    this.data = data;
+    return this;
   }
+
   setTemplate(template: string): TemplateRenderer {
-      this.template = template;
-      return this;
+    this.template = template;
+    return this;
   }
 
   render(): string {
-      let renderedHtml = this.replaceTemplateRendererWithDataForRendering (
-          this.template,
-          this.data
-      );
+    let renderedHtml = this.replaceTemplateRendererWithDataForRendering(
+      this.template,
+      this.data,
+    );
+
+    if (this.debug) {
+      console.log("renderedHtml before afterRender event emitted", renderedHtml);
+    }
+
+    const eventResult: EventEmitResult[] = this.emitEvent(
+      this.EVENT_NAME__AFTER_RENDER,
+      {
+        html: renderedHtml,
+        data: this.data,
+      },
+    );
+
+    if (eventResult.length > 0) {
+      const last: number = eventResult.length - 1;
+      renderedHtml = eventResult[last].result.payloadReturned.html;
 
       if (this.debug) {
-          console.log('renderedHtml before afterRender event emitted', renderedHtml);
+        console.log("renderedHtml before afterRender event emitted", eventResult, renderedHtml);
       }
+    } else if (this.debug) {
+      console.log("afterRender event did not change html");
+    }
 
-      const eventResult: EventEmitResult[] = this.emitEvent (
-          this.EVENT_NAME__AFTER_RENDER,
-          {
-              html: renderedHtml,
-              data: this.data
-          }
-      );
-
-      if (eventResult.length > 0) {
-          const last: number = eventResult.length - 1;
-          renderedHtml = eventResult[last].result.payloadReturned.html;
-
-          if (this.debug) {
-              console.log('renderedHtml before afterRender event emitted', eventResult, renderedHtml);
-          }
-      } else {
-          if (this.debug) {
-              console.log('afterRender event did not change html');
-          }
-      }
-
-      return renderedHtml;
+    return renderedHtml;
   }
 
-  replaceTemplateRendererWithDataForRendering(template: string, dataForRendering: Object): string {
-      let renderedHtml = template;
+  replaceTemplateRendererWithDataForRendering(template: string, dataForRendering: object): string {
+    let renderedHtml = template;
 
-      for (let placeholderName in dataForRendering) {
-          
-          const stringToReplace = `{{ ${placeholderName} }}`;
-          
-          // @ts-ignore
-          let valueToSet = dataForRendering[placeholderName];
-          if (!valueToSet) {
-              valueToSet = '';
-          }
+    for (const placeholderName in dataForRendering) {
+      const stringToReplace = `{{ ${placeholderName} }}`;
 
-          renderedHtml = renderedHtml.replace(stringToReplace, valueToSet);
+      // @ts-ignore
+      let valueToSet = dataForRendering[placeholderName];
+      if (!valueToSet) {
+        valueToSet = "";
       }
 
-      return renderedHtml;
+      renderedHtml = renderedHtml.replace(stringToReplace, valueToSet);
+    }
+
+    return renderedHtml;
   }
 }

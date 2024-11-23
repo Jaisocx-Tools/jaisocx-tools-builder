@@ -5,7 +5,7 @@ class EventEmitter {
     constructor() {
         this.eventsHandlersSetThisClass = {};
         this.debug = true;
-        this.EventArtJSEvent = 'JSEvent';
+        this.EventArtJSEvent = "JSEvent";
     }
     setDebug(toDebug) {
         this.debug = toDebug;
@@ -17,7 +17,7 @@ class EventEmitter {
             return true;
         }
         // Check if the object is an actual object and not another type
-        if (typeof obj !== 'object') {
+        if (typeof obj !== "object") {
             return false;
         }
         // Check if the object has any own properties
@@ -43,7 +43,7 @@ class EventEmitter {
     emitEvent(eventName, payload) {
         const results = [];
         if (this.debug) {
-            console.log('event emitted', eventName);
+            console.log("event emitted", eventName);
         }
         if (this.isObjectEmpty(this.eventsHandlersSetThisClass)) {
             return results;
@@ -51,24 +51,24 @@ class EventEmitter {
         const eventHandlers = this.eventsHandlersSetThisClass[eventName];
         if (!eventHandlers || eventHandlers.length === 0) {
             if (this.debug) {
-                console.log('no event handler for this event', eventName);
+                console.log("no event handler for this event", eventName);
             }
             return results;
         }
-        for (let eventHandler of eventHandlers) {
+        for (const eventHandler of eventHandlers) {
             if (this.debug) {
-                console.log('got event handler', eventName);
+                console.log("got event handler", eventName);
             }
-            if (!eventHandler || typeof eventHandler !== 'function') {
+            if (!eventHandler || typeof eventHandler !== "function") {
                 if (this.debug) {
-                    console.log('event handler is not a function', eventName, eventHandler);
+                    console.log("event handler is not a function", eventName, eventHandler);
                 }
                 continue;
             }
             if (this.debug) {
-                console.log('calling event handler', eventName, eventHandler);
+                console.log("calling event handler", eventName, eventHandler);
             }
-            let result = eventHandler.call(this, payload);
+            const result = eventHandler.call(this, payload);
             const thisClass = this;
             results.push((new class {
                 constructor() {
@@ -78,7 +78,7 @@ class EventEmitter {
                     this.payload = payload;
                     this.result = result;
                 }
-            }));
+            }()));
             if (result && result.payloadReturned) {
                 // @ts-ignore
                 payload = result.payloadReturned;

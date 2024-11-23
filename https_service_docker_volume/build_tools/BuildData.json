@@ -45,6 +45,7 @@
         "Tree.js",
         "TreeMetadata.js",
         "TreeConstants.js",
+        "TreeAdapter.js",
         "TreeAdapterModeMetadata.js",
         "TreeAdapterModeEase.js",
         "ArrayOrObjectPackage.js"
@@ -53,7 +54,7 @@
     {
       "path": "examples/ExampleTemplateRenderer",
       "name": "example-template-renderer",
-      "build": true,
+      "build": false,
       "build-simple-enable": true,
       "dependencies": [
         {

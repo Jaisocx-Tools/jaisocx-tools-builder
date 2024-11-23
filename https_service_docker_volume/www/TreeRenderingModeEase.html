@@ -16,10 +16,12 @@
 
     <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
     <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
-    <script src="modules/Tree/BuildSimple/Tree.js"></script>
 
+    <script src="modules/Tree/BuildSimple/TreeAdapter.js"></script>
     <script src="modules/Tree/BuildSimple/TreeAdapterModeEase.js"></script>
     <script src="modules/Tree/BuildSimple/TreeAdapterModeMetadata.js"></script>
+
+    <script src="modules/Tree/BuildSimple/Tree.js"></script>
 
     <script>
     const treeJson = [
@@ -162,8 +164,8 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setNodesWithIcons(true)
-          .setNodesAllOpened(false)
-          .setModifiable(false)
+          .setNodesAllOpened(true)
+          .setModifiable(true)
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
           .addJSTreeEventListener (
             TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_LABEL__CLICK,
@@ -177,6 +179,7 @@
         const treeCustomTheme = new Tree();
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
+          .setNodesAllOpened(true)
           .render(treeJson);        
       });
     </script>

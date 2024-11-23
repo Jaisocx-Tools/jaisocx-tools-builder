@@ -12,13 +12,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.13.0",
-    "@typescript-eslint/parser": "^8.13.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-jaisocx": "file:build_tools/src/EslintPlugins/EslintPluginJaisocxJS",
     "eslint-plugin-json-format": "^2.0.1"
   }
 }
-
-

@@ -26,7 +26,7 @@
         {
             "path": "examples/ExampleTemplateRenderer",
             "name": "example-template",
-            "build": true,
+            "build": false,
             "dependencies": [
                 {
                     "name": "@jaisocx/event-emitter",
