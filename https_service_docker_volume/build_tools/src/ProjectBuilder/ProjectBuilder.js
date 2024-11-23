@@ -1,33 +1,7 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProjectBuilder = void 0;
-const child_process_1 = require("child_process");
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
-class ProjectBuilder {
+import { execSync } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+export class ProjectBuilder {
     constructor() {
         this.isLocalDevelopment = 1;
         this.absolutePathToProjectRoot = '';
@@ -126,17 +100,17 @@ class ProjectBuilder {
         this.installModuleDependencies(moduleJson, modulePath);
         // transpile .ts
         console.log(`Module [ ${moduleJson.name} ]: Transpiling TypeScript code in ${modulePath}`);
-        const result = (0, child_process_1.execSync)(`ls -la src`, this.getSpawnSyncPayload(modulePath));
+        const result = execSync(`ls -la src`, this.getSpawnSyncPayload(modulePath));
         console.log(result);
         this.prettifyWithEslint(this.absolutePathToProjectRoot, `"${modulePath}/src/**/*.ts"`);
-        const result2 = (0, child_process_1.execSync)(`tsc -p ./tsconfig.json`, this.getSpawnSyncPayload(modulePath));
+        const result2 = execSync(`tsc -p ./tsconfig.json`, this.getSpawnSyncPayload(modulePath));
         console.log(result2);
-        const result3 = (0, child_process_1.execSync)(`tsc -p "${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}"`, this.getSpawnSyncPayload(this.absolutePathToProjectRoot));
+        const result3 = execSync(`tsc -p "${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}"`, this.getSpawnSyncPayload(this.absolutePathToProjectRoot));
         console.log(result3);
         // link this module for usage in local development in other .ts files
         if (this.getIsLocalDevelopment()) {
             console.log(`Module [ ${moduleJson.name} ]: npm link module ${moduleJson.name} for local usage with other`);
-            (0, child_process_1.execSync)('npm link', this.getSpawnSyncPayload(modulePath));
+            execSync('npm link', this.getSpawnSyncPayload(modulePath));
         }
         // building simple .js files to use in example.hml via <script src="...js"
         console.log(`Module [ ${moduleJson.name} ]: building simple .js for usage in .html in script tag as src`);
@@ -154,13 +128,13 @@ class ProjectBuilder {
                 for (localDependency of dependencies) {
                     dependencyCatalogPath = this.absolutePathFromRootWww + '/' + localDependency.path;
                     console.log(`cd && npm link in catalog: [ ${dependencyCatalogPath} ]`);
-                    (0, child_process_1.execSync)(`cd "${dependencyCatalogPath}" && npm link`, this.getSpawnSyncPayload(dependencyCatalogPath));
+                    execSync(`cd "${dependencyCatalogPath}" && npm link`, this.getSpawnSyncPayload(dependencyCatalogPath));
                     localDependenciesNames.push(localDependency.name);
                 }
                 const modulesToLinkJoined = localDependenciesNames.join(" ");
                 const npmLinkCommand = `cd "${modulePath}" && npm link ${modulesToLinkJoined}`;
                 console.log(`${npmLinkCommand}`);
-                (0, child_process_1.execSync)(npmLinkCommand, this.getSpawnSyncPayload(modulePath));
+                execSync(npmLinkCommand, this.getSpawnSyncPayload(modulePath));
             }
             else {
                 console.log(`Module [ ${moduleJson.name} ]: npm install from npm registry`);
@@ -214,7 +188,7 @@ class ProjectBuilder {
     prettifyWithEslint(eslintConfigCatalogPath, pathToFileToPrettify) {
         let result = null;
         try {
-            result = (0, child_process_1.execSync)(`npx eslint "${pathToFileToPrettify}" --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
+            result = execSync(`npx eslint "${pathToFileToPrettify}" --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
         }
         catch (e) {
             result = e;
@@ -222,4 +196,3 @@ class ProjectBuilder {
         return result;
     }
 }
-exports.ProjectBuilder = ProjectBuilder;

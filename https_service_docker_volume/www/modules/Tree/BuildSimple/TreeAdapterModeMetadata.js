@@ -38,7 +38,7 @@ class TreeAdapterModeMetadata extends TreeAdapter {
       iconShowClassName: (this.nodesWithIcons || node[this.metadata.NODE_ICON__SRC]) ? "icon-show" : "icon-hide",
       labelText: node[this.metadata.NODE_LABEL__TEXT],
       hyperlink: (_a = node[this.metadata.NODE__HYPERLINK]) !== null && _a !== void 0 ? _a : "javascript: void(0);",
-      hasSubtree
+      hasSubtree,
     };
 
     return dataForRendering;
@@ -55,7 +55,7 @@ class TreeAdapterModeMetadata extends TreeAdapter {
       (" "),
       (TreeConstants.TreeCssClassNames.PREFIX__CLASS_DATATYPE),
       (dataTypeString),
-      ("\"")
+      ("\""),
     ];
     const cssClasses = cssClassesArray.join("");
 
@@ -70,7 +70,7 @@ class TreeAdapterModeMetadata extends TreeAdapter {
     const cssClassesArray = [
       ("class=\""),
       (cssClassesNodeValue),
-      ("\"")
+      ("\""),
     ];
     const cssClasses = cssClassesArray.join("");
 

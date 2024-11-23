@@ -1,4 +1,4 @@
-import dataJson from './../../BuildData.json';
+//import dataJson from './../../BuildData.json';
 import { ProjectBuilder } from './ProjectBuilder';
 
 const args = process.argv.slice(2); // Get command-line arguments starting from index 2
@@ -7,6 +7,9 @@ let projectRoot = '';
 if (key === '--projectRoot') {
   projectRoot = value.replace(/(^"|"$)/g, ''); // Remove quotes if any
 }
+
+const dataJson: any = require(projectRoot + '/BuildData.json');
+
 
 const builder = new ProjectBuilder();
 builder

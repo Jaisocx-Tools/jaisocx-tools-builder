@@ -2,7 +2,7 @@ class TreeConstants {
 }
 TreeConstants.RenderingMode = {
   Ease: 1,
-  Metadata: 2
+  Metadata: 2,
 };
 TreeConstants.TreeCssClassNames = {
   MAIN_CLASS_NAME: "tree",
@@ -17,12 +17,12 @@ TreeConstants.TreeCssClassNames = {
   CLASS_DATATYPE_STRING: "holder-datatype--string",
   CLASS_DATATYPE_NUMBER: "holder-datatype--number",
   CLASS_DATATYPE_BOOLEAN: "holder-datatype--boolean",
-  PREFIX__CLASS_DATATYPE: "holder-datatype--"
+  PREFIX__CLASS_DATATYPE: "holder-datatype--",
 };
 TreeConstants.TreeEventsNames = {
   EVENT_NAME__AFTER_RENDER_ONE_NODE: "afterRenderOneNode",
   EVENT_NAME__TREE_NODE_EXPAND_BUTTON__CLICK: "openButtonClick",
-  EVENT_NAME__TREE_NODE_LABEL__CLICK: "treeNodeLabelClick"
+  EVENT_NAME__TREE_NODE_LABEL__CLICK: "treeNodeLabelClick",
 };
 TreeConstants.TEMPLATE__TREE_HTML_NODE = `
 <li 
@@ -55,5 +55,5 @@ TreeConstants.Defaults = {
   nodesWithIcons: true,
   nodesAllOpened: false,
   isModifiable: false,
-  dataTypesCssClassesEnabled: true
+  dataTypesCssClassesEnabled: true,
 };

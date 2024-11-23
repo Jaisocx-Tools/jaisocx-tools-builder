@@ -53,8 +53,6 @@ module.exports = {
     ) {
       const lines = linesRequired + 1; // for dev purposes as arg, 1 means 1 empty line between, however when the next block starts on a new line, there is already 1 \n
       const before = sourceCode.getTokenBefore(node);
-      console.log("node", node);
-      console.log("before", before);
       if (!before) {
         return;
       }

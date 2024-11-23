@@ -14,7 +14,7 @@
     {
       "path": "modules/TemplateRenderer",
       "name": "template-renderer",
-      "build": true,
+      "build": false,
       "build-simple-enable": true,
       "dependencies": [
         {
@@ -29,7 +29,7 @@
     {
       "path": "modules/Tree",
       "name": "tree",
-      "build": true,
+      "build": false,
       "build-simple-enable": true,
       "dependencies": [
         {

@@ -131,9 +131,14 @@ export class EventEmitter {
 
         result: any = result;
       }()));
-      if (result && result.payloadReturned) {
+
+               if (result && result.payloadReturned) {
         // @ts-ignore
-        payload = result.payloadReturned;
+        
+        
+        
+   payload = result.payloadReturned;
+      
       }
     }
 

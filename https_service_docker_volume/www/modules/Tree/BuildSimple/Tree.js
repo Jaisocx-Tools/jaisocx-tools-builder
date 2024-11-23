@@ -192,7 +192,7 @@ class Tree extends LargeDomEventEmitter {
       throw new Error("Arrays or Objects supported. This JSON Data is not iterable.");
     }
     // get info on subtree nodes amount
-    const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
+    const { itemsAmount, objectKeys, } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
       isArray,
       this.data
     );
@@ -202,7 +202,7 @@ class Tree extends LargeDomEventEmitter {
       throw new Error("Tree json data is empty.");
     }
 
-    const flatNodeHolderClone = { _pathArray: ["this.data"] };
+    const flatNodeHolderClone = { _pathArray: ["this.data",], };
     let subtreeRenderResult;
 
     if (this.renderingMode === TreeConstants.RenderingMode.Metadata) {
@@ -226,10 +226,10 @@ class Tree extends LargeDomEventEmitter {
             this.data,
             0,
             "Top",
-            { _pathArray: ["this.data"] },
+            { _pathArray: ["this.data",], },
             ul
           );
-          const { currentNodeSubtreeLength } = renderResult;
+          const { currentNodeSubtreeLength, } = renderResult;
           this.data = renderResult.node;
           // @ts-ignore
           this.subtreeLength = subtreeNodesCount;
@@ -252,13 +252,13 @@ class Tree extends LargeDomEventEmitter {
       }
     } else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
       const renderResult = this.renderOneTreeNode(
-        { "Json Root": this.data },
+        { "Json Root": this.data, },
         0,
         "Top",
-        { _pathArray: ["this.data"] },
+        { _pathArray: ["this.data",], },
         ul
       );
-      const { currentNodeSubtreeLength } = renderResult;
+      const { currentNodeSubtreeLength, } = renderResult;
       // this.data = renderResult.node[0];
       // @ts-ignore
       this.subtreeLength = subtreeNodesCount;
@@ -288,7 +288,7 @@ class Tree extends LargeDomEventEmitter {
       subtreeJsonNodes = Object.values(node)[0];
     }
 
-    const { dataTypeString, dataType } = ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
+    const { dataTypeString, dataType, } = ArrayOrObjectPackage.getDataTypeStringAndConst(subtreeJsonNodes);
     const isArray = ((dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
 
     if ((!subtreeJsonNodes)
@@ -300,11 +300,11 @@ class Tree extends LargeDomEventEmitter {
         subtreeNodeDataTypeString: dataTypeString,
         hasSubtree,
         subtreeJsonNodes,
-        objectKeys: null
+        objectKeys: null,
       };
     }
 
-    const { itemsAmount, objectKeys } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
+    const { itemsAmount, objectKeys, } = ArrayOrObjectPackage.getArrayOrObjectItemsAmount(
       isArray,
       subtreeJsonNodes
     );
@@ -316,7 +316,7 @@ class Tree extends LargeDomEventEmitter {
       subtreeNodeDataTypeString: dataTypeString,
       hasSubtree,
       subtreeJsonNodes,
-      objectKeys
+      objectKeys,
     };
   }
 
@@ -333,7 +333,7 @@ class Tree extends LargeDomEventEmitter {
       this.renderSubtreeCallback.bind(this),
       {
         subtreeHtmlHolder,
-        flatNodeHolderClone
+        flatNodeHolderClone,
       },
       objectKeys
     );
@@ -351,7 +351,7 @@ class Tree extends LargeDomEventEmitter {
     callbackPayload
   ) {
     let currentNodeSubtreeLength = (previousCallbackResult) || 0;
-    const { subtreeHtmlHolder, flatNodeHolderClone } = callbackPayload;
+    const { subtreeHtmlHolder, flatNodeHolderClone, } = callbackPayload;
     const subtreeJsonNode = this.getSubtreeNodeToRender(
       loopPropertyValue,
       loopPropertyKey
@@ -388,7 +388,7 @@ class Tree extends LargeDomEventEmitter {
       holder
     );
     const {
-      isArray, subtreeNodeDataType, subtreeNodeDataTypeString, hasSubtree, subtreeJsonNodes, objectKeys
+      isArray, subtreeNodeDataType, subtreeNodeDataTypeString, hasSubtree, subtreeJsonNodes, objectKeys,
     } = this.checkDataNodeSubtree(node);
     // TODO: EXTENSIBILITY FEATURE
     const dataForRendering = this.getDataForRendering(
@@ -417,7 +417,7 @@ class Tree extends LargeDomEventEmitter {
     const eventAfterRenderOneNodePayload = {
       eventName: TreeConstants.TreeEventsNames.EVENT_NAME__AFTER_RENDER_ONE_NODE,
       treeHtmlNode: li,
-      treeItemJson: nodeClone
+      treeItemJson: nodeClone,
     };
 
     if (!hasSubtree) {
@@ -428,7 +428,7 @@ class Tree extends LargeDomEventEmitter {
 
       return {
         currentNodeSubtreeLength: 0,
-        node: nodeClone
+        node: nodeClone,
       };
     }
 
@@ -455,7 +455,7 @@ class Tree extends LargeDomEventEmitter {
 
     return {
       currentNodeSubtreeLength: subtreeRenderResult.currentNodeSubtreeLength,
-      node: null // CHECK OUT WHETHER BOKEN WHEN NOW NULL
+      node: null, // CHECK OUT WHETHER BOKEN WHEN NOW NULL
     };
   }
 
@@ -471,7 +471,7 @@ class Tree extends LargeDomEventEmitter {
     const id = (_a = node[this.metadata.NODE__ID]) !== null && _a !== void 0 ? _a : null;
     const holderId = (_b = node[this.metadata.NODE__HOLDER_ID]) !== null && _b !== void 0 ? _b : null;
     const flatCloneHolderId = flatNodeHolderClone._flatClone ? flatNodeHolderClone._flatClone[this.metadata.NODE__ID] : null;
-    const pathInJsonOfNodeHolder = (_c = flatNodeHolderClone._pathArray) !== null && _c !== void 0 ? _c : ["ROOT-unhandled"];
+    const pathInJsonOfNodeHolder = (_c = flatNodeHolderClone._pathArray) !== null && _c !== void 0 ? _c : ["ROOT-unhandled",];
     let pathKeyInNodeHolder = JSON.stringify(nodeKey);
 
     if ((pathInJsonOfNodeHolder.length > 1) && this.renderingMode === TreeConstants.RenderingMode.Metadata) {
@@ -483,7 +483,7 @@ class Tree extends LargeDomEventEmitter {
 
     const pathInJsonArray = [
       ...pathInJsonOfNodeHolder,
-      pathKeyInNodeHolder
+      pathKeyInNodeHolder,
     ];
     const pathInJsonString = pathInJsonArray.join("");
     const flatNodeClone = {};
@@ -507,9 +507,9 @@ class Tree extends LargeDomEventEmitter {
       _key: nodeKey,
       _flatClone: flatNodeClone,
       _pathArray: pathInJsonArray,
-      _path: pathInJsonString
+      _path: pathInJsonString,
     };
-    const nodeClone = { ...technicFields };
+    const nodeClone = { ...technicFields, };
 
     return nodeClone;
   }
@@ -538,7 +538,7 @@ class Tree extends LargeDomEventEmitter {
       dataOrder: "",
       dataJson: "",
       openButtonStateClassName: "",
-      hasSubtree: true
+      hasSubtree: true,
     };
   }
 
@@ -635,7 +635,7 @@ class Tree extends LargeDomEventEmitter {
         ...eventPayload,
         jsonNode,
         treeHtmlNode,
-        treeHtmlNodeHolder: treeHtmlNode.closest("li")
+        treeHtmlNodeHolder: treeHtmlNode.closest("li"),
       }
     );
   }

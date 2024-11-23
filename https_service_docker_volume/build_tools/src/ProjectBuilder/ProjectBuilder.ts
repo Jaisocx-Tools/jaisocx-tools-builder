@@ -150,9 +150,7 @@ export class ProjectBuilder {
     );
     console.log(result);
 
-    try {
-      this.prettifyWithEslint(modulePath, "src/**/*.ts");
-    } catch (e: any) {}
+    this.prettifyWithEslint(this.absolutePathToProjectRoot, `"${modulePath}/src/**/*.ts"`);
 
     const result2: any = execSync(
       `tsc -p ./tsconfig.json`, 
@@ -161,8 +159,8 @@ export class ProjectBuilder {
     console.log(result2);
 
     const result3: any = execSync(
-      `tsc -p ./${this.buildESNextTSConfigName}`, 
-      this.getSpawnSyncPayload(modulePath)
+      `tsc -p "${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}"`, 
+      this.getSpawnSyncPayload(this.absolutePathToProjectRoot)
     );
     console.log(result3);
 
@@ -261,29 +259,36 @@ export class ProjectBuilder {
           const filePathToEslint: string = ('./' + this.buildSimpleCatalogName + '/' + fileName);
           console.log(`Module [ ${moduleJson.name} ]: Copy file [ ${fileName} ] success, catalog ${buildSimpleFilePath}!`);
 
-          try {
-            // @ts-ignore
-            this.lintSimpleBuild(modulePath, filePathToEslint);
-          } catch (e) {}
+          // @ts-ignore
+          this.prettifyWithEslint(this.absolutePathToProjectRoot, filePathToEslint);
         }).call(this);
       });
     }
   }
 
-  // prettifying .js
-  lintSimpleBuild(eslintConfigCatalogPath: string, pathToEslint: string): void {
-    execSync(
-      `npx eslint ${pathToEslint} --fix`, 
-      this.getSpawnSyncPayload(eslintConfigCatalogPath)
-    );
+  prettifyWithEslint(eslintConfigCatalogPath: string, pathToFileToPrettify: string): void {
+    let result: any = null;
+    try {
+      result = execSync(
+        `npx eslint "${pathToFileToPrettify}" --fix`, 
+        this.getSpawnSyncPayload(eslintConfigCatalogPath)
+      );
+    } catch (e: any) {
+      result = e;
+    }
+
+    return result;
   }
-  prettifyWithEslint(eslintConfigCatalogPath: string, pathToEslint: string): void {
+
+
+
+  /*prettifyWithEslint(eslintConfigCatalogPath: string, pathToEslint: string): void {
     const result: any = execSync(
       `npx eslint ${pathToEslint} --fix`, 
       this.getSpawnSyncPayload(eslintConfigCatalogPath)
     );
     //console.log(result);
-  }
+  }*/
 }
 
 

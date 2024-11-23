@@ -3,7 +3,7 @@ class TreeAdapterModeEase extends TreeAdapter {
     loopPropertyValue,
     loopPropertyKey
   ) {
-    const subtreeJsonNode = { [loopPropertyKey]: loopPropertyValue };
+    const subtreeJsonNode = { [loopPropertyKey]: loopPropertyValue, };
 
     return subtreeJsonNode;
   }
@@ -44,7 +44,7 @@ class TreeAdapterModeEase extends TreeAdapter {
       dataOrder: "",
       dataJson: this.escapeHTMLForAttribute(JSON.stringify(flatNodeClone)),
       openButtonStateClassName: openButtonClassName,
-      hasSubtree: nodeHasSubtree
+      hasSubtree: nodeHasSubtree,
     };
 
     return dataForRendering;
@@ -58,7 +58,7 @@ class TreeAdapterModeEase extends TreeAdapter {
       ("class=\""),
       (TreeConstants.TreeCssClassNames.PREFIX__CLASS_DATATYPE),
       (dataTypeString),
-      ("\"")
+      ("\""),
     ];
     const cssClasses = cssClassesArray.join("");
 

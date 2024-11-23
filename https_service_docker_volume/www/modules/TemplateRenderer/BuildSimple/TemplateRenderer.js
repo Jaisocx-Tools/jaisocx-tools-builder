@@ -41,7 +41,7 @@ class TemplateRenderer extends EventEmitter {
       this.EVENT_NAME__AFTER_RENDER,
       {
         html: renderedHtml,
-        data: this.data
+        data: this.data,
       }
     );
 

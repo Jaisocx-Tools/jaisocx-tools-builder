@@ -5,7 +5,7 @@ class ArrayOrObjectPackage {
 
     return {
       dataTypeString,
-      dataType
+      dataType,
     };
   }
 
@@ -32,7 +32,7 @@ class ArrayOrObjectPackage {
 
     return {
       itemsAmount,
-      objectKeys
+      objectKeys,
     };
   }
 
@@ -119,5 +119,5 @@ ArrayOrObjectPackage.JsonDataType = {
   STRING: 3,
   NUMBER: 4,
   BOOLEAN: 5,
-  NO_SUBTREE: 6
+  NO_SUBTREE: 6,
 };

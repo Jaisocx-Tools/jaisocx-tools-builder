@@ -1,6 +1,10 @@
 {
   "name": "@jaisocx/event-emitter",
   "version": "1.0.1",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "./build/index.js",
   "files": [
     "build",
@@ -10,16 +14,7 @@
     "build": "tsc -p ./tsconfig.json"
   },
   "devDependencies": {
-    "typescript": "^4.x",
-    "eslint": "^8.57.1",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-jaisocx": "file:build_tools/src/EslintPlugins/EslintPluginJaisocxJS",
-    "eslint-plugin-json-format": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": ""
+    "typescript": "^4.x"
+  }
 }
+
