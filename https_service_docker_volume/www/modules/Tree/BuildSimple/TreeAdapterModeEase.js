@@ -6,6 +6,9 @@ export class TreeAdapterModeEase extends TreeAdapter {
         return subtreeJsonNode;
     }
     getDataForRendering(node, flatNodeClone, dataTypeString, nodeHasSubtree) {
+        if ( true ) {
+            const val = true;
+        }
         var _a;
         const key = Object.keys(node)[0];
         const value = (_a = node[key]) !== null && _a !== void 0 ? _a : "";

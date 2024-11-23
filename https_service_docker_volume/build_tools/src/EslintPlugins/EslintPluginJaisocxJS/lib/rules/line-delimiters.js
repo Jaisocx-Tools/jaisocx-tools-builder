@@ -39,10 +39,21 @@ module.exports = {
     function checkBlockSpacing(node, mode) {
       const lines = linesRequired + 1; // for dev purposes as arg, 1 means 1 empty line between, however when the next block starts on a new line, there is already 1 \n
       const before = sourceCode.getTokenBefore(node);
-      const after = sourceCode.getTokenAfter(node);
+      const searchKey = "Punctuator";
+      const searchValue = '{';
+      const typeBefore = before.type.substring(0, searchKey.length);
 
-      const isFirstInParent =
-        ( node.parent && node.parent.body && ( node.parent.body.length > 0 ) && ( node.parent.body[0] === node ) );
+      let isFirstInParent = false;
+      let whiteSpacesNumber = 0;
+
+      if ( ( typeBefore === searchKey ) && ( before.value === searchValue )) {
+        //console.log("__::before: ", before);
+        //console.log("__::node", node);
+        isFirstInParent = true;
+      }
+
+      //const isFirstInParent =
+      //  ( node.parent && node.parent.body && ( node.parent.body.length > 0 ) && ( node.parent.body[0] === node ) );
       const isLastInParent =
         ( node.parent && node.parent.body && ( node.parent.body.length > 0 ) && ( node.parent.body[(node.parent.body.length - 1)] === node ) );
 
@@ -54,35 +65,33 @@ module.exports = {
       let mustLinesSet = 0;
 
       if ( isFirstInParent === true ) {
-        //const closingParen = sourceCode.getTokenBefore(sourceCode.getFirstToken(node.parent.body));
-        //const openingBrace = sourceCode.getTokenAfter(closingParen);
-        //console.log("HERE: ", node.parent);
-        //return;
-        lineDiff.before = node.loc.start.line - node.parent.loc.start.line;
-        mustLinesSet = linesRequired + 1;
+        //
+        //lineDiff.before = node.loc.start.line - node.parent.loc.start.line;
+        //lineDiff.before = node.loc.start.line - before.loc.end.line;
+        //mustLinesSet = linesRequired + 2;
       } else {
         lineDiff.before = node.loc.start.line - before.loc.end.line;
         mustLinesSet = linesRequired + 1;
       }
-
-      if ( isLastInParent === true ) {
-        lineDiff.after = node.parent.loc.end.line - node.loc.end.line;
-        mustLinesSet = linesRequired + 1;
-
-      } else {
-        lineDiff.after = after.loc.start.line - node.loc.end.line;
-        mustLinesSet = linesRequired + 1;
-      }
-
-      if (lineDiff.before !== 0 && lineDiff.before !== mustLinesSet) {
-        const whiteSpacesNumber = node.loc.start.column;
+      
+      if (!isFirstInParent && lineDiff.before !== 0 && lineDiff.before !== mustLinesSet) {
         let rangeStart = 0;
 
-        if ( isFirstInParent === true ) {
-          rangeStart = node.parent.start;
-        } else {
+        /*if ( isFirstInParent === true ) {
           rangeStart = before.end;
-        }
+          whiteSpacesNumber = node.loc.start.column;
+          // workaround, since during processing, the eslint indent fix was not yet applied
+          // whiteSpacesNumber = ((node.loc.start.column / TSC_OUTPUT_INDENTATION_SIZE) * eslintConfigIdentPrefixSizeForOneLevel);
+          console.log(
+            node
+          );
+          console.log(
+            "whiteSpacesNumber:", whiteSpacesNumber
+          );
+        } else {*/
+          rangeStart = before.end;
+          whiteSpacesNumber = node.loc.start.column;
+        //}
 
         contextReport(
           node,
@@ -93,17 +102,28 @@ module.exports = {
         );
       }
       
+
+      const after = sourceCode.getTokenAfter(node);
+      /*if ( isLastInParent === true ) {
+        lineDiff.after = node.parent.loc.end.line - node.loc.end.line;
+        mustLinesSet = linesRequired + 1;
+
+      } else {*/
+        lineDiff.after = after.loc.start.line - node.loc.end.line;
+        mustLinesSet = linesRequired + 1;
+      //}
+
       if ((mode === BEFORE_AND_AFTER) && (lineDiff.after !== mustLinesSet)) {
         let whiteSpacesNumber = 0;
         let rangeEnd = 0;
 
-        if ( isLastInParent === true ) {
+        /*if ( isLastInParent === true ) {
           whiteSpacesNumber = node.parent.loc.end.column;
           rangeEnd = node.parent.end;
-        } else {
+        } else {*/
           whiteSpacesNumber = after.loc.start.column;
           rangeEnd = after.start;
-        }
+        //}
 
         contextReport(
           node,
