@@ -57,3 +57,4 @@ export interface ITreeAdapter {
     getTreeNodeCssClasses__dataTypesCssClassesEnabled(dataType: string, node: any): string;
     getTreeNodeCssClasses__dataTypesCssClassesDisabled(dataType: string, node: any): string;
 }
+//# sourceMappingURL=Types.d.ts.map

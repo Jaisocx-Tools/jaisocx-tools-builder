@@ -4,7 +4,7 @@
     {
       "path": "modules/EventEmitter",
       "name": "event-emitter",
-      "build": true,
+      "build": false,
       "build-simple-enable": true,
       "build-files": [
         "EventEmitter.js",
@@ -29,7 +29,7 @@
     {
       "path": "modules/Tree",
       "name": "tree",
-      "build": false,
+      "build": true,
       "build-simple-enable": true,
       "dependencies": [
         {

@@ -21,3 +21,4 @@ export declare class ArrayOrObjectPackage {
     static iterateOverArrayOrObject(dataType: number, arrayOrObject: any, callback: CallableFunction, callbackPayload: any, objectKeys: string[] | null): any;
     static iterateOverArrayOrObjectDefined(isArray: number, arrayOrObject: any, callback: CallableFunction, callbackPayload: any, objectKeys: string[] | null): any;
 }
+//# sourceMappingURL=ArrayOrObjectPackage.d.ts.map

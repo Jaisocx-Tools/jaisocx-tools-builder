@@ -10,3 +10,4 @@ export declare class TemplateRenderer extends EventEmitter {
     render(): string;
     replaceTemplateRendererWithDataForRendering(template: string, dataForRendering: object): string;
 }
+//# sourceMappingURL=TemplateRenderer.d.ts.map

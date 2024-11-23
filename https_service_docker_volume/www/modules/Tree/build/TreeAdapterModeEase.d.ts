@@ -8,3 +8,4 @@ export declare class TreeAdapterModeEase extends TreeAdapter implements ITreeAda
     escapeHTMLForAttribute(arg: string): string;
     getTreeNodeCssClasses(dataTypeString: string, value: any): string;
 }
+//# sourceMappingURL=TreeAdapterModeEase.d.ts.map

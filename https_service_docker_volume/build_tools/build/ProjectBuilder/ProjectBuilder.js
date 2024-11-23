@@ -126,17 +126,19 @@ class ProjectBuilder {
         this.installModuleDependencies(moduleJson, modulePath);
         // transpile .ts
         console.log(`Module [ ${moduleJson.name} ]: Transpiling TypeScript code in ${modulePath}`);
-        const result = (0, child_process_1.execSync)(`ls -la src`, this.getSpawnSyncPayload(modulePath));
-        console.log(result);
-        this.prettifyWithEslint(this.absolutePathToProjectRoot, `"${modulePath}/src/**/*.ts"`);
-        const result2 = (0, child_process_1.execSync)(`tsc -p ./tsconfig.json`, this.getSpawnSyncPayload(modulePath));
-        console.log(result2);
-        const result3 = (0, child_process_1.execSync)(`tsc -p "${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}"`, this.getSpawnSyncPayload(this.absolutePathToProjectRoot));
-        console.log(result3);
+        this.runCommandLine(modulePath, `ls -lahrts src`, true);
+        this.prettifyWithEslint(this.absolutePathToProjectRoot, `${modulePath}/src/**/*.ts`, false);
+        // transpiling to standard .js build,
+        // using local module environment and tsconfig.json
+        this.transpileTypeScriptSources(modulePath, "tsconfig.json", true);
+        // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
+        // using local module environment, however tsconfig.ESNext.json is used from project root.
+        const tsconfigPath = `${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}`;
+        this.transpileTypescriptSourcesWithPath(modulePath, tsconfigPath);
         // link this module for usage in local development in other .ts files
         if (this.getIsLocalDevelopment()) {
             console.log(`Module [ ${moduleJson.name} ]: npm link module ${moduleJson.name} for local usage with other`);
-            (0, child_process_1.execSync)('npm link', this.getSpawnSyncPayload(modulePath));
+            this.runCommandLine(modulePath, `npm link`, false);
         }
         // building simple .js files to use in example.hml via <script src="...js"
         console.log(`Module [ ${moduleJson.name} ]: building simple .js for usage in .html in script tag as src`);
@@ -154,13 +156,13 @@ class ProjectBuilder {
                 for (localDependency of dependencies) {
                     dependencyCatalogPath = this.absolutePathFromRootWww + '/' + localDependency.path;
                     console.log(`cd && npm link in catalog: [ ${dependencyCatalogPath} ]`);
-                    (0, child_process_1.execSync)(`cd "${dependencyCatalogPath}" && npm link`, this.getSpawnSyncPayload(dependencyCatalogPath));
+                    this.runCommandLine(dependencyCatalogPath, `cd "${dependencyCatalogPath}" && npm link`, false);
                     localDependenciesNames.push(localDependency.name);
                 }
                 const modulesToLinkJoined = localDependenciesNames.join(" ");
                 const npmLinkCommand = `cd "${modulePath}" && npm link ${modulesToLinkJoined}`;
                 console.log(`${npmLinkCommand}`);
-                (0, child_process_1.execSync)(npmLinkCommand, this.getSpawnSyncPayload(modulePath));
+                this.runCommandLine(modulePath, npmLinkCommand, false);
             }
             else {
                 console.log(`Module [ ${moduleJson.name} ]: npm install from npm registry`);
@@ -193,31 +195,68 @@ class ProjectBuilder {
             const buildFilePath = buildCatalogPath + '/' + buildFileName;
             const buildSimpleFilePath = buildSimpleCatalogPath + '/' + buildFileName;
             if (false === fs.existsSync(buildSimpleCatalogPath)) {
-                fs.mkdirSync(buildSimpleCatalogPath, { recursive: true });
+                this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
+                //fs.mkdirSync(buildSimpleCatalogPath, {recursive: true});
             }
-            fs.copyFile(buildFilePath, buildSimpleFilePath, (err) => {
-                if (err) {
-                    console.error(`Module [ ${moduleJson.name} ]: Error copying file:`, err);
-                    return;
-                }
-                (function () {
-                    const fileName = buildFileName;
-                    // @ts-ignore
-                    const filePathToEslint = ('./' + this.buildSimpleCatalogName + '/' + fileName);
-                    console.log(`Module [ ${moduleJson.name} ]: Copy file [ ${fileName} ] success, catalog ${buildSimpleFilePath}!`);
-                    // @ts-ignore
-                    this.prettifyWithEslint(this.absolutePathToProjectRoot, filePathToEslint);
-                }).call(this);
-            });
+            if (true === fs.existsSync(buildSimpleFilePath)) {
+                this.runCommandLine(modulePath, `rm "${buildSimpleFilePath}"`, false);
+            }
+            this.runCommandLine(modulePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
+            // @ts-ignore
+            this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
+            /*fs.copyFile(buildFilePath, buildSimpleFilePath, (err) => {
+              if (err) {
+                console.error(`Module [ ${moduleJson.name} ]: Error copying file:`, err);
+                return;
+              }
+      
+              (function() {
+                const fileName: string = buildFileName;
+                // @ts-ignore
+                const filePathToEslint: string = ('./' + this.buildSimpleCatalogName + '/' + fileName);
+                console.log(`Module [ ${moduleJson.name} ]: Copy file [ ${fileName} ] success, catalog ${buildSimpleFilePath}!`);
+      
+                // @ts-ignore
+                this.prettifyWithEslint(this.absolutePathToProjectRoot, filePathToEslint, false);
+              }).call(this);
+            });*/
         }
     }
-    prettifyWithEslint(eslintConfigCatalogPath, pathToFileToPrettify) {
+    transpileTypeScriptSources(tsconfigCatalogPath, tsconfigFileName, logToConsole) {
+        const consoleCommand = `tsc -p "./${tsconfigFileName}"`;
+        return this.runCommandLine(tsconfigCatalogPath, consoleCommand, logToConsole);
+    }
+    transpileTypescriptSourcesWithPath(modulePath, tsconfigPath) {
+        const tsconfig = require(tsconfigPath);
+        const compilerOptions = tsconfig["compilerOptions"];
+        const transpileOptions = [];
+        for (let compilerOptonName in compilerOptions) {
+            const compilerOptionValue = compilerOptions[compilerOptonName];
+            transpileOptions.push(`--${compilerOptonName} ${compilerOptionValue}`);
+        }
+        const filesList = fs.readdirSync(`${modulePath}/src`);
+        if (!filesList || filesList.length === 0) {
+            return null;
+        }
+        const filesListJoinedString = "src/" + filesList.join(" src/");
+        const transpileOptionsString = transpileOptions.join(" ");
+        const transpileCommand = `cd "${modulePath}" && tsc ${filesListJoinedString} ${transpileOptionsString}`;
+        return this.runCommandLine(`${modulePath}`, transpileCommand, true);
+    }
+    prettifyWithEslint(eslintConfigCatalogPath, pathToFileToPrettify, logToConsole) {
+        const consoleCommand = `npx eslint "${pathToFileToPrettify}" --fix`;
+        return this.runCommandLine(eslintConfigCatalogPath, consoleCommand, logToConsole);
+    }
+    runCommandLine(configCatalogPath, consoleCommand, logToConsole) {
         let result = null;
         try {
-            result = (0, child_process_1.execSync)(`npx eslint "${pathToFileToPrettify}" --fix`, this.getSpawnSyncPayload(eslintConfigCatalogPath));
+            result = (0, child_process_1.execSync)(consoleCommand, this.getSpawnSyncPayload(configCatalogPath));
         }
         catch (e) {
             result = e;
+        }
+        if (logToConsole === true) {
+            console.log(result);
         }
         return result;
     }

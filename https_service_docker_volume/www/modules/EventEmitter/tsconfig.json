@@ -5,6 +5,8 @@
     "rootDir": "./src",
     "outDir": "build",
     "declaration": true,           // Generate .d.ts files for TypeScript modules
+    "declarationDir": "build",
+    "declarationMap": true,
     "esModuleInterop": true,       // Ensures compatibility with CommonJS modules
     "strict": true,                // Enable all strict type-checking options
     "moduleResolution": "node",    // Use Node-style module resolution

@@ -5,6 +5,8 @@
     "rootDir": "./src",
     "outDir": "buildESNext",
     "declaration": true,
+    "declarationDir": "buildESNext",
+    "declarationMap": true,
     "esModuleInterop": true,
     "strict": true,
     "moduleResolution": "node",

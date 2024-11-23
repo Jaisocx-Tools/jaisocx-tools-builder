@@ -58,3 +58,4 @@ export declare class Tree extends LargeDomEventEmitter {
     getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
     contextMenuRender(eventPayload: any): void;
 }
+//# sourceMappingURL=Tree.d.ts.map

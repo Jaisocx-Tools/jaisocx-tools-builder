@@ -1,2 +1,2 @@
 // src/TemplateRenderer/index.ts
-export { ExampleTemplateRenderer } from './ExampleTemplateRenderer';
+export { ExampleTemplateRenderer } from "./ExampleTemplateRenderer";

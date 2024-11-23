@@ -8,3 +8,4 @@ export declare class TreeAdapterModeMetadata extends TreeAdapter implements ITre
     escapeHTMLForAttribute(arg: string): string;
     getTreeNodeCssClasses(dataTypeString: string, value: any): string;
 }
+//# sourceMappingURL=TreeAdapterModeMetadata.d.ts.map

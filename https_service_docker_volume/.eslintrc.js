@@ -1,7 +1,7 @@
 "use strict";
 
 const eslintPluginJsonFormat = require("eslint-plugin-json-format");
-const eslintPluginJaisocx = require("build_tools/src/EslintPlugins/EslintPluginJaisocxJS/eslint-plugin-jaisocx");
+const eslintPluginJaisocx = require("eslint-plugin-jaisocx");
 
 const MAX_LINE_LENGTH = 128;
 const INDENT = 2;

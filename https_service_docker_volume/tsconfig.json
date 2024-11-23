@@ -2,9 +2,11 @@
   "compilerOptions": {
     "target": "ES6",               // Output JavaScript version
     "module": "CommonJS",            // Use the ES module system
-    "rootDir": "./src",
+    "rootDir": "./www",
     "outDir": "build",
     "declaration": true,           // Generate .d.ts files for TypeScript modules
+    "declarationDir": "build",
+    "declarationMap": true,
     "esModuleInterop": true,       // Ensures compatibility with CommonJS modules
     "strict": true,                // Enable all strict type-checking options
     "moduleResolution": "node",    // Use Node-style module resolution
@@ -12,6 +14,6 @@
     "skipLibCheck": true,          // Skip library type checking for faster compilation
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["**/*.ts"],
+  "include": ["**/src/**/*.ts", "**/src/**/*.d.ts"],
   "exclude": ["node_modules", "build", "buildESNext", "BuildSimple"]
 }

@@ -6,3 +6,4 @@ export declare class TreeAdapter {
     dataTypesCssClassesEnabled: boolean;
     constructor();
 }
+//# sourceMappingURL=TreeAdapter.d.ts.map
