@@ -7,9 +7,12 @@ The Project is under development now, 2024-11-24.
 The infrastructure for building a multi submodules .ts libraries is ready to use.
 packages in `https_service_docker_volume/www/modules` catalog are ready to use, too.
 
-You can open an example .html file with "open with" => "browser",
+1. You can open an example .html file with "open with" => "browser",
 
-or if You'd like to view and develop Yor own web ui packages under an `http endpoint`, start a server with command
+2. Here in this project there is also npm commad to use an `http server` for development. [https://www.npmjs.com/package/http-server](https://www.npmjs.com/package/http-server)
+
+
+For this `http-server` here in Project already defined reference and npm script in `package.json`.
 
 open terminal and cd to `https_service_docker_volume` first.
 
