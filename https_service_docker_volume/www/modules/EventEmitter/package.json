@@ -1,11 +1,11 @@
 {
   "name": "@jaisocx/event-emitter",
-  "version": "1.0.1",
+  "version": "1.0.03",
   "description": "",
   "keywords": [],
   "license": "ISC",
   "author": "",
-  "main": "./build/index.js",
+  "main": "./build/commonjs/index.js",
   "files": [
     "build",
     "src"

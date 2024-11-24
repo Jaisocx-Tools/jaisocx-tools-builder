@@ -4,11 +4,13 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="css/tree.css" rel="stylesheet" />
-    <link href="css/fonts.css" rel="stylesheet" />
-    <link href="css/theme-funny.css" rel="stylesheet" />
+    <!-- OVERRIDING A DEFAULT THEME VARIABLES FILE WITH ANOTHER, SET IN CURRENT PROJECT, EVEN AFTER THE WEBPACK BUILD -->
+    <link href="examples/ExampleTree/build/webpack/theme-funny/theme-funny.css" rel="stylesheet" />
 
-    <script src="examples/ExampleTree/build-webpack/bundle.js"></script>
+
+    <!-- Task: to check out the css rules applied -->
+    <script src="examples/ExampleTree/build/webpack/bundle.js"></script>
+
   </head>
   <body>
 
@@ -17,7 +19,7 @@
     <h2>load by url (should work only when published at an http server)</h2>
     <div id="tree-holder"></div>
 
-    <div id="tree-holder-configured"></div>
+    <div id="tree-holder-configured" class="theme-funny"></div>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {

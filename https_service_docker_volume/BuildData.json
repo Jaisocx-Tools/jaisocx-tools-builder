@@ -4,7 +4,7 @@
     {
       "path": "modules/EventEmitter",
       "name": "event-emitter",
-      "build": false,
+      "build": true,
       "build-simple-enable": true,
       "build-files": [
         "EventEmitter.js",
@@ -14,7 +14,7 @@
     {
       "path": "modules/TemplateRenderer",
       "name": "template-renderer",
-      "build": false,
+      "build": true,
       "build-simple-enable": true,
       "dependencies": [
         {
@@ -54,7 +54,7 @@
     {
       "path": "examples/ExampleTemplateRenderer",
       "name": "example-template-renderer",
-      "build": false,
+      "build": true,
       "build-simple-enable": true,
       "dependencies": [
         {
@@ -73,7 +73,7 @@
     {
       "path": "examples/ExampleTree",
       "name": "example-tree",
-      "build": false,
+      "build": true,
       "build-simple-enable": true,
       "dependencies": [
         {

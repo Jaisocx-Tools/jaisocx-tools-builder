@@ -1,6 +1,7 @@
 {
-  "name": "@jaisocx/example-template-renderer",  "version": "1.0.1",
-  "main": "./build/index.js",
+  "name": "@jaisocx/example-template-renderer",  
+  "version": "1.0.03",
+  "main": "./build/commonjs/index.js",
   "files": [
     "build",
     "src"

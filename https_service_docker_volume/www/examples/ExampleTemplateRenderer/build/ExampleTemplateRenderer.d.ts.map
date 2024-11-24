@@ -1,1 +1,0 @@
-{"version":3,"file":"ExampleTemplateRenderer.d.ts","sourceRoot":"","sources":["../src/ExampleTemplateRenderer.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,4BAA4B,CAAC;AAE9D,qBAAa,uBAAuB;IAClC,gBAAgB,EAAE,gBAAgB,CAAC;IAEnC,sBAAsB,EAAE,MAAM,GAAC,IAAI,CAAC;IAEpC,IAAI,EAAE,MAAM,CAAC;IAEb,QAAQ,EAAE,MAAM,CAAC;;IAcjB,IAAI,IAAI,IAAI;CAmBb"}

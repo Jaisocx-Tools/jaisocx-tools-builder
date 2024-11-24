@@ -3,9 +3,9 @@
     "target": "ES6",               // Output JavaScript version
     "module": "CommonJS",            // Use the ES module system
     "rootDir": "./src",
-    "outDir": "build",
+    "outDir": "build/commonjs",
     "declaration": true,           // Generate .d.ts files for TypeScript modules
-    "declarationDir": "build",
+    "declarationDir": "build/commonjs",
     "declarationMap": true,
     "esModuleInterop": true,       // Ensures compatibility with CommonJS modules
     "strict": true,                // Enable all strict type-checking options

@@ -1,6 +1,4 @@
 import { Tree, TreeConstants } from "@jaisocx/tree";
-import "@jaisocx/tree/build/assets/tree-styles-main.css";
-
 
 export class ExampleTree {
   holderId: string;

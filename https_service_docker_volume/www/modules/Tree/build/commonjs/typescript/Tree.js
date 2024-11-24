@@ -8,6 +8,7 @@ const TreeMetadata_1 = require("./TreeMetadata");
 const TreeAdapterModeMetadata_1 = require("./TreeAdapterModeMetadata");
 const TreeAdapterModeEase_1 = require("./TreeAdapterModeEase");
 const ArrayOrObjectPackage_1 = require("./ArrayOrObjectPackage");
+require("@jaisocx-tree-assets/tree-styles-main-node_modules.css");
 // Tree main class
 class Tree extends event_emitter_1.LargeDomEventEmitter {
     constructor() {

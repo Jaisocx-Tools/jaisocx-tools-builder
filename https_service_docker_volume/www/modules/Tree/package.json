@@ -7,7 +7,8 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc -p ./tsconfig.json"
+    "build": "tsc -p ./tsconfig.json",
+    "postinstall": "node scripts/postinstall.js"
   },
   "optionalDependencies": {
     "@jaisocx/event-emitter": "^1.0.x",

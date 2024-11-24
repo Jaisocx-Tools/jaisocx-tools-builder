@@ -2,6 +2,7 @@ import { LargeDomEventEmitter } from "@jaisocx/event-emitter";
 import { TemplateRenderer } from "@jaisocx/template-renderer";
 import { ITreeRenderRetValue, IRenderTemplateRendererData, ITreeAdapter } from "./Types";
 import { TreeMetadata } from "./TreeMetadata";
+import "@jaisocx-tree-assets/tree-styles-main-node_modules.css";
 export declare class Tree extends LargeDomEventEmitter {
     debug: boolean;
     mainHtmlNodeId: string;

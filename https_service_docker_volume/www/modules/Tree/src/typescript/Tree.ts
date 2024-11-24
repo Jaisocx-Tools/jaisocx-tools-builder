@@ -12,6 +12,8 @@ import { TreeAdapterModeMetadata } from "./TreeAdapterModeMetadata";
 import { TreeAdapterModeEase } from "./TreeAdapterModeEase";
 import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage";
 
+import "@jaisocx-tree-assets/tree-styles-main-node_modules.css";
+
 // Tree main class
 export class Tree extends LargeDomEventEmitter {
   debug: boolean;
