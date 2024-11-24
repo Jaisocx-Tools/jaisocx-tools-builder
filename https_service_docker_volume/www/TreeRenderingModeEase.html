@@ -4,24 +4,30 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="css/tree.css" rel="stylesheet" />
-    <link href="css/fonts.css" rel="stylesheet" />
-    <link href="css/theme-funny.css" rel="stylesheet" />
-    
+
+    <link href="modules/Tree/build/assets/tree-styles-main.css" rel="stylesheet" />
+    <link href="modules/Tree/build/assets/themes/theme-funny/theme-funny.css" rel="stylesheet" />
+
+
+
     <script src="modules/EventEmitter/BuildSimple/EventEmitter.js"></script>
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
     <script src="modules/TemplateRenderer/BuildSimple/TemplateRenderer.js"></script>
   
-    <script src="modules/Tree/BuildSimple/ArrayOrObjectPackage.js"></script>
 
-    <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
-    <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
 
-    <script src="modules/Tree/BuildSimple/TreeAdapter.js"></script>
-    <script src="modules/Tree/BuildSimple/TreeAdapterModeEase.js"></script>
-    <script src="modules/Tree/BuildSimple/TreeAdapterModeMetadata.js"></script>
 
-    <script src="modules/Tree/BuildSimple/Tree.js"></script>
+    <script src="modules/Tree/build/simple/typescript/ArrayOrObjectPackage.js"></script>
+
+    <script src="modules/Tree/build/simple/typescript/TreeConstants.js"></script>
+    <script src="modules/Tree/build/simple/typescript/TreeMetadata.js"></script>
+
+    <script src="modules/Tree/build/simple/typescript/TreeAdapter.js"></script>
+    <script src="modules/Tree/build/simple/typescript/TreeAdapterModeEase.js"></script>
+    <script src="modules/Tree/build/simple/typescript/TreeAdapterModeMetadata.js"></script>
+
+    <script src="modules/Tree/build/simple/typescript/Tree.js"></script>
+
 
     <script>
     const treeJson = [
@@ -166,7 +172,7 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setNodesWithIcons(true)
-          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
           .setModifiable(true)
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
           .addJSTreeEventListener (
@@ -190,7 +196,7 @@
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
           .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
-          //.setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
           .load(url);
       });
     </script>

@@ -1,12 +1,4 @@
 @font-face {
-  font-family: 'Niconne';
-  src: url('fonts/Niconne/Niconne-Regular.ttf') format('truetype');
-  font-weight: 800; /* ExtraBold */
-  font-style: normal;
-}
-
-
-@font-face {
   font-family: 'Baloo Paaji 2';
   src: url('fonts/Baloo_Paaji_2/static/BalooPaaji2-Regular.ttf') format('truetype');
   font-weight: 400; /* Regular */
