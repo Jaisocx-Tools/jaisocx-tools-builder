@@ -2,23 +2,24 @@
   "name": "https_service_docker_volume",
   "version": "1.0.01",
   "description": "",
-  "main": "index.js",
+  "main": "nope",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "./command/build.sh",
-    "lint": "./command/lint.sh --catalog_to_check=\"./www/examples/ExampleTemplateRenderer/dist-simple\""
+    "server": "http-server ./www -p 8083 -o"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.13.0",
-    "@typescript-eslint/parser": "^8.13.0",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-jaisocx": "file:build_tools/src/EslintPlugins/EslintPluginJaisocxJS",
-    "eslint-plugin-json-format": "^2.0.1"
+    "eslint-plugin-json-format": "^2.0.1",
+    "typescript": "^4.x"
   }
 }
-
-

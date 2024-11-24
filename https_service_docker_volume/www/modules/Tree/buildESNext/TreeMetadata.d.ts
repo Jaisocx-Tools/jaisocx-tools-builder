@@ -12,3 +12,4 @@ export declare class TreeMetadata {
     NODE__ART: string;
     constructor();
 }
+//# sourceMappingURL=TreeMetadata.d.ts.map

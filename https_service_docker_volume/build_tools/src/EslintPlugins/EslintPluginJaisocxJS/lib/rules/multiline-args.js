@@ -11,6 +11,9 @@ module.exports = {
     schema: [] // no options for this rule
   },
   create: function (context) {
+    const indentRuleConfig = context.settings?.["indent"] || [2, 2]; // Default to 2 spaces
+    const eslintConfigIdentPrefixSizeForOneLevel = Array.isArray(indentRuleConfig) ? indentRuleConfig[1] : 2;
+
     // Helper function to enforce that each argument is on a new line.
     function enforceNewLines(node, args) {
       args.forEach((arg, index) => {
@@ -21,7 +24,7 @@ module.exports = {
             node: arg,
             message: "Each argument should be on a new line.",
             fix(fixer) {
-              return fixer.insertTextBefore(arg, "\n" + " ".repeat(node.loc.start.column + 2));
+              return fixer.insertTextBefore(arg, "\n" + " ".repeat(node.loc.start.column + eslintConfigIdentPrefixSizeForOneLevel));
             }
           });
         }

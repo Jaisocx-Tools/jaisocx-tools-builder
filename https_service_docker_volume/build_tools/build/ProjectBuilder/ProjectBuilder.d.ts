@@ -28,5 +28,8 @@ export declare class ProjectBuilder {
     buildModule(moduleJson: any, rootPath: string): void;
     installModuleDependencies(moduleJson: any, modulePath: string): void;
     buildSimple(moduleJson: any, modulePath: string): void;
-    lintSimpleBuild(eslintConfigCatalogPath: string, pathToEslint: string): void;
+    transpileTypeScriptSources(tsconfigCatalogPath: string, tsconfigFileName: string, logToConsole: boolean): any;
+    transpileTypescriptSourcesWithPath(modulePath: string, tsconfigPath: string): any;
+    prettifyWithEslint(eslintConfigCatalogPath: string, pathToFileToPrettify: string, logToConsole: boolean): any;
+    runCommandLine(configCatalogPath: string, consoleCommand: string, logToConsole: boolean): any;
 }

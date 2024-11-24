@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "rootDir": "./src",
+    "outDir": "buildESNext",
+    "declaration": true,
+    "declarationDir": "buildESNext",
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "buildESNext",
+    "BuildSimple"
+  ]
+}

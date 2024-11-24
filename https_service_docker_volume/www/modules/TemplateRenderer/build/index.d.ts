@@ -1,1 +1,2 @@
-export { TemplateRenderer } from './TemplateRenderer';
+export { TemplateRenderer } from "./TemplateRenderer";
+//# sourceMappingURL=index.d.ts.map

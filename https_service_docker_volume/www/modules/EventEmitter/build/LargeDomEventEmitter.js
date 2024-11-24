@@ -8,7 +8,7 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
         super();
         this.eventsHandlersSetDom = {};
         this.mainHolderHtmlNode = null;
-        this.EventArtDOMEventOptimized = 'DOMEventOptimized';
+        this.EventArtDOMEventOptimized = "DOMEventOptimized";
     }
     setDebug(debug) {
         this.debug = debug;
@@ -17,8 +17,8 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
     addDomEventListeners() {
         // here is just the right assignment of few dom event listeners.
         // Don't edit here, please!
-        for (let eventName in this.eventsHandlersSetDom) {
-            let eventHandlers = this.eventsHandlersSetDom[eventName];
+        for (const eventName in this.eventsHandlersSetDom) {
+            const eventHandlers = this.eventsHandlersSetDom[eventName];
             if (this.isObjectEmpty(eventHandlers)) {
                 continue;
             }
@@ -28,7 +28,7 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
         }
         return this;
     }
-    // this method just sets an event handler function by event name and a holder elem selector to an object, 
+    // this method just sets an event handler function by event name and a holder elem selector to an object,
     // and then all event handlers are executed on this.emitDomEvent method call.
     // The difference is, that we addEventListener once to the main html node,
     // and not to each html node, it is best, when the html tool is populated with a larger json data file of several tens or hundreds MBs, for example.
@@ -45,11 +45,11 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
     // Don't edit here, please
     emitDomEvent(eventName, payload) {
         const results = [];
-        let eventHandlersBySelectors = this.eventsHandlersSetDom[eventName];
+        const eventHandlersBySelectors = this.eventsHandlersSetDom[eventName];
         if (this.isObjectEmpty(eventHandlersBySelectors)) {
             return results;
         }
-        for (let selector in eventHandlersBySelectors) {
+        for (const selector in eventHandlersBySelectors) {
             const eventHandlers = eventHandlersBySelectors[selector];
             if (!eventHandlers || eventHandlers.length === 0) {
                 continue;
@@ -58,13 +58,19 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
             if (!eventTarget) {
                 continue;
             }
-            payload['eventTarget'] = eventTarget;
-            for (let eventHandler of eventHandlers) {
-                if (!eventHandler || (typeof eventHandler) !== 'function') {
+            payload.eventTarget = eventTarget;
+            for (const eventHandler of eventHandlers) {
+                if (!eventHandler || (typeof eventHandler) !== "function") {
                     continue;
                 }
                 const result = eventHandler.call(this, payload);
-                results.push({ eventArt: this.EventArtDOMEventOptimized, eventName, selector, payload, result });
+                results.push({
+                    eventArt: this.EventArtDOMEventOptimized,
+                    eventName,
+                    selector,
+                    payload,
+                    result,
+                });
                 if (result && result.payloadReturned) {
                     payload = result.payloadReturned;
                 }
@@ -74,9 +80,9 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
     }
     optimizedDomEventHandler(event) {
         const eventTarget = event.target;
-        if (eventTarget &&
-            eventTarget.nodeName === 'A' &&
-            eventTarget.getAttribute('HREF') !== 'javascript: void(0);') {
+        if (eventTarget
+            && eventTarget.nodeName === "A"
+            && eventTarget.getAttribute("HREF") !== "javascript: void(0);") {
             return;
         }
         event.preventDefault();
@@ -85,14 +91,14 @@ class LargeDomEventEmitter extends EventEmitter_1.EventEmitter {
             return;
         }
         const eventName = event.type;
-        let eventHandlers = this.eventsHandlersSetDom[eventName];
+        const eventHandlers = this.eventsHandlersSetDom[eventName];
         if (this.isObjectEmpty(eventHandlers)) {
             return;
         }
         if (this.debug === true) {
-            console.log('optimized event handler');
+            console.log("optimized event handler");
         }
-        this.emitDomEvent(eventName, { event });
+        this.emitDomEvent(eventName, { event, });
     }
 }
 exports.LargeDomEventEmitter = LargeDomEventEmitter;

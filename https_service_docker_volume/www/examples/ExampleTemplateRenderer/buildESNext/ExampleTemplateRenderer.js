@@ -1,8 +1,8 @@
-import { TemplateRenderer } from '@jaisocx/template-renderer';
+import { TemplateRenderer } from "@jaisocx/template-renderer";
 export class ExampleTemplateRenderer {
     constructor() {
         this.data = {
-            "message": "Hello World!",
+            message: "Hello World!",
         };
         this.template = `
 <h3>{{ message }}</h3>      
@@ -13,7 +13,7 @@ export class ExampleTemplateRenderer {
     init() {
         let holderHtmlNode = null;
         if (!this.holderHtmlNodeSelector) {
-            this.holderHtmlNodeSelector = 'body';
+            this.holderHtmlNodeSelector = "body";
         }
         holderHtmlNode = document.querySelector(this.holderHtmlNodeSelector);
         if (!holderHtmlNode) {
@@ -24,6 +24,5 @@ export class ExampleTemplateRenderer {
             .setData(this.data)
             .render();
         holderHtmlNode.insertAdjacentHTML("afterbegin", html);
-        return;
     }
 }

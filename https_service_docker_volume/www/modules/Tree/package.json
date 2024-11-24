@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json"
   },
-  "dependencies": {
+  "optionalDependencies": {
     "@jaisocx/event-emitter": "^1.0.x",
     "@jaisocx/template-renderer": "^1.0.x"
   },

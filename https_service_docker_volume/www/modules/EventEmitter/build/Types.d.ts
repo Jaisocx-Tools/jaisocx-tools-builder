@@ -9,3 +9,4 @@ export interface EventEmitResult {
     payload: any;
     result: any;
 }
+//# sourceMappingURL=Types.d.ts.map

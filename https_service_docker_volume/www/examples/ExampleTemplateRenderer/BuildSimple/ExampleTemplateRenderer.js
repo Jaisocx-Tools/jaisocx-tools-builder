@@ -1,5 +1,5 @@
 class ExampleTemplateRenderer {
-    constructor() {
+  constructor() {
     this.data = {
       message: "Hello World!",
     };
@@ -20,15 +20,16 @@ class ExampleTemplateRenderer {
     holderHtmlNode = document.querySelector(this.holderHtmlNodeSelector);
 
     if (!holderHtmlNode) {
-
-            return;
+      return;
     }
 
     const html = this.TemplateRenderer
       .setTemplate(this.template)
       .setData(this.data)
       .render();
-    holderHtmlNode.insertAdjacentHTML("afterbegin", html);
+    holderHtmlNode.insertAdjacentHTML(
+      "afterbegin",
+      html
+    );
   }
-
 }

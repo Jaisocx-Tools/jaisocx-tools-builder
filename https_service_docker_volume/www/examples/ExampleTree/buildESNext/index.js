@@ -1,1 +1,3 @@
-export { ExampleTree } from './ExampleTree';
+import { ExampleTree } from "./ExampleTree";
+export { ExampleTree } from "./ExampleTree";
+window.ExampleTree = ExampleTree;

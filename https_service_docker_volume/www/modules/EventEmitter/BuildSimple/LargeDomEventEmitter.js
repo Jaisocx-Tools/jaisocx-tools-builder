@@ -1,5 +1,5 @@
 class LargeDomEventEmitter extends EventEmitter {
-    constructor() {
+  constructor() {
     super();
     this.eventsHandlersSetDom = {};
     this.mainHolderHtmlNode = null;
@@ -13,7 +13,7 @@ class LargeDomEventEmitter extends EventEmitter {
   }
 
   addDomEventListeners() {
-        // here is just the right assignment of few dom event listeners.
+    // here is just the right assignment of few dom event listeners.
     // Don't edit here, please!
     for (const eventName in this.eventsHandlersSetDom) {
       const eventHandlers = this.eventsHandlersSetDom[eventName];
@@ -22,14 +22,21 @@ class LargeDomEventEmitter extends EventEmitter {
         continue;
       }
 
-      this.mainHolderHtmlNode.addEventListener(eventName, this.optimizedDomEventHandler.bind(this));
+      this.mainHolderHtmlNode.addEventListener(
+        eventName,
+        this.optimizedDomEventHandler.bind(this)
+      );
     }
 
     return this;
   }
 
-  addDomEventListener(eventName, selector, eventHandler) {
-        if (!this.eventsHandlersSetDom[eventName]) {
+  addDomEventListener(
+    eventName,
+    selector,
+    eventHandler
+  ) {
+    if (!this.eventsHandlersSetDom[eventName]) {
       this.eventsHandlersSetDom[eventName] = {};
     }
 
@@ -42,12 +49,15 @@ class LargeDomEventEmitter extends EventEmitter {
     return this;
   }
 
-  emitDomEvent(eventName, payload) {
+  emitDomEvent(
+    eventName,
+    payload
+  ) {
     const results = [];
     const eventHandlersBySelectors = this.eventsHandlersSetDom[eventName];
 
     if (this.isObjectEmpty(eventHandlersBySelectors)) {
-            return results;
+      return results;
     }
 
     for (const selector in eventHandlersBySelectors) {
@@ -66,20 +76,27 @@ class LargeDomEventEmitter extends EventEmitter {
       payload.eventTarget = eventTarget;
 
       for (const eventHandler of eventHandlers) {
-                if (!eventHandler || (typeof eventHandler) !== "function") {
+        if (!eventHandler || (typeof eventHandler) !== "function") {
           continue;
         }
 
-        const result = eventHandler.call(this, payload);
+        const result = eventHandler.call(
+          this,
+          payload
+        );
         results.push({
-          eventArt: this.EventArtDOMEventOptimized, eventName, selector, payload, result,
+          eventArt: this.EventArtDOMEventOptimized,
+          eventName,
+          selector,
+          payload,
+          result,
         });
 
         if (result && result.payloadReturned) {
           payload = result.payloadReturned;
         }
-            }
-        }
+      }
+    }
 
     return results;
   }
@@ -90,27 +107,30 @@ class LargeDomEventEmitter extends EventEmitter {
     if (eventTarget
             && eventTarget.nodeName === "A"
             && eventTarget.getAttribute("HREF") !== "javascript: void(0);") {
-            return;
+      return;
     }
 
     event.preventDefault();
     event.stopPropagation();
 
     if (this.isObjectEmpty(this.eventsHandlersSetDom)) {
-            return;
+      return;
     }
 
     const eventName = event.type;
     const eventHandlers = this.eventsHandlersSetDom[eventName];
 
     if (this.isObjectEmpty(eventHandlers)) {
-            return;
+      return;
     }
 
     if (this.debug === true) {
       console.log("optimized event handler");
     }
 
-    this.emitDomEvent(eventName, { event });
+    this.emitDomEvent(
+      eventName,
+      { event, }
+    );
   }
 }

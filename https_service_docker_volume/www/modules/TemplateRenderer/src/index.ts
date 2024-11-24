@@ -1,3 +1,3 @@
 // src/TemplateRenderer/index.ts
 
-export { TemplateRenderer } from './TemplateRenderer';
+export { TemplateRenderer } from "./TemplateRenderer";

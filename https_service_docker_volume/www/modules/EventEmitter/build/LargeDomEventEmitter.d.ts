@@ -11,3 +11,4 @@ export declare class LargeDomEventEmitter extends EventEmitter {
     emitDomEvent(eventName: string, payload: any): EventEmitResult[];
     optimizedDomEventHandler(event: Event): void;
 }
+//# sourceMappingURL=LargeDomEventEmitter.d.ts.map

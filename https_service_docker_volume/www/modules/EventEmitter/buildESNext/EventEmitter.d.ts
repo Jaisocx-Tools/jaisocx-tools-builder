@@ -1,4 +1,4 @@
-import { EventEmitResult } from './Types';
+import { EventEmitResult } from "./Types";
 export declare class EventEmitter {
     eventsHandlersSetThisClass: any;
     debug: boolean;
@@ -9,3 +9,4 @@ export declare class EventEmitter {
     addThisClassEventListener(eventName: string, eventHandler: CallableFunction): EventEmitter;
     emitEvent(eventName: string, payload: any): EventEmitResult[];
 }
+//# sourceMappingURL=EventEmitter.d.ts.map

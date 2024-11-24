@@ -12,8 +12,15 @@
     <script src="modules/EventEmitter/BuildSimple/LargeDomEventEmitter.js"></script>
     <script src="modules/TemplateRenderer/BuildSimple/TemplateRenderer.js"></script>
   
+    <script src="modules/Tree/BuildSimple/ArrayOrObjectPackage.js"></script>
+
     <script src="modules/Tree/BuildSimple/TreeConstants.js"></script>
     <script src="modules/Tree/BuildSimple/TreeMetadata.js"></script>
+
+    <script src="modules/Tree/BuildSimple/TreeAdapter.js"></script>
+    <script src="modules/Tree/BuildSimple/TreeAdapterModeEase.js"></script>
+    <script src="modules/Tree/BuildSimple/TreeAdapterModeMetadata.js"></script>
+
     <script src="modules/Tree/BuildSimple/Tree.js"></script>
 
     <script>
@@ -36,17 +43,17 @@
           "cssClassName": "hyperlink"
         },
         [
-        {
-          "icon": "css/images/custom-theme-icons/google.png",
-          "label": "A Link to Google", 
-          "href": "https://google.com/",
-          "cssClassName": "hyperlink"
-        },{
-          "icon": "css/images/custom-theme-icons/google.png",
-          "label": "A Link to Google", 
-          "href": "https://google.com/",
-          "cssClassName": "hyperlink"
-        }
+          {
+            "icon": "css/images/custom-theme-icons/google.png",
+            "label": "A Link to Google", 
+            "href": "https://google.com/",
+            "cssClassName": "hyperlink"
+          },{
+            "icon": "css/images/custom-theme-icons/google.png",
+            "label": "A Link to Google", 
+            "href": "https://google.com/",
+            "cssClassName": "hyperlink"
+          }
         ],
         [
           "123", "435345", true, 789234,
@@ -146,6 +153,8 @@
   <body>
 
     <div id="example-tree-holder-rendering-mode-ease-custom-theme" class="theme-funny"></div>
+
+    <h2>load by url (should work only when published at an http server)</h2>
     <div id="example-tree-holder-rendering-mode-ease"></div>
 
     <script>
@@ -157,8 +166,8 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease-custom-theme")
           .setNodesWithIcons(true)
-          .setNodesAllOpened(false)
-          .setModifiable(false)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+          .setModifiable(true)
           .setRenderingMode(TreeConstants.RenderingMode.Ease)
           .addJSTreeEventListener (
             TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_LABEL__CLICK,
@@ -169,10 +178,20 @@
           .render(treeJson);
 
         // here only with required setters
+        let url = ''; //'http://transport.opendata.ch/v1/connections?from=Lausanne&to=Gen%C3%A8ve';
+            //url = 'https://jaisocx.com/application/ld+json';
+            //url = 'https://gomezmig03.github.io/MotivationalAPI/en.json';
+            //url = 'https://api.dictionaryapi.dev/api/v2/entries/en/weather';
+            //url = 'https://datos.gob.es/apidata/catalog/dataset?_sort=title&_pageSize=800&_page=0';
+            //url = 'https://api.artic.edu/api/v1/artworks';
+            url = 'JsonDataExamples/ease.json';
+
         const treeCustomTheme = new Tree();
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
-          .render(treeJson);        
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+          //.setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
+          .load(url);
       });
     </script>
   </body>

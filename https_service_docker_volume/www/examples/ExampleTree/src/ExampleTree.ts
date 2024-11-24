@@ -1,35 +1,42 @@
-import { TreeMetadata, TreeConstants, ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, Tree } from "@jaisocx/tree";
+import { Tree, TreeConstants } from "@jaisocx/tree";
 
+export class ExampleTree {
+  holderId: string;
 
-// Tree main class
-export class ExampleTree
-{
-  tree: Tree|null;
-  debug: boolean;
+  url: string;
 
-  constructor() {
-    this.tree = null;
-    this.debug = true;
+  constructor(
+    id: string,
+    url: string
+  ) {
+    this.holderId = id;
+    this.url = url;
+
+    this.render(
+      id,
+      url
+    );
   }
 
-  setDebug(debug: boolean): ExampleTree {
-    this.debug = debug;
-    this.tree?.setDebug(debug);
-
-    return this;
-  }
-
-  init(treeData: any, renderingMode: number): ExampleTree {
-    this.tree = new Tree();
-    this.tree
-      .setDebug(this.debug)
-      .setMainHtmlNodeId("example-tree-holder-01")
-      //.setUrl("JsonDataExamples/tree-data.json")
+  render(
+    id: string,
+    url: string
+  ): void {
+    const tree = new Tree();
+    tree
+      .setDebug(false)
+      .setMainHtmlNodeId(id)
+      .setDataTypesCssClassesEnabled(true)
+      .setNodesWithIcons(true)
+      .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+      .setRenderingMode(TreeConstants.RenderingMode.Ease)
       .setModifiable(false)
-      .setRenderingMode(renderingMode)
-      .render(treeData);
-      //.load();
-      return this;
+      .addJSTreeEventListener(
+        TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_LABEL__CLICK,
+        (evt: any) => {
+          console.log(evt);
+        }
+      )
+      .load(url);
   }
 }
-
