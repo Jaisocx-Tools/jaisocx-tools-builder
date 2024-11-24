@@ -1,11 +1,12 @@
-// src/EventEmitter/index.ts
+// modules/Tree/src/index.ts
 
 export {
   ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults, INodesOpenedMode
-} from "./Types";
-export { TreeAdapter } from "./TreeAdapter";
-export { TreeAdapterModeEase } from "./TreeAdapterModeEase";
-export { TreeAdapterModeMetadata } from "./TreeAdapterModeMetadata";
-export { TreeConstants } from "./TreeConstants";
-export { TreeMetadata } from "./TreeMetadata";
-export { Tree } from "./Tree";
+} from "./typescript/Types";
+export { TreeAdapter } from "./typescript/TreeAdapter";
+export { TreeAdapterModeEase } from "./typescript/TreeAdapterModeEase";
+export { TreeAdapterModeMetadata } from "./typescript/TreeAdapterModeMetadata";
+export { TreeConstants } from "./typescript/TreeConstants";
+export { TreeMetadata } from "./typescript/TreeMetadata";
+export { Tree } from "./typescript/Tree";
+

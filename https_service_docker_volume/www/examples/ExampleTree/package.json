@@ -11,7 +11,7 @@
     "webpack": "webpack"
   },
   "optionalDependencies": {
-    "@jaisocx/tree": "^1.0.x"
+    "@jaisocx/tree": "^1.2.x"
   },
   "devDependencies": {
     "ts-loader": "^9.5.1",

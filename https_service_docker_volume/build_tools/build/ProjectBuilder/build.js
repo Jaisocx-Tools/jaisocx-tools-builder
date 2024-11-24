@@ -16,8 +16,8 @@ builder
     .setRelativePathFromRootTsConfigCatalogPath('build_tools')
     .setRelativePathFromRootLintCatalog('.')
     .setRelativePathFromRootWww('www')
-    .setBuildCatalogName('build')
-    .setBuildESNextCatalogName('buildESNext')
+    .setBuildCatalogName('build/commonjs')
+    .setBuildESNextCatalogName('build/esnext')
     .setBuildESNextTSConfigName('tsconfig.ESNext.json')
-    .setBuildSimpleCatalogName('BuildSimple')
+    .setBuildSimpleCatalogName('build/simple')
     .build(dataJson);
