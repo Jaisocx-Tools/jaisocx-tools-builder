@@ -83,7 +83,25 @@
       ],
       "build-files": [
         "ExampleTree.js"
-      ]
+      ],
+      "webpack-bundle.js": {
+        "@status": "this ProjectBuilder.json property 'webpack-bundle.js' is an idea for future implementation, and is now not under development",
+        "@description": "to automate producing of a bundle.js file for including in an .html file",
+        "imports": [
+          {
+            "class": "Tree",
+            "from": "@jaisocx/tree"
+          },
+          {
+            "class": "TreeConstants",
+            "from": "@jaisocx/tree"
+          },
+          {
+            "class": "ExampleTree",
+            "from": "./ExampleTree"
+          }
+        ]
+      }
     }
   ]
 }
