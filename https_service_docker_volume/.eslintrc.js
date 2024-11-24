@@ -82,7 +82,7 @@ module.exports = {
     },
     {
       "files": [
-        "www/**/BuildSimple/**/*.js"
+        "www/**/build/simple/**/*.js"
       ],
       "extends": [
       ],

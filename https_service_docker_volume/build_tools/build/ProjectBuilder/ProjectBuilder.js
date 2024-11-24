@@ -191,14 +191,18 @@ class ProjectBuilder {
             throw new Error(`Module [ ${moduleJson.name} ]: build catalog not found: ${buildCatalogPath}`);
         }
         buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
+        if (false === fs.existsSync(buildSimpleCatalogPath)) {
+            this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
+        }
         for (const buildFileName of buildFiles) {
             const buildFilePath = buildCatalogPath + '/' + buildFileName;
             const buildSimpleFilePath = buildSimpleCatalogPath + '/' + buildFileName;
-            if (false === fs.existsSync(buildSimpleCatalogPath)) {
-                this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
-            }
             if (true === fs.existsSync(buildSimpleFilePath)) {
                 this.runCommandLine(modulePath, `rm "${buildSimpleFilePath}"`, false);
+            }
+            const fileSimplePathDir = path.parse(buildSimpleFilePath).dir;
+            if (false === fs.existsSync(fileSimplePathDir)) {
+                this.runCommandLine(modulePath, `mkdir -p "${fileSimplePathDir}"`, false);
             }
             this.runCommandLine(modulePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
             // @ts-ignore
@@ -217,10 +221,14 @@ class ProjectBuilder {
             const compilerOptionValue = compilerOptions[compilerOptonName];
             transpileOptions.push(`--${compilerOptonName} ${compilerOptionValue}`);
         }
-        const filesList = fs.readdirSync(`${modulePath}/src`);
-        if (!filesList || filesList.length === 0) {
+        const filesAndCatalogsList = fs.readdirSync(`${modulePath}/src`, { recursive: true });
+        if (!filesAndCatalogsList || filesAndCatalogsList.length === 0) {
             return null;
         }
+        const filesList = filesAndCatalogsList.filter((filePath) => {
+            const absPath = `${modulePath}/src/${filePath}`;
+            return fs.lstatSync(absPath).isFile();
+        });
         const filesListJoinedString = "src/" + filesList.join(" src/");
         const transpileOptionsString = transpileOptions.join(" ");
         const transpileCommand = `cd "${modulePath}" && tsc ${filesListJoinedString} ${transpileOptionsString}`;

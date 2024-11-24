@@ -227,17 +227,21 @@ export class ProjectBuilder {
       throw new Error(`Module [ ${moduleJson.name} ]: build catalog not found: ${buildCatalogPath}`);
     }
     buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
+    if (false === fs.existsSync(buildSimpleCatalogPath)) {
+      this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
+    }
 
     for (const buildFileName of buildFiles) {
       const buildFilePath: string        = buildCatalogPath + '/' + buildFileName;
       const buildSimpleFilePath: string  = buildSimpleCatalogPath + '/' + buildFileName;
 
-      if (false === fs.existsSync(buildSimpleCatalogPath)) {
-        this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
-      }
-
       if (true === fs.existsSync(buildSimpleFilePath)) {
         this.runCommandLine(modulePath, `rm "${buildSimpleFilePath}"`, false);
+      }
+
+      const fileSimplePathDir: string = path.parse(buildSimpleFilePath).dir;
+      if (false === fs.existsSync(fileSimplePathDir) ) {
+        this.runCommandLine(modulePath, `mkdir -p "${fileSimplePathDir}"`, false);
       }
 
       this.runCommandLine(modulePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
@@ -265,10 +269,15 @@ export class ProjectBuilder {
       transpileOptions.push(`--${compilerOptonName} ${compilerOptionValue}`);
     }
 
-    const filesList: string[] = fs.readdirSync(`${modulePath}/src`);
-    if (!filesList || filesList.length === 0) {
+    const filesAndCatalogsList: string[] = fs.readdirSync(`${modulePath}/src`, {recursive: true})  as string[];
+    if (!filesAndCatalogsList || filesAndCatalogsList.length === 0) {
       return null;
     }
+
+    const filesList: string[] = filesAndCatalogsList.filter((filePath) => {
+      const absPath: string = `${modulePath}/src/${filePath}`;
+      return fs.lstatSync(absPath).isFile(); 
+    });
 
     const filesListJoinedString: string = "src/" + filesList.join(" src/");
     const transpileOptionsString: string = transpileOptions.join(" ");

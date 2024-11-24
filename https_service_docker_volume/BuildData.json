@@ -42,13 +42,13 @@
         }
       ],
       "build-files": [
-        "Tree.js",
-        "TreeMetadata.js",
-        "TreeConstants.js",
-        "TreeAdapter.js",
-        "TreeAdapterModeMetadata.js",
-        "TreeAdapterModeEase.js",
-        "ArrayOrObjectPackage.js"
+        "typescript/Tree.js",
+        "typescript/TreeMetadata.js",
+        "typescript/TreeConstants.js",
+        "typescript/TreeAdapter.js",
+        "typescript/TreeAdapterModeMetadata.js",
+        "typescript/TreeAdapterModeEase.js",
+        "typescript/ArrayOrObjectPackage.js"
       ]
     },
     {
