@@ -32,7 +32,7 @@ class Tree extends LargeDomEventEmitter {
     this.setDebug(TreeConstants.Defaults.debug);
     this.renderingMode = TreeConstants.Defaults.renderingMode;
     this.nodesWithIcons = TreeConstants.Defaults.nodesWithIcons;
-    this.nodesAllOpened = TreeConstants.Defaults.nodesAllOpened;
+    this.nodesOpenedMode = TreeConstants.Defaults.nodesOpenedMode;
     this.isModifiable = TreeConstants.Defaults.isModifiable;
     this.dataTypesCssClassesEnabled = TreeConstants.Defaults.dataTypesCssClassesEnabled;
     this.adapter = new TreeAdapterModeEase();
@@ -54,9 +54,9 @@ class Tree extends LargeDomEventEmitter {
     return this;
   }
 
-  setNodesAllOpened(opened) {
+  setNodesOpenedMode(openedMode) {
     // optional method
-    this.nodesAllOpened = opened;
+    this.nodesOpenedMode = openedMode;
 
     return this;
   }
@@ -292,6 +292,7 @@ class Tree extends LargeDomEventEmitter {
     const isArray = ((dataType === ArrayOrObjectPackage.JsonDataType.ARRAY) ? 1 : 0);
 
     if ((!subtreeJsonNodes)
+            || (subtreeJsonNodes.length === 0)
             || ((dataType !== ArrayOrObjectPackage.JsonDataType.ARRAY)
                 && (dataType !== ArrayOrObjectPackage.JsonDataType.OBJECT))) {
       return {
@@ -434,11 +435,16 @@ class Tree extends LargeDomEventEmitter {
 
     const ul = li.getElementsByTagName("UL")[0];
     // @ts-ignore
-    if (node[this.metadata.NODE__OPENED] === true
-            || this.nodesAllOpened === true) {
-      ul.style.display = "block";
-    } else {
+    if (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.ALL_HIDDEN) {
       ul.style.display = "none";
+    } else if ((!node[this.metadata.NODE__OPENED])
+            && (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.JSON_DATA_DEFINED)) {
+      ul.style.display = "none";
+    } else if ((node[this.metadata.NODE__OPENED] === true)
+            && (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.JSON_DATA_DEFINED)) {
+      ul.style.display = "block";
+    } else if (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.ALL_SHOWN) {
+      ul.style.display = "block";
     }
 
     const subtreeRenderResult = this.renderSubtree(
@@ -479,6 +485,8 @@ class Tree extends LargeDomEventEmitter {
       pathKeyInNodeHolder = `[${subtreePropName}][${pathKeyInNodeHolder}]`;
     } else if (this.renderingMode === TreeConstants.RenderingMode.Ease) {
       pathKeyInNodeHolder = `[${pathKeyInNodeHolder}]`;
+    } else {
+      pathKeyInNodeHolder = `[${pathKeyInNodeHolder}]`;
     }
 
     const pathInJsonArray = [
@@ -499,7 +507,7 @@ class Tree extends LargeDomEventEmitter {
       flatNodeClone[propName] = propValue;
     }
 
-    const technicFields = {
+    const nodeClone = {
       [this.metadata.NODE__ID]: id,
       [this.metadata.NODE__HOLDER_ID]: holderId,
       _flatCloneHolderId: flatCloneHolderId,
@@ -509,7 +517,6 @@ class Tree extends LargeDomEventEmitter {
       _pathArray: pathInJsonArray,
       _path: pathInJsonString,
     };
-    const nodeClone = { ...technicFields, };
 
     return nodeClone;
   }
@@ -577,14 +584,13 @@ class Tree extends LargeDomEventEmitter {
       ".jstree-html-node-label",
       this.treeNodeLableClickHandler.bind(this)
     );
-
-    if (this.isModifiable) {
-      this.addDomEventListener(
-        "dblclick",
-        ".jstree-html-node-holder-icon",
-        this.contextMenuRender
-      );
-    }
+    /* if (this.isModifiable) {
+          this.addDomEventListener(
+            "dblclick",
+            ".jstree-html-node-holder-icon",
+            this.contextMenuRender
+          );
+        } */
     // the holder class LargeDomEventListenersOverheadOptimizer method call
     this.addDomEventListeners();
 
@@ -699,18 +705,5 @@ class Tree extends LargeDomEventEmitter {
     }
 
     return JSON.parse(this.unescapeHTMLFromAttribute(htmlNode.dataset.json));
-  }
-
-  contextMenuRender(eventPayload) {
-    /* if (!this.contextMenuJSClass) {
-                this.contextMenuJSClass = new JSONContextMenu();
-            }
-
-            const treeHtmlNode = eventPayload.eventTarget.closest('li').querySelector('.jstree-html-node');
-
-            const contextMenuHtmlNode = this.contextMenuJSClass
-                .render(treeHtmlNode, this.mainHtmlNodeId, contextMenuJson);
-
-            contextMenuHtmlNode.style.display = 'block'; */
   }
 }

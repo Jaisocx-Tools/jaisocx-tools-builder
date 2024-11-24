@@ -7,7 +7,7 @@ class TreeAdapter {
     constructor() {
         this.metadata = new TreeMetadata_1.TreeMetadata();
         this.nodesWithIcons = TreeConstants_1.TreeConstants.Defaults.nodesWithIcons;
-        this.nodesAllOpened = TreeConstants_1.TreeConstants.Defaults.nodesAllOpened;
+        this.nodesOpenedMode = TreeConstants_1.TreeConstants.Defaults.nodesOpenedMode;
         this.dataTypesCssClassesEnabled = TreeConstants_1.TreeConstants.Defaults.dataTypesCssClassesEnabled;
     }
 }

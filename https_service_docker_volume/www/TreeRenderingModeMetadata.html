@@ -104,7 +104,7 @@
           "rynrnyrn": {
             "icon": "css/images/custom-theme-icons/catalog.png",
             "label": "echo html",
-            "opened": true,
+            "opened": false,
             "subtree": {
               "rnynry": {
                 "icon": "css/images/custom-theme-icons/html.png",
@@ -151,7 +151,7 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder_SubtreeArrayOfObjects")
           .setNodesWithIcons(true)
-          .setNodesAllOpened(false)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
           .setModifiable(false)
           .setRenderingMode(TreeConstants.RenderingMode.Metadata)
           .addJSTreeEventListener (
@@ -167,6 +167,8 @@
         const tree_SubtreeLikeObjects = new Tree();
         tree_SubtreeLikeObjects
           .setMainHtmlNodeId("example-tree-holder_SubtreeLikeObjects")
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.JSON_DATA_DEFINED)
+          .setNodesWithIcons(true)
           .setRenderingMode(TreeConstants.RenderingMode.Metadata)
           .render(treeJson_SubtreeLikeObjects);
 
@@ -175,7 +177,7 @@
         tree_load_by_url
             .setMainHtmlNodeId("example-tree-holder_load_by_url")
             .setRenderingMode(TreeConstants.RenderingMode.Metadata)
-            .load("JsonDataExamples/tree-data.json");
+            //.load("JsonDataExamples/tree-data.json");
 
       });
     </script>

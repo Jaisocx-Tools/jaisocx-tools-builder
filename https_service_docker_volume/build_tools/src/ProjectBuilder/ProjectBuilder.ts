@@ -152,7 +152,7 @@ export class ProjectBuilder {
     // using local module environment and tsconfig.json
     this.transpileTypeScriptSources(
       modulePath, 
-      "tsconfig.json",
+      `${modulePath}/tsconfig.json`,
       true
     );
 
@@ -234,7 +234,6 @@ export class ProjectBuilder {
 
       if (false === fs.existsSync(buildSimpleCatalogPath)) {
         this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
-        //fs.mkdirSync(buildSimpleCatalogPath, {recursive: true});
       }
 
       if (true === fs.existsSync(buildSimpleFilePath)) {
@@ -245,23 +244,6 @@ export class ProjectBuilder {
 
       // @ts-ignore
       this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
-
-      /*fs.copyFile(buildFilePath, buildSimpleFilePath, (err) => {
-        if (err) {
-          console.error(`Module [ ${moduleJson.name} ]: Error copying file:`, err);
-          return;
-        }
-
-        (function() {
-          const fileName: string = buildFileName;
-          // @ts-ignore
-          const filePathToEslint: string = ('./' + this.buildSimpleCatalogName + '/' + fileName);
-          console.log(`Module [ ${moduleJson.name} ]: Copy file [ ${fileName} ] success, catalog ${buildSimpleFilePath}!`);
-
-          // @ts-ignore
-          this.prettifyWithEslint(this.absolutePathToProjectRoot, filePathToEslint, false);
-        }).call(this);
-      });*/
     }
   }
 
@@ -270,7 +252,7 @@ export class ProjectBuilder {
     tsconfigFileName: string,
     logToConsole: boolean
   ): any {
-    const consoleCommand: string = `tsc -p "./${tsconfigFileName}"`;
+    const consoleCommand: string = `cd "${tsconfigCatalogPath}" && tsc -p "${tsconfigFileName}"`;
     return this.runCommandLine(tsconfigCatalogPath, consoleCommand, logToConsole);
   }
 

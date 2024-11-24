@@ -15,14 +15,14 @@ export declare class Tree extends LargeDomEventEmitter {
     contextMenuJSClass: any;
     renderingMode: number;
     nodesWithIcons: boolean;
-    nodesAllOpened: boolean;
+    nodesOpenedMode: number;
     isModifiable: boolean;
     dataTypesCssClassesEnabled: boolean;
     adapter: ITreeAdapter;
     constructor();
     setDebug(debug: boolean): Tree;
     setNodesWithIcons(withIcons: boolean): Tree;
-    setNodesAllOpened(opened: boolean): Tree;
+    setNodesOpenedMode(openedMode: number): Tree;
     setUrl(url: string | null): Tree;
     setMainHtmlNodeId(mainHtmlNodeId: string): Tree;
     setMetadata(metadata: TreeMetadata): Tree;
@@ -56,6 +56,5 @@ export declare class Tree extends LargeDomEventEmitter {
     escapeHTMLForAttribute(str: string): string;
     unescapeHTMLFromAttribute(str: string | undefined): string;
     getTreeHtmlNodeDatasetJson(htmlNode: HTMLElement | null): string;
-    contextMenuRender(eventPayload: any): void;
 }
 //# sourceMappingURL=Tree.d.ts.map

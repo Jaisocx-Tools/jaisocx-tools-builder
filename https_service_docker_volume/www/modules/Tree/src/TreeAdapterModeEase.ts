@@ -1,8 +1,5 @@
-import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage";
-import { Tree } from "./Tree";
 import { TreeAdapter } from "./TreeAdapter";
 import { TreeConstants } from "./TreeConstants";
-import { TreeMetadata } from "./TreeMetadata";
 import { IRenderTemplateRendererData, ITreeAdapter } from "./Types";
 
 export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
@@ -26,14 +23,12 @@ export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
 
     let openButtonClassName: string = "";
     let labelText: string = `"${key}"`;
+
     if (!nodeHasSubtree) {
       openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_WITHOUT_SUBTREE;
       const serializedJsonValue: string = this.escapeHTMLForAttribute(JSON.stringify(value));
       labelText = `"${key}": ${serializedJsonValue}`;
-    } else if (
-      node[this.metadata.NODE__OPENED] === true
-      || this.nodesAllOpened === true
-    ) {
+    } else if (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.ALL_SHOWN) {
       openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
     }
 

@@ -14,8 +14,11 @@ class TreeAdapterModeMetadata extends TreeAdapter_1.TreeAdapter {
             openButtonClassName = TreeConstants_1.TreeConstants.TreeCssClassNames.CLASS_WITHOUT_SUBTREE;
             // @ts-ignore
         }
-        else if (node[this.metadata.NODE__OPENED] === true
-            || this.nodesAllOpened === true) {
+        else if ((this.nodesOpenedMode === TreeConstants_1.TreeConstants.NodesOpenedMode.ALL_SHOWN)) {
+            openButtonClassName = TreeConstants_1.TreeConstants.TreeCssClassNames.CLASS_OPENED;
+        }
+        else if ((node[this.metadata.NODE__OPENED] === true)
+            && (this.nodesOpenedMode === TreeConstants_1.TreeConstants.NodesOpenedMode.JSON_DATA_DEFINED)) {
             openButtonClassName = TreeConstants_1.TreeConstants.TreeCssClassNames.CLASS_OPENED;
         }
         const cssClasses = this.getTreeNodeCssClasses(dataTypeString, node);

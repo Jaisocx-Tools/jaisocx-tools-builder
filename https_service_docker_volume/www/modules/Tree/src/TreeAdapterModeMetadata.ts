@@ -26,8 +26,12 @@ export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter
 
       // @ts-ignore
     } else if (
-      node[this.metadata.NODE__OPENED] === true
-        || this.nodesAllOpened === true
+      (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.ALL_SHOWN)
+    ) {
+      openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
+    } else if (
+      (node[this.metadata.NODE__OPENED] === true)
+      && (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.JSON_DATA_DEFINED)
     ) {
       openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
     }

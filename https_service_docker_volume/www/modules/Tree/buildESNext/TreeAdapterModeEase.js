@@ -16,8 +16,7 @@ export class TreeAdapterModeEase extends TreeAdapter {
             const serializedJsonValue = this.escapeHTMLForAttribute(JSON.stringify(value));
             labelText = `"${key}": ${serializedJsonValue}`;
         }
-        else if (node[this.metadata.NODE__OPENED] === true
-            || this.nodesAllOpened === true) {
+        else if (this.nodesOpenedMode === TreeConstants.NodesOpenedMode.ALL_SHOWN) {
             openButtonClassName = TreeConstants.TreeCssClassNames.CLASS_OPENED;
         }
         const cssClasses = (this.dataTypesCssClassesEnabled === true) ? this.getTreeNodeCssClasses(dataTypeString, value) : "";

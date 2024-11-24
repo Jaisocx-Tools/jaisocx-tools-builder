@@ -2,7 +2,7 @@ export interface ITreeDefaults {
   debug: boolean;
   renderingMode: number;
   nodesWithIcons: boolean;
-  nodesAllOpened: boolean;
+  nodesOpenedMode: number;
   isModifiable: boolean;
   dataTypesCssClassesEnabled: boolean;
 }
@@ -21,6 +21,12 @@ export interface IRenderSubtreeResult {
 export interface IRenderingMode {
   Ease: number;
   Metadata: number;
+}
+
+export interface INodesOpenedMode {
+  ALL_SHOWN: number;
+  JSON_DATA_DEFINED: number;
+  ALL_HIDDEN: number;
 }
 
 export interface IRenderTemplateRendererData {

@@ -4,6 +4,11 @@ TreeConstants.RenderingMode = {
   Ease: 1,
   Metadata: 2,
 };
+TreeConstants.NodesOpenedMode = {
+  ALL_SHOWN: 1,
+  JSON_DATA_DEFINED: 2,
+  ALL_HIDDEN: 3,
+};
 TreeConstants.TreeCssClassNames = {
   MAIN_CLASS_NAME: "tree",
   CLASS_NAME_WITH_ICONS: "with-icons",
@@ -53,7 +58,7 @@ TreeConstants.Defaults = {
   debug: false,
   renderingMode: TreeConstants.RenderingMode.Ease,
   nodesWithIcons: true,
-  nodesAllOpened: false,
+  nodesOpenedMode: TreeConstants.NodesOpenedMode.ALL_HIDDEN,
   isModifiable: false,
   dataTypesCssClassesEnabled: true,
 };

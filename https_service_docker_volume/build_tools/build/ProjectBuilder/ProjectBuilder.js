@@ -130,7 +130,7 @@ class ProjectBuilder {
         this.prettifyWithEslint(this.absolutePathToProjectRoot, `${modulePath}/src/**/*.ts`, false);
         // transpiling to standard .js build,
         // using local module environment and tsconfig.json
-        this.transpileTypeScriptSources(modulePath, "tsconfig.json", true);
+        this.transpileTypeScriptSources(modulePath, `${modulePath}/tsconfig.json`, true);
         // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
         // using local module environment, however tsconfig.ESNext.json is used from project root.
         const tsconfigPath = `${this.absolutePathToProjectRoot}/${this.buildESNextTSConfigName}`;
@@ -223,7 +223,7 @@ class ProjectBuilder {
         }
     }
     transpileTypeScriptSources(tsconfigCatalogPath, tsconfigFileName, logToConsole) {
-        const consoleCommand = `tsc -p "./${tsconfigFileName}"`;
+        const consoleCommand = `cd "${tsconfigCatalogPath}" && tsc -p "${tsconfigFileName}"`;
         return this.runCommandLine(tsconfigCatalogPath, consoleCommand, logToConsole);
     }
     transpileTypescriptSourcesWithPath(modulePath, tsconfigPath) {

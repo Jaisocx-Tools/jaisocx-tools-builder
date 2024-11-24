@@ -1,12 +1,19 @@
 import { Tree } from "./Tree";
 import {
-  IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults
+  IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults,
+  INodesOpenedMode
 } from "./Types";
 
 export class TreeConstants {
   static RenderingMode: IRenderingMode = {
     Ease: 1,
     Metadata: 2,
+  };
+
+  static NodesOpenedMode: INodesOpenedMode = {
+    ALL_SHOWN: 1,
+    JSON_DATA_DEFINED: 2,
+    ALL_HIDDEN: 3,
   };
 
   static TreeCssClassNames: ITreeCssClassNames = {
@@ -65,7 +72,7 @@ export class TreeConstants {
     debug: false,
     renderingMode: TreeConstants.RenderingMode.Ease,
     nodesWithIcons: true,
-    nodesAllOpened: false,
+    nodesOpenedMode: TreeConstants.NodesOpenedMode.ALL_HIDDEN,
     isModifiable: false,
     dataTypesCssClassesEnabled: true,
   };
