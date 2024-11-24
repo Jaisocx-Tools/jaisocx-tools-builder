@@ -153,6 +153,8 @@
   <body>
 
     <div id="example-tree-holder-rendering-mode-ease-custom-theme" class="theme-funny"></div>
+
+    <h2>load by url (should work only when published at an http server)</h2>
     <div id="example-tree-holder-rendering-mode-ease"></div>
 
     <script>
@@ -173,14 +175,23 @@
               console.log(evt);
             }
           )
-          //.render(treeJson);
+          .render(treeJson);
 
         // here only with required setters
+        let url = ''; //'http://transport.opendata.ch/v1/connections?from=Lausanne&to=Gen%C3%A8ve';
+            //url = 'https://jaisocx.com/application/ld+json';
+            //url = 'https://gomezmig03.github.io/MotivationalAPI/en.json';
+            //url = 'https://api.dictionaryapi.dev/api/v2/entries/en/weather';
+            //url = 'https://datos.gob.es/apidata/catalog/dataset?_sort=title&_pageSize=800&_page=0';
+            //url = 'https://api.artic.edu/api/v1/artworks';
+            url = 'JsonDataExamples/ease.json';
+
         const treeCustomTheme = new Tree();
         treeCustomTheme
           .setMainHtmlNodeId("example-tree-holder-rendering-mode-ease")
-          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
-          .render(treeJson);        
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+          //.setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
+          .load(url);
       });
     </script>
   </body>

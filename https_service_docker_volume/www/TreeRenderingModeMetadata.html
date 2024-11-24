@@ -151,7 +151,7 @@
           .setDebug(false)
           .setMainHtmlNodeId("example-tree-holder_SubtreeArrayOfObjects")
           .setNodesWithIcons(true)
-          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
           .setModifiable(false)
           .setRenderingMode(TreeConstants.RenderingMode.Metadata)
           .addJSTreeEventListener (
@@ -159,8 +159,8 @@
             (evt) => {
               console.log(evt);
             }
-          );
-          //.render(treeJson_SubtreeArrayOfObjects);
+          )
+          .render(treeJson_SubtreeArrayOfObjects);
 
 
         // minimum setters amount required
@@ -177,7 +177,7 @@
         tree_load_by_url
             .setMainHtmlNodeId("example-tree-holder_load_by_url")
             .setRenderingMode(TreeConstants.RenderingMode.Metadata)
-            //.load("JsonDataExamples/tree-data.json");
+            .load("JsonDataExamples/tree-data.json");
 
       });
     </script>

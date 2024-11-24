@@ -4,18 +4,22 @@
   "description": "",
   "main": "nope",
   "scripts": {
-    "build": "./command/build.sh"
+    "build": "./command/build.sh",
+    "server": "http-server ./www -p 8083 -o"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
   "devDependencies": {
-    "typescript": "^4.x",
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-jaisocx": "file:build_tools/src/EslintPlugins/EslintPluginJaisocxJS",
     "eslint-plugin-json-format": "^2.0.1",
-    "@typescript-eslint/eslint-plugin": "^8.15.0",
-    "@typescript-eslint/parser": "^8.15.0"
+    "typescript": "^4.x"
   }
 }
