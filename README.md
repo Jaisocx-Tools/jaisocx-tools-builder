@@ -169,3 +169,61 @@ Then, You can use Your new ProjectBuilder version to build Your packages in this
 cd https_service_docker_volume
 npm run build
 ```
+
+## THE WEBPACK BUILD EXAMPLE
+
+`https_service_docker_volume/www/examples/ExampleTree`
+
+## Status of webpack build feature support in this project
+
+- Under development, however the example is working well.
+- Centrally it is **not enabled yet**, the `build-webpack/bundle.js` is **not** being produced now by **ProjectBuilder** in each example module.
+
+- It seems, `index.ts` for import statements in other `.ts` files must be different, than `bundle.ts` file, used to build a webpack's `bundle.js` to include in a `.html` page in `<script src="..../bundle.js">`.
+
+
+### what is Webpack build result?
+
+`https_service_docker_volume/www/examples/ExampleTree/build-webpack/bundle.js`
+
+is usable in a static `.html` page even, after each webpack rebuild, too.
+
+
+usage of this `bundle.js` in a static `.html` page:
+
+```
+  <script src="examples/ExampleTree/build-webpack/bundle.js"></script>
+
+...
+
+  <body>
+
+    <div id="tree-holder-configured"></div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+
+        const tree = new Tree();
+        tree
+          .setMainHtmlNodeId("tree-holder-configured")
+          .load('https://api.artic.edu/api/v1/artworks');
+
+      });
+    </script>
+```
+
+
+### how to rebuild
+
+- Your other local dependencies must be linked. Use ProjectBuilder like documented above.
+
+- during development, once other local packages are npm linked locally, You don't need to use ProjectBuilder. for a faster rebuild, just use npm run webpack inside the subpackage catalog.
+
+```
+cd https_service_docker_volume/www/examples/ExampleTree
+npm run webpack
+```
+
+- reload this `.html` page, opened in Your browser to see effect: `https_service_docker_volume/www/TreeWebpackBuild.html`
+
+
