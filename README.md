@@ -2,13 +2,34 @@
 
 ## STATUS OF THE PROJECT
 
-The Project is under development now, 2024-11-23.
+The Project is under development now, 2024-11-24.
 
-However the infrastructure for building a multi submodules .ts libraries is ready to use.
+The infrastructure for building a multi submodules .ts libraries is ready to use.
+packages in `https_service_docker_volume/www/modules` catalog are ready to use, too.
+
+You can open an example .html file with "open with" => "browser",
+
+or if You'd like to view and develop Yor own web ui packages under an `http endpoint`, start a server with command
+
+open terminal and cd to `https_service_docker_volume` first.
+
+if did not install npm packages, do so:
+
+```
+npm install
+```
+
+start `Your http endpoint` like this:
+
+```
+npm run server
+```
+
+this command starts the server and opens the browser with the default listing of `https_service_docker_volume/www` catalog.
+
+
 
 - Assets feature for css and images files to enable a .ts lib to work after *npm install <of Your .ts lib>* is not started.
-
-- Tree class is under development.
 
 
 
