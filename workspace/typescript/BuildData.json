@@ -1,0 +1,108 @@
+{
+  "npm-registry-name": "@jaisocx",
+  "modules": [
+    {
+      "path": "modules/EventEmitter",
+      "name": "event-emitter",
+      "build": true,
+      "build-simple-enable": true,
+      "build-files": [
+        "EventEmitter.js",
+        "LargeDomEventEmitter.js"
+      ]
+    },
+    {
+      "path": "modules/TemplateRenderer",
+      "name": "template-renderer",
+      "build": false,
+      "build-simple-enable": true,
+      "dependencies": [
+        {
+          "name": "@jaisocx/event-emitter",
+          "path": "modules/EventEmitter"
+        }
+      ],
+      "build-files": [
+        "TemplateRenderer.js"
+      ]
+    },
+    {
+      "path": "modules/Tree",
+      "name": "tree",
+      "build": false,
+      "build-simple-enable": true,
+      "dependencies": [
+        {
+          "name": "@jaisocx/event-emitter",
+          "path": "modules/EventEmitter"
+        },
+        {
+          "name": "@jaisocx/template-renderer",
+          "path": "modules/TemplateRenderer"
+        }
+      ],
+      "build-files": [
+        "typescript/Tree.js",
+        "typescript/TreeMetadata.js",
+        "typescript/TreeConstants.js",
+        "typescript/TreeAdapter.js",
+        "typescript/TreeAdapterModeMetadata.js",
+        "typescript/TreeAdapterModeEase.js",
+        "typescript/ArrayOrObjectPackage.js"
+      ]
+    },
+    {
+      "path": "examples/ExampleTemplateRenderer",
+      "name": "example-template-renderer",
+      "build": false,
+      "build-simple-enable": true,
+      "dependencies": [
+        {
+          "name": "@jaisocx/event-emitter",
+          "path": "modules/EventEmitter"
+        },
+        {
+          "name": "@jaisocx/template-renderer",
+          "path": "modules/TemplateRenderer"
+        }
+      ],
+      "build-files": [
+        "ExampleTemplateRenderer.js"
+      ]
+    },
+    {
+      "path": "examples/ExampleTree",
+      "name": "example-tree",
+      "build": false,
+      "build-simple-enable": true,
+      "dependencies": [
+        {
+          "name": "@jaisocx/tree",
+          "path": "modules/Tree"
+        }
+      ],
+      "build-files": [
+        "ExampleTree.js"
+      ],
+      "webpack-bundle.js": {
+        "@status": "this ProjectBuilder.json property 'webpack-bundle.js' is an idea for future implementation, and is now not under development",
+        "@description": "to automate producing of a bundle.ts file for different entrypoint for webpack build",
+        "imports": [
+          {
+            "class": "Tree",
+            "from": "@jaisocx/tree"
+          },
+          {
+            "class": "TreeConstants",
+            "from": "@jaisocx/tree"
+          },
+          {
+            "class": "ExampleTree",
+            "from": "./ExampleTree"
+          }
+        ]
+      }
+    }
+  ]
+}
+

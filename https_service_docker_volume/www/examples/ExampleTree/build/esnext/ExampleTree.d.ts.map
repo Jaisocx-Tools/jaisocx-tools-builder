@@ -1,1 +1,0 @@
-{"version":3,"file":"ExampleTree.d.ts","sourceRoot":"","sources":["../../src/ExampleTree.ts"],"names":[],"mappings":"AACA,OAAO,iDAAiD,CAAC;AAEzD,qBAAa,WAAW;IACtB,QAAQ,EAAE,MAAM,CAAC;IAEjB,GAAG,EAAE,MAAM,CAAC;gBAGV,EAAE,EAAE,MAAM,EACV,GAAG,EAAE,MAAM;IAWb,MAAM,CACJ,EAAE,EAAE,MAAM,EACV,GAAG,EAAE,MAAM,GACV,IAAI;CAkBR"}

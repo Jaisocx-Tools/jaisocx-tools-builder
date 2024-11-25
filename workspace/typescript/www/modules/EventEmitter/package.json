@@ -1,0 +1,23 @@
+{
+  "name": "@jaisocx/event-emitter",
+  "version": "1.0.03",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "./build/commonjs/index.js",
+  "files": [
+    "build/",
+    "src/",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^4.x"
+  }
+}
+
