@@ -24,7 +24,7 @@ const argv = process.argv.slice(2); // Get command-line arguments starting from 
 const commandArgs: any = {
   ProjectRoot: '',
   BuildData: '',
-  ModulesPath: '',
+  PackagesPath: '',
 };
 argv.forEach( ( arg ) => {
   let [key, value] = arg.split('=');
@@ -39,9 +39,9 @@ if (false === fs.existsSync( buildDataPath ) ) {
   throw new Error(`BuildData.json not available at path: ${buildDataPath}`);
 }
 
-const modulesPath: string = path.resolve( commandArgs.ProjectRoot, commandArgs.ModulesPath );
-if (false === fs.existsSync( modulesPath ) ) {
-  throw new Error(`modulesPath not available at path: ${modulesPath}`);
+const packagesPath: string = path.resolve( commandArgs.ProjectRoot, commandArgs.PackagesPath );
+if (false === fs.existsSync( packagesPath ) ) {
+  throw new Error(`modulesPath not available at path: ${packagesPath}`);
 }
 
 
@@ -53,7 +53,7 @@ let buildData: any = await fsp.readFile(
 console.log("buildDataPath", buildDataPath);
 console.log("buildData", buildData);
 
-console.log("modulesPath", modulesPath);
+console.log("packagesPath", packagesPath);
 
 
 /*

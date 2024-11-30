@@ -8,5 +8,5 @@ echo $projectRoot
 
 tsconfigVersion="$1"
 cd "${https_service_docker_volume}/build_tools/ProjectBuilder" 
-node "./build/${tsconfigVersion}/index.js" --ProjectRoot="${projectRoot}" --BuildData="./BuildData.json" --ModulesPath="./www/"
+node "./build/${tsconfigVersion}/index.js" --ProjectRoot="${projectRoot}" --BuildData="./BuildData.json" --PackagesPath="./www/"
 
