@@ -1,0 +1,27 @@
+{
+  "name": "eslint-plugin-jaisocx",
+  "version": "1.2.01",
+  "private": false,
+  "main": "./build/CommonJS/index.cjs",
+  "types": "./build/ESNext/index.d.ts",
+  "module": "./build/ESNext/index.mjs",
+  "exports": {
+    "require": "./build/CommonJS/index.cjs",
+    "import": "./build/ESNext/index.mjs"
+  },
+  "files": [
+    "build/",
+    "src/",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "devDependencies": {
+    "typescript": "^5.7.x"
+  },
+  "scripts": {
+    "build:cjs": "export BUILD_MODE=CommonJS && tsc -p tsconfig.CommonJS.json",
+    "build:esm": "export BUILD_MODE=ESNext && tsc -p tsconfig.ESNext.json",
+    "watch": "tsc -w -p ./tsconfig.ESNext.json"
+  }
+}

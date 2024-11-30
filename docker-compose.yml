@@ -1,0 +1,77 @@
+services:
+
+  express:
+    build:
+      context: ./docker/node/express
+    volumes:
+      - ./workspace/ts/:/var/www/workspace/ts/:delegated
+    ports:
+      - 3000:3000
+    networks:
+      - workspace-jaisocx-tools
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  py:
+    build: 
+      context: ./docker/py
+    volumes:
+      - ./workspace/py/:/var/www/workspace/py/:delegated
+    ports:
+      - 8000:8000
+    networks:
+      - workspace-jaisocx-tools
+
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - ./docker/php/logs/:/symfony-logs/
+      - ./workspace/php/:/var/www/workspace/php/:cached
+    environment:
+      TIMEZONE: "Europe/Zurich"
+    networks:
+      - workspace-jaisocx-tools
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  jaisocx_http:
+    build:
+      context: ./docker/jaisocx-http
+    volumes:
+      - ./docker/jaisocx-http/conf/:/usr/lib/jaisocx-http/apps/congratulations/conf/
+      - ./docker/jaisocx-http/etc/:/usr/lib/jaisocx-http/etc/
+      - ./docker/jaisocx-http/ssl/:/usr/lib/jaisocx-http/ssl/
+      - ./docker/jaisocx-http/logs/:/usr/lib/jaisocx-http/logs/
+      - ./workspace/ts/www/:/var/www/workspace/ts/www/:cached
+      - ./workspace/php/:/var/www/workspace/php/:cached
+    ports:
+      - 443:443
+      - 80:80
+    networks:
+      - workspace-jaisocx-tools
+    environment:
+      PHP_FPM_HOST: "php:9000"
+      JAVA_XMS: "2g"
+      JAVA_XMX: "2g"
+  #      php hostname like php service name="php", port from docker/php/conf/php-fpm.d/www.conf "listen" directive (listen = 127.0.0.1:9000)
+
+  mysql:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - 3316:3306
+    volumes:
+      - ./docker/mysql/volumes:/var/lib/mysql:delegated
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:delegated
+      - ./docker/mysql/init/conf/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf:delegated
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+    networks:
+      - workspace-jaisocx-tools
+      
+networks:
+  workspace-jaisocx-tools:
+    driver: bridge
+

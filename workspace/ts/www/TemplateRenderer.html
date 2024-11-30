@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <title>TemplateRenderer Example</title>
+  </head>
+  <body>
+
+    <script src="packages/EventEmitter/build/simple/EventEmitter.js"></script>
+    <script src="packages/TemplateRenderer/build/simple/TemplateRenderer.js"></script>
+  
+    <script src="examples/ExampleTemplateRenderer/build/simple/ExampleTemplateRenderer.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const example = new ExampleTemplateRenderer();
+        example.init();
+      });
+    </script>
+  </body>
+</html>
+

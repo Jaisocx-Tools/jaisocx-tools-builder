@@ -1,0 +1,41 @@
+<conf>
+    <conf-idm path="/usr/lib/jaisocx-http/apps/congratulations/conf/idm-conf.xml" />
+    <conf-http>
+        <servers>
+            <server port="443" alternative-port="2288" secure="true">
+                <domain
+                    name="workspace.brightday.email"
+                    jks-path="/usr/lib/jaisocx-http/ssl/brightday.email.jks"
+                    jks-alias="brightday.email"
+                    jks-passphrase="JW5MYPKHbdqetvr4yfshiFwwjvr4fakE43qJUtgh7A2hNEW"
+                    document-root="/var/www/workspace/php"
+                    publish-charset="UTF-8" src-charset="UTF-8">
+                    <alias comment="workspace typescript sources"
+                           art="folder"
+                           url="/"
+                           path="/var/www/workspace/ts/www/"
+                           cache="update"
+                           list="true" 
+                           each-folder-content-file-name="index.html" />
+                    <alias comment="workspace php sources"
+                           art="folder"
+                           url="/php/"
+                           path="/var/www/workspace/php/"
+                           cache="update"
+                           list="true" 
+                           each-folder-content-file-name="index.php" />
+                </domain>
+            </server>
+            <server port="80" alternative-port="2289" secure="false">
+                <domain
+                    name="workspace.brightday.email">
+                    <alias comment="on the plain port 80 without TLS, this alias will redirect all requests to normal https:// url, defined above in server node port 443, secure=true"
+                           art="redirection"
+                           url="/${any}"
+                           path="https://workspace.brightday.email/" />
+                </domain>
+            </server>
+        </servers>
+    </conf-http>
+</conf>
+

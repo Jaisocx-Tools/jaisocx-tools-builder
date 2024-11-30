@@ -1,3 +1,9 @@
-**/node_modules/
+**/node_modules
 
 **/.DS_Store
+
+
+/docker/php/logs
+/docker/jaisocx-http/logs
+/docker/mysql/volumes
+

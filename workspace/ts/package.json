@@ -1,0 +1,24 @@
+{
+  "name": "https_service_docker_volume",
+  "version": "1.0.01",
+  "description": "Root where to run ProjectBuilder to npm link all sub packages, eslint and do other each task.",
+  "scripts": {
+    "build": "./command/build.sh",
+    "server": "http-server ./www -p 8083 -o"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^8.15.0",
+    "@typescript-eslint/parser": "^8.15.0",
+    "eslint": "^8.57.1",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-jaisocx": "file:build_tools/EslintPlugins/EslintPluginJaisocxJS",
+    "eslint-plugin-json-format": "^2.0.1",
+    "typescript": "^5.7.x"
+  }
+}

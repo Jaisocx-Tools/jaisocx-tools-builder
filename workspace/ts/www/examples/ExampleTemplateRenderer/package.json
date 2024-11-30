@@ -1,0 +1,22 @@
+{
+  "name": "@jaisocx/example-template-renderer",  
+  "version": "1.0.03",
+  "main": "./build/commonjs/index.js",
+  "files": [
+    "build/",
+    "src/",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "optionalDependencies": {
+    "@jaisocx/template-renderer": "^1.0.x"
+  },
+  "devDependencies": {
+    "typescript": "^4.x"
+  }
+}
+
