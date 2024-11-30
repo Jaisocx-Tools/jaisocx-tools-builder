@@ -1,8 +1,8 @@
 services:
 
-  express:
+  node:
     build:
-      context: ./docker/node/express
+      context: ./docker/node
     volumes:
       - ./workspace/ts/:/var/www/workspace/ts/:delegated
     ports:

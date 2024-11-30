@@ -7,6 +7,6 @@ echo "\$projectRoot"
 echo $projectRoot
 
 tsconfigVersion="$1"
-cd "${https_service_docker_volume}/build_tools/ProjectBuilder" 
-node "./build/${tsconfigVersion}/index.js" --ProjectRoot="${projectRoot}" --BuildData="./BuildData.json" --PackagesPath="./www/"
+cd "${projectRoot}/build_tools/ProjectBuilder" 
+docker compose exec node /usr/bin/env bash -c "cd \"${dockerWorkingDir}/build_tools/ProjectBuilder\" && node \"./build/${tsconfigVersion}/index.js\" --ProjectRoot=\"${dockerWorkingDir}\" --BuildData=\"./BuildData.json\" --PackagesPath=\"./www/\""
 
