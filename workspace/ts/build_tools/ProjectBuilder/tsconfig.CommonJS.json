@@ -1,23 +1,21 @@
 {
   "compilerOptions": {
-    "target":"ES2023",  // Use modern JavaScript features but still compatible with many environments
-    "module": "Node16",  // Use ES modules (ESM), suitable for modern bundlers and Node.js
-    "moduleResolution": "node16",  // For resolving modules using Node.js resolution algorithm
-    "lib": ["ES2023", "DOM"],  // Include the latest JavaScript features and DOM for browser environments
+    "target": "ES5",  // Use modern JavaScript features but still compatible with many environments
+    "module": "CommonJS",  // Use ES modules (ESM), suitable for modern bundlers and Node.js
+    "moduleResolution": "classic",  // For resolving modules using Node.js resolution algorithm
+    "lib": ["DOM"],  // Include the latest JavaScript features and DOM for browser environments
     "types": ["node"],
     "downlevelIteration": true,
     "strict": true,  // Enforce strict type-checking
-    "esModuleInterop": true,  // Allow default imports from modules with no default export
     "skipLibCheck": true,  // Skip type checking of declaration files for faster builds
     "forceConsistentCasingInFileNames": true,  // Ensure consistent file name casing across the project
     "allowJs": true,  // Allow JavaScript files in your TypeScript project
     "checkJs": false,  // Don't check JS files for type errors (can be turned on if needed)
-    "outDir": "./build/Node16",  // Output directory for transpiled files
+    "outDir": "./build/NextJS",  // Output directory for transpiled files
     "declaration": true,  // Generate .d.ts declaration files for type definitions
     "declarationMap": true,  // Generate declaration maps (helps IDEs and tools like VS Code)
-    "declarationDir": "./build/Node16",
+    "declarationDir": "./build/NextJS",
     "sourceMap": true,  // Enable source maps for debugging
-    "resolveJsonModule": true,  // Allow importing JSON files as modules
     "jsx": "react",  // If using React, else change to "react-jsx" or omit this if you're not using React
     "skipDefaultLibCheck": true  // Skip checking the default lib files
   },

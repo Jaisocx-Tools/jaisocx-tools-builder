@@ -3,7 +3,7 @@
   "version": "1.0.01",
   "description": "Root where to run ProjectBuilder to npm link all sub packages, eslint and do other each task.",
   "scripts": {
-    "build": "./command/build.sh",
+    "build": "./build_tools/command/buildSubpackages.sh",
     "server": "http-server ./www -p 8083 -o"
   },
   "keywords": [],

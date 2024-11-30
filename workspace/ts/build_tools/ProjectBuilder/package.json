@@ -23,10 +23,9 @@
   "scripts": {
     "build:CommonJS": "export BUILD_MODE=CommonJS && tsc -p tsconfig.CommonJS.json",
     "build:ESNext": "export BUILD_MODE=ESNext && tsc -p ./tsconfig.ESNext.json",
-    "build:Node16": "export BUILD_MODE=Node16 && tsc -p ./tsconfig.Node16.json",
     "watch": "tsc -w -p ./tsconfig.ESNext.json",
     "project-builder": "node ./build/ESNext/index.js \"$(pwd)\"",
-    "run:Node16": "cd ./../../ && ./command/buildSubpackages.sh Node16"
+    "buildSubpackages:ESNext": "cd ./../../ && ./command/buildSubpackages.sh ESNext"
   }
 }
 
