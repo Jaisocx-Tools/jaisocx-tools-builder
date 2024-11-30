@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd /var/www/workspace/ts/www/express/app
+cd /var/www/workspace/ts/express/app
 
 # Optional: install dependencies
 if [ "$NODE_ENV" != "production" ]; then

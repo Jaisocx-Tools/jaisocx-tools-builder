@@ -1,8 +1,8 @@
 {
   "npm-registry-name": "@jaisocx",
-  "modules": [
+  "packages": [
     {
-      "path": "modules/EventEmitter",
+      "path": "packages/EventEmitter",
       "name": "event-emitter",
       "build": true,
       "build-simple-enable": true,
@@ -12,14 +12,14 @@
       ]
     },
     {
-      "path": "modules/TemplateRenderer",
+      "path": "packages/TemplateRenderer",
       "name": "template-renderer",
       "build": false,
       "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
-          "path": "modules/EventEmitter"
+          "path": "packages/EventEmitter"
         }
       ],
       "build-files": [
@@ -27,18 +27,18 @@
       ]
     },
     {
-      "path": "modules/Tree",
+      "path": "packages/Tree",
       "name": "tree",
       "build": false,
       "build-simple-enable": true,
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
-          "path": "modules/EventEmitter"
+          "path": "packages/EventEmitter"
         },
         {
           "name": "@jaisocx/template-renderer",
-          "path": "modules/TemplateRenderer"
+          "path": "packages/TemplateRenderer"
         }
       ],
       "build-files": [
@@ -59,11 +59,11 @@
       "dependencies": [
         {
           "name": "@jaisocx/event-emitter",
-          "path": "modules/EventEmitter"
+          "path": "packages/EventEmitter"
         },
         {
           "name": "@jaisocx/template-renderer",
-          "path": "modules/TemplateRenderer"
+          "path": "packages/TemplateRenderer"
         }
       ],
       "build-files": [
@@ -78,7 +78,7 @@
       "dependencies": [
         {
           "name": "@jaisocx/tree",
-          "path": "modules/Tree"
+          "path": "packages/Tree"
         }
       ],
       "build-files": [
