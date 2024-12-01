@@ -7,6 +7,7 @@
     "types": ["node"],
     "downlevelIteration": true,
     "strict": true,  // Enforce strict type-checking
+    "esModuleInterop": true,  // Allow default imports from modules with no default export
     "skipLibCheck": true,  // Skip type checking of declaration files for faster builds
     "forceConsistentCasingInFileNames": true,  // Ensure consistent file name casing across the project
     "allowJs": true,  // Allow JavaScript files in your TypeScript project

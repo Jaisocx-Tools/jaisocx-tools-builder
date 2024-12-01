@@ -18,13 +18,13 @@
     "LICENSE"
   ],
   "devDependencies": {
+    "@types/node": "^22.10.1",
     "typescript": "^5.7.x"
   },
   "scripts": {
     "build:CommonJS": "export BUILD_MODE=CommonJS && tsc -p ./tsconfig.CommonJS.json",
     "build:ESNext": "export BUILD_MODE=ESNext && tsc -p ./tsconfig.ESNext.json",
     "watch": "tsc -w -p ./tsconfig.ESNext.json",
-    "buildSubpackages:ESNext": "cd ./../../ && ./command/buildSubpackages.sh ESNext"
+    "buildSubpackages:ESNext": "cd ./../../ && ./command/buildPackages.sh ESNext"
   }
 }
-

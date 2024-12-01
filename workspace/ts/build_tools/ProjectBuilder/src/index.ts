@@ -1,24 +1,7 @@
-//import dataJson from './../../BuildData.json';
-//import { ProjectBuilder } from './ProjectBuilder';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-import path from 'path';
-import fs from 'fs';
-import fsp from 'fs/promises';
-
-export interface IBuildModes {
-  CommonJS: any;
-  ESNext: any;
-}
-
-export const BuildModesNumber: IBuildModes = {
-  CommonJS: 1,
-  ESNext: 2,
-};
-
-export const BuildModesString: IBuildModes = {
-  CommonJS: "CommonJS",
-  ESNext: "ESNext",
-};
+import { ProjectBuilder } from './ProjectBuilder';
 
 const argv = process.argv.slice(2); // Get command-line arguments starting from index 2
 const commandArgs: any = {
@@ -44,8 +27,7 @@ if (false === fs.existsSync( packagesPath ) ) {
   throw new Error(`modulesPath not available at path: ${packagesPath}`);
 }
 
-
-let buildData: any = await fsp.readFile(
+let buildData: any = fs.readFileSync(
   path.resolve( commandArgs.ProjectRoot, commandArgs.BuildData ), 
   'utf8'
 );
@@ -56,18 +38,16 @@ console.log("buildData", buildData);
 console.log("packagesPath", packagesPath);
 
 
-/*
 const builder = new ProjectBuilder();
 builder
   .setIsLocalDevelopment(1)
-  .setAbsolutePathToProjectRoot(projectRoot)
+  .setAbsolutePathToProjectRoot(commandArgs.ProjectRoot)
   .setRelativePathFromRootTsConfigCatalogPath('build_tools')
   .setRelativePathFromRootLintCatalog('.')
   .setRelativePathFromRootWww('www')
-  .setBuildCjsCatalogName('build/commonjs')
-  .setBuildEsmCatalogName('build/esnext')
+  .setBuildCjsCatalogName('build/CommonJS')
+  .setBuildEsmCatalogName('build/ESNext')
   .setBuildSimpleCatalogName('build/simple')
   .build(buildData);
 
-*/
 

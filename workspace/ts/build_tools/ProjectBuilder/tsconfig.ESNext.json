@@ -4,7 +4,6 @@
     "module": "ESNext",  // Use ES modules (ESM), suitable for modern bundlers and Node.js
     "moduleResolution": "node",  // For resolving modules using Node.js resolution algorithm
     "lib": ["ES2023", "DOM"],  // Include the latest JavaScript features and DOM for browser environments
-    "types": ["node"],
     "downlevelIteration": true,
     "strict": true,  // Enforce strict type-checking
     "esModuleInterop": true,  // Allow default imports from modules with no default export

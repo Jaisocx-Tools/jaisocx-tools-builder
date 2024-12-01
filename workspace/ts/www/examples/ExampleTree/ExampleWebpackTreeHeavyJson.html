@@ -48,9 +48,9 @@
           .setMainHtmlNodeId("tree-holder-configured")
           .setDataTypesCssClassesEnabled(true)
           .setNodesWithIcons(true)
-          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_HIDDEN)
-          .setRenderingMode(TreeConstants.RenderingMode.Metadata)
-          .setMetadata(new TreeMetadata2())
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
+          .setRenderingMode(TreeConstants.RenderingMode.Ease)
+          //.setMetadata(new TreeMetadata2())
           .setModifiable(false)
           .addJSTreeEventListener(
             TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_LABEL__CLICK,
@@ -59,7 +59,8 @@
             }
           )
           //.load('https://api.artic.edu/api/v1/artworks');
-          .load('examples/ExampleTree/json/large_test_file_refined.json');
+          //.load('examples/ExampleTree/json/large_test_file_refined.json');
+          .load('examples/ExampleTree/json/tree-data.json');
 
       });
     </script>

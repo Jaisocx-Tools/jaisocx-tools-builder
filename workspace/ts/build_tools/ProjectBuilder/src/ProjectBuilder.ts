@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
-import { IDependency } from './types.js';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { IDependency } from './types';
 
 
 export class ProjectBuilder {
@@ -107,81 +107,75 @@ export class ProjectBuilder {
   build(dataJson: any): any {
     //process.env = { ...process.env, PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') };
 
-    if (!dataJson.modules || 0 === dataJson.modules.length) {
-      throw new Error('no modules array set in BuildData.json');
+    if (!dataJson.packages || 0 === dataJson.packages.length) {
+      throw new Error('no packages array set in BuildData.json');
     }
 
-    const modules: any[] = [
-      ...dataJson.modules.filter(
-        (moduleJson: any) => (true === moduleJson.build)
+    const packages: any[] = [
+      ...dataJson.packages.filter(
+        (packageJson: any) => (true === packageJson.build)
       )
     ];
 
-    if (!modules || 0 === modules.length) {
-      throw new Error('no modules marked to build in the BuildData.json');
+    if (!packages || 0 === packages.length) {
+      throw new Error('no packages marked to build in the BuildData.json');
     }
 
-    for (let moduleJson of modules) {
-      this.buildModule(moduleJson, this.absolutePathToProjectRoot);
+    for (let packageJson of packages) {
+      this.buildPackage(packageJson, this.absolutePathToProjectRoot);
     }
   }
 
-  buildModule(moduleJson: any, rootPath: string) {
+  buildPackage(packageJson: any, rootPath: string) {
     console.log(`\n\n\n===============================`);
-    console.log(`MODULE ${moduleJson.name}`);
+    console.log(`MODULE ${packageJson.name}`);
     console.log(`===============================\n`);
 
-    let modulePath: string = this.absolutePathFromRootWww + '/' + moduleJson.path;
+    let packagePath: string = this.absolutePathFromRootWww + '/' + packageJson.path;
 
     // install or link npm dependencies
-    console.log(`Module [ ${moduleJson.name} ]: Calling npm dependencies install`);
-    this.installModuleDependencies(moduleJson, modulePath);
+    console.log(`Package [ ${packageJson.name} ]: Calling npm dependencies install`);
+    this.installPackageDependencies(packageJson, packagePath);
 
     // transpile .ts
-    console.log(`Module [ ${moduleJson.name} ]: Transpiling TypeScript code in ${modulePath}`);
-    this.runCommandLine(modulePath, `ls -lahrts src`, true);
+    this.runCommandLine(packagePath, `ls -lahrts src`, true);
 
-    this.prettifyWithEslint(this.absolutePathToProjectRoot, `${modulePath}/src/**/*.ts`, false);
-
-    // transpiling to standard .js build,
-    // using local module environment and tsconfig.json
-    /*this.transpileTypeScriptSources(
-      modulePath, 
-      `${modulePath}/tsconfig.json`,
-      true
-    );*/
+    console.log(`Package [ ${packageJson.name} ]: Prettifying with Eslint TypeScript code in ${packagePath}`);
+    //this.prettifyWithEslint(this.absolutePathToProjectRoot, `${packagePath}/src/**/*.ts`, false);
 
     // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
-    // using local module environment, however tsconfig.ESNext.json is used from project root.
-    const tsconfigCjsName: string = 'tsconfig.cjs.json';
-    const tsconfigCjsPath: string = `${this.absolutePathToProjectRoot}/${tsconfigCjsName}`;
-    this.transpileTypescriptSourcesWithPath(modulePath, tsconfigCjsPath);
+    // using local package environment, however tsconfig.ESNext.json is used from project root.
+    console.log(`Package [ ${packageJson.name} ]: Transpiling TypeScript code in ${packagePath}`);
+    const projectBuilderPath: string = `${this.absolutePathToProjectRoot}/build_tools/ProjectBuilder`;
+    const tsconfigCjsName: string = 'tsconfig.CommonJS.json';
+    const tsconfigCjsPath: string = `${projectBuilderPath}/${tsconfigCjsName}`;
+    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigCjsPath);
 
-    const tsconfigEsmName: string = 'tsconfig.esm.json';
-    const tsconfigEsmPath: string = `${this.absolutePathToProjectRoot}/${tsconfigEsmName}`;
-    this.transpileTypescriptSourcesWithPath(modulePath, tsconfigEsmPath);
+    const tsconfigEsmName: string = 'tsconfig.ESNext.json';
+    const tsconfigEsmPath: string = `${projectBuilderPath}/${tsconfigEsmName}`;
+    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigEsmPath);
 
-    // link this module for usage in local development in other .ts files
+    // link this package for usage in local development in other .ts files
     if (this.getIsLocalDevelopment()) {
-      console.log(`Module [ ${moduleJson.name} ]: npm link module ${moduleJson.name} for local usage with other`);
-      this.runCommandLine(modulePath, `npm link`, false);
+      console.log(`Package [ ${packageJson.name} ]: npm link package ${packageJson.name} for local usage with other`);
+      this.runCommandLine(packagePath, `npm link`, false);
     }
 
     // building simple .js files to use in example.hml via <script src="...js"
-    console.log(`Module [ ${moduleJson.name} ]: building simple .js for usage in .html in script tag as src`);
-    this.buildSimple(moduleJson, modulePath);
+    console.log(`Package [ ${packageJson.name} ]: building simple .js for usage in .html in script tag as src`);
+    this.buildSimple(packageJson, packagePath);
   }
 
-  installModuleDependencies(moduleJson: any, modulePath: string): void {
+  installPackageDependencies(packageJson: any, packagePath: string): void {
     let dependencyCatalogPath: string = '';
     let localDependency: IDependency|null = null;
 
-    const dependencies: IDependency[]|null = moduleJson["dependencies"];
+    const dependencies: IDependency[]|null = packageJson["dependencies"];
     if (dependencies && dependencies.length > 0) {
-      console.log(`Module [ ${moduleJson.name} ]: Installing npm dependencies at ${modulePath}...`);
+      console.log(`Package [ ${packageJson.name} ]: Installing npm dependencies at ${packagePath}...`);
 
       if (this.getIsLocalDevelopment()) {
-        console.log(`Module [ ${moduleJson.name} ]: Local dev mode npm link method chosen`);
+        console.log(`Package [ ${packageJson.name} ]: Local dev mode npm link method chosen`);
 
         const localDependenciesNames: string[] = [];
         for (localDependency of dependencies) {
@@ -192,43 +186,43 @@ export class ProjectBuilder {
           localDependenciesNames.push(localDependency.name);
         }
 
-        const modulesToLinkJoined: string = localDependenciesNames.join(" ");
-        const npmLinkCommand: string = `cd "${modulePath}" && npm link ${modulesToLinkJoined}`;
+        const packagesToLinkJoined: string = localDependenciesNames.join(" ");
+        const npmLinkCommand: string = `cd "${packagePath}" && npm link ${packagesToLinkJoined}`;
         console.log(`${npmLinkCommand}`);
-        this.runCommandLine(modulePath, npmLinkCommand, false);
+        this.runCommandLine(packagePath, npmLinkCommand, false);
         
       } else {
-        console.log(`Module [ ${moduleJson.name} ]: npm install from npm registry`);
+        console.log(`Package [ ${packageJson.name} ]: npm install from npm registry`);
 
         //for (dependencyName of dependencies) {
           //dependencyCatalogPath = rootPath + dependencyCatalogPath;
-          //execSync('npm run build', { cwd: modulePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
+          //execSync('npm run build', { cwd: packagePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
         //}
       }
     } else {
-      console.log(`Module [ ${moduleJson.name} ]: No dependencies were set in BuildData.json`);
+      console.log(`Package [ ${packageJson.name} ]: No dependencies were set in BuildData.json`);
     }
   }
 
-  buildSimple(moduleJson: any, modulePath: string): void {
+  buildSimple(packageJson: any, packagePath: string): void {
     //let buildFileName: string = '';
     let buildCatalogPath: string = '';
     //let buildFilePath: string = '';
     let buildSimpleCatalogPath: string = '';
     //let buildSimpleFilePath: string = '';
 
-    const buildFiles: string[]|undefined = moduleJson["build-files"];
+    const buildFiles: string[]|undefined = packageJson["build-files"];
     if (!buildFiles || (0 === buildFiles.length)) {
-      throw new Error(`Module [ ${moduleJson.name} ]: You forgot to set "build-files" array, You wish to provide for Simple Build!`);
+      throw new Error(`Package [ ${packageJson.name} ]: You forgot to set "build-files" array, You wish to provide for Simple Build!`);
     }
 
-    buildCatalogPath    = modulePath + '/' + this.buildEsmCatalogName;
+    buildCatalogPath    = packagePath + '/' + this.buildEsmCatalogName;
     if (false === fs.existsSync(buildCatalogPath)) {
-      throw new Error(`Module [ ${moduleJson.name} ]: build catalog not found: ${buildCatalogPath}`);
+      throw new Error(`Package [ ${packageJson.name} ]: build catalog not found: ${buildCatalogPath}`);
     }
-    buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
+    buildSimpleCatalogPath = packagePath + '/' + this.buildSimpleCatalogName;
     if (false === fs.existsSync(buildSimpleCatalogPath)) {
-      this.runCommandLine(modulePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
+      this.runCommandLine(packagePath, `mkdir -p "${buildSimpleCatalogPath}"`, false);
     }
 
     for (const buildFileName of buildFiles) {
@@ -236,15 +230,15 @@ export class ProjectBuilder {
       const buildSimpleFilePath: string  = buildSimpleCatalogPath + '/' + buildFileName;
 
       if (true === fs.existsSync(buildSimpleFilePath)) {
-        this.runCommandLine(modulePath, `rm "${buildSimpleFilePath}"`, false);
+        this.runCommandLine(packagePath, `rm "${buildSimpleFilePath}"`, false);
       }
 
       const fileSimplePathDir: string = path.parse(buildSimpleFilePath).dir;
       if (false === fs.existsSync(fileSimplePathDir) ) {
-        this.runCommandLine(modulePath, `mkdir -p "${fileSimplePathDir}"`, false);
+        this.runCommandLine(packagePath, `mkdir -p "${fileSimplePathDir}"`, false);
       }
 
-      this.runCommandLine(modulePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
+      this.runCommandLine(packagePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
 
       // @ts-ignore
       this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
@@ -260,7 +254,7 @@ export class ProjectBuilder {
     return this.runCommandLine(tsconfigCatalogPath, consoleCommand, logToConsole);
   }
 
-  transpileTypescriptSourcesWithPath(modulePath: string, tsconfigPath: string): any {
+  transpileTypescriptSourcesWithPath(packagePath: string, tsconfigPath: string): any {
     const tsconfig: any = require(tsconfigPath);
     const compilerOptions: any = tsconfig["compilerOptions"];
     const transpileOptions: string[] = [];
@@ -269,20 +263,20 @@ export class ProjectBuilder {
       transpileOptions.push(`--${compilerOptonName} ${compilerOptionValue}`);
     }
 
-    const filesAndCatalogsList: string[] = fs.readdirSync(`${modulePath}/src`, {recursive: true})  as string[];
+    const filesAndCatalogsList: string[] = fs.readdirSync(`${packagePath}/src`, {recursive: true})  as string[];
     if (!filesAndCatalogsList || filesAndCatalogsList.length === 0) {
       return null;
     }
 
     const filesList: string[] = filesAndCatalogsList.filter((filePath) => {
-      const absPath: string = `${modulePath}/src/${filePath}`;
+      const absPath: string = `${packagePath}/src/${filePath}`;
       return fs.lstatSync(absPath).isFile(); 
     });
 
     const filesListJoinedString: string = "src/" + filesList.join(" src/");
     const transpileOptionsString: string = transpileOptions.join(" ");
-    const transpileCommand: string = `cd "${modulePath}" && tsc ${filesListJoinedString} ${transpileOptionsString}`;
-    return this.runCommandLine(`${modulePath}`, transpileCommand, true);
+    const transpileCommand: string = `cd "${packagePath}" && tsc ${filesListJoinedString} ${transpileOptionsString}`;
+    return this.runCommandLine(`${packagePath}`, transpileCommand, true);
   }
 
   prettifyWithEslint(
