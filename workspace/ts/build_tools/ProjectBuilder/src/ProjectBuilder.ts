@@ -241,7 +241,7 @@ export class ProjectBuilder {
       this.runCommandLine(packagePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
 
       // @ts-ignore
-      this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
+      //this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
     }
   }
 
@@ -255,7 +255,7 @@ export class ProjectBuilder {
   }
 
   transpileTypescriptSourcesWithPath(packagePath: string, tsconfigPath: string): any {
-    const tsconfig: any = require(tsconfigPath);
+    const tsconfig: any = fs.readFileSync(tsconfigPath);
     const compilerOptions: any = tsconfig["compilerOptions"];
     const transpileOptions: string[] = [];
     for (let compilerOptonName in compilerOptions) {

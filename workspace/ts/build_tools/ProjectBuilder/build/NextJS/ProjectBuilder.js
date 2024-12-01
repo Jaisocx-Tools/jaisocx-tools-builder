@@ -145,72 +145,67 @@ var ProjectBuilder = /** @class */ (function () {
     ProjectBuilder.prototype.build = function (dataJson) {
         //process.env = { ...process.env, PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') };
         var e_1, _a;
-        if (!dataJson.modules || 0 === dataJson.modules.length) {
-            throw new Error('no modules array set in BuildData.json');
+        if (!dataJson.packages || 0 === dataJson.packages.length) {
+            throw new Error('no packages array set in BuildData.json');
         }
-        var modules = __spreadArray([], __read(dataJson.modules.filter(function (moduleJson) { return (true === moduleJson.build); })), false);
-        if (!modules || 0 === modules.length) {
-            throw new Error('no modules marked to build in the BuildData.json');
+        var packages = __spreadArray([], __read(dataJson.packages.filter(function (packageJson) { return (true === packageJson.build); })), false);
+        if (!packages || 0 === packages.length) {
+            throw new Error('no packages marked to build in the BuildData.json');
         }
         try {
-            for (var modules_1 = __values(modules), modules_1_1 = modules_1.next(); !modules_1_1.done; modules_1_1 = modules_1.next()) {
-                var moduleJson = modules_1_1.value;
-                this.buildModule(moduleJson, this.absolutePathToProjectRoot);
+            for (var packages_1 = __values(packages), packages_1_1 = packages_1.next(); !packages_1_1.done; packages_1_1 = packages_1.next()) {
+                var packageJson = packages_1_1.value;
+                this.buildPackage(packageJson, this.absolutePathToProjectRoot);
             }
         }
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (modules_1_1 && !modules_1_1.done && (_a = modules_1.return)) _a.call(modules_1);
+                if (packages_1_1 && !packages_1_1.done && (_a = packages_1.return)) _a.call(packages_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
     };
-    ProjectBuilder.prototype.buildModule = function (moduleJson, rootPath) {
+    ProjectBuilder.prototype.buildPackage = function (packageJson, rootPath) {
         console.log("\n\n\n===============================");
-        console.log("MODULE ".concat(moduleJson.name));
+        console.log("MODULE ".concat(packageJson.name));
         console.log("===============================\n");
-        var modulePath = this.absolutePathFromRootWww + '/' + moduleJson.path;
+        var packagePath = this.absolutePathFromRootWww + '/' + packageJson.path;
         // install or link npm dependencies
-        console.log("Module [ ".concat(moduleJson.name, " ]: Calling npm dependencies install"));
-        this.installModuleDependencies(moduleJson, modulePath);
+        console.log("Package [ ".concat(packageJson.name, " ]: Calling npm dependencies install"));
+        this.installPackageDependencies(packageJson, packagePath);
         // transpile .ts
-        console.log("Module [ ".concat(moduleJson.name, " ]: Transpiling TypeScript code in ").concat(modulePath));
-        this.runCommandLine(modulePath, "ls -lahrts src", true);
-        this.prettifyWithEslint(this.absolutePathToProjectRoot, "".concat(modulePath, "/src/**/*.ts"), false);
-        // transpiling to standard .js build,
-        // using local module environment and tsconfig.json
-        /*this.transpileTypeScriptSources(
-          modulePath,
-          `${modulePath}/tsconfig.json`,
-          true
-        );*/
+        this.runCommandLine(packagePath, "ls -lahrts src", true);
+        console.log("Package [ ".concat(packageJson.name, " ]: Prettifying with Eslint TypeScript code in ").concat(packagePath));
+        //this.prettifyWithEslint(this.absolutePathToProjectRoot, `${packagePath}/src/**/*.ts`, false);
         // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
-        // using local module environment, however tsconfig.ESNext.json is used from project root.
-        var tsconfigCjsName = 'tsconfig.cjs.json';
-        var tsconfigCjsPath = "".concat(this.absolutePathToProjectRoot, "/").concat(tsconfigCjsName);
-        this.transpileTypescriptSourcesWithPath(modulePath, tsconfigCjsPath);
-        var tsconfigEsmName = 'tsconfig.esm.json';
-        var tsconfigEsmPath = "".concat(this.absolutePathToProjectRoot, "/").concat(tsconfigEsmName);
-        this.transpileTypescriptSourcesWithPath(modulePath, tsconfigEsmPath);
-        // link this module for usage in local development in other .ts files
+        // using local package environment, however tsconfig.ESNext.json is used from project root.
+        console.log("Package [ ".concat(packageJson.name, " ]: Transpiling TypeScript code in ").concat(packagePath));
+        var projectBuilderPath = "".concat(this.absolutePathToProjectRoot, "/build_tools/ProjectBuilder");
+        var tsconfigCjsName = 'tsconfig.CommonJS.json';
+        var tsconfigCjsPath = "".concat(projectBuilderPath, "/").concat(tsconfigCjsName);
+        this.transpileTypescriptSourcesWithPath(packagePath, tsconfigCjsPath);
+        var tsconfigEsmName = 'tsconfig.ESNext.json';
+        var tsconfigEsmPath = "".concat(projectBuilderPath, "/").concat(tsconfigEsmName);
+        this.transpileTypescriptSourcesWithPath(packagePath, tsconfigEsmPath);
+        // link this package for usage in local development in other .ts files
         if (this.getIsLocalDevelopment()) {
-            console.log("Module [ ".concat(moduleJson.name, " ]: npm link module ").concat(moduleJson.name, " for local usage with other"));
-            this.runCommandLine(modulePath, "npm link", false);
+            console.log("Package [ ".concat(packageJson.name, " ]: npm link package ").concat(packageJson.name, " for local usage with other"));
+            this.runCommandLine(packagePath, "npm link", false);
         }
         // building simple .js files to use in example.hml via <script src="...js"
-        console.log("Module [ ".concat(moduleJson.name, " ]: building simple .js for usage in .html in script tag as src"));
-        this.buildSimple(moduleJson, modulePath);
+        console.log("Package [ ".concat(packageJson.name, " ]: building simple .js for usage in .html in script tag as src"));
+        this.buildSimple(packageJson, packagePath);
     };
-    ProjectBuilder.prototype.installModuleDependencies = function (moduleJson, modulePath) {
+    ProjectBuilder.prototype.installPackageDependencies = function (packageJson, packagePath) {
         var e_2, _a;
         var dependencyCatalogPath = '';
         var localDependency = null;
-        var dependencies = moduleJson["dependencies"];
+        var dependencies = packageJson["dependencies"];
         if (dependencies && dependencies.length > 0) {
-            console.log("Module [ ".concat(moduleJson.name, " ]: Installing npm dependencies at ").concat(modulePath, "..."));
+            console.log("Package [ ".concat(packageJson.name, " ]: Installing npm dependencies at ").concat(packagePath, "..."));
             if (this.getIsLocalDevelopment()) {
-                console.log("Module [ ".concat(moduleJson.name, " ]: Local dev mode npm link method chosen"));
+                console.log("Package [ ".concat(packageJson.name, " ]: Local dev mode npm link method chosen"));
                 var localDependenciesNames = [];
                 try {
                     for (var dependencies_1 = __values(dependencies), dependencies_1_1 = dependencies_1.next(); !dependencies_1_1.done; dependencies_1_1 = dependencies_1.next()) {
@@ -228,41 +223,41 @@ var ProjectBuilder = /** @class */ (function () {
                     }
                     finally { if (e_2) throw e_2.error; }
                 }
-                var modulesToLinkJoined = localDependenciesNames.join(" ");
-                var npmLinkCommand = "cd \"".concat(modulePath, "\" && npm link ").concat(modulesToLinkJoined);
+                var packagesToLinkJoined = localDependenciesNames.join(" ");
+                var npmLinkCommand = "cd \"".concat(packagePath, "\" && npm link ").concat(packagesToLinkJoined);
                 console.log("".concat(npmLinkCommand));
-                this.runCommandLine(modulePath, npmLinkCommand, false);
+                this.runCommandLine(packagePath, npmLinkCommand, false);
             }
             else {
-                console.log("Module [ ".concat(moduleJson.name, " ]: npm install from npm registry"));
+                console.log("Package [ ".concat(packageJson.name, " ]: npm install from npm registry"));
                 //for (dependencyName of dependencies) {
                 //dependencyCatalogPath = rootPath + dependencyCatalogPath;
-                //execSync('npm run build', { cwd: modulePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
+                //execSync('npm run build', { cwd: packagePath, stdio: 'inherit', , shell: '/usr/bin/env bash' }); // Run the build command
                 //}
             }
         }
         else {
-            console.log("Module [ ".concat(moduleJson.name, " ]: No dependencies were set in BuildData.json"));
+            console.log("Package [ ".concat(packageJson.name, " ]: No dependencies were set in BuildData.json"));
         }
     };
-    ProjectBuilder.prototype.buildSimple = function (moduleJson, modulePath) {
+    ProjectBuilder.prototype.buildSimple = function (packageJson, packagePath) {
         var e_3, _a;
         //let buildFileName: string = '';
         var buildCatalogPath = '';
         //let buildFilePath: string = '';
         var buildSimpleCatalogPath = '';
         //let buildSimpleFilePath: string = '';
-        var buildFiles = moduleJson["build-files"];
+        var buildFiles = packageJson["build-files"];
         if (!buildFiles || (0 === buildFiles.length)) {
-            throw new Error("Module [ ".concat(moduleJson.name, " ]: You forgot to set \"build-files\" array, You wish to provide for Simple Build!"));
+            throw new Error("Package [ ".concat(packageJson.name, " ]: You forgot to set \"build-files\" array, You wish to provide for Simple Build!"));
         }
-        buildCatalogPath = modulePath + '/' + this.buildEsmCatalogName;
+        buildCatalogPath = packagePath + '/' + this.buildEsmCatalogName;
         if (false === fs.existsSync(buildCatalogPath)) {
-            throw new Error("Module [ ".concat(moduleJson.name, " ]: build catalog not found: ").concat(buildCatalogPath));
+            throw new Error("Package [ ".concat(packageJson.name, " ]: build catalog not found: ").concat(buildCatalogPath));
         }
-        buildSimpleCatalogPath = modulePath + '/' + this.buildSimpleCatalogName;
+        buildSimpleCatalogPath = packagePath + '/' + this.buildSimpleCatalogName;
         if (false === fs.existsSync(buildSimpleCatalogPath)) {
-            this.runCommandLine(modulePath, "mkdir -p \"".concat(buildSimpleCatalogPath, "\""), false);
+            this.runCommandLine(packagePath, "mkdir -p \"".concat(buildSimpleCatalogPath, "\""), false);
         }
         try {
             for (var buildFiles_1 = __values(buildFiles), buildFiles_1_1 = buildFiles_1.next(); !buildFiles_1_1.done; buildFiles_1_1 = buildFiles_1.next()) {
@@ -270,15 +265,15 @@ var ProjectBuilder = /** @class */ (function () {
                 var buildFilePath = buildCatalogPath + '/' + buildFileName;
                 var buildSimpleFilePath = buildSimpleCatalogPath + '/' + buildFileName;
                 if (true === fs.existsSync(buildSimpleFilePath)) {
-                    this.runCommandLine(modulePath, "rm \"".concat(buildSimpleFilePath, "\""), false);
+                    this.runCommandLine(packagePath, "rm \"".concat(buildSimpleFilePath, "\""), false);
                 }
                 var fileSimplePathDir = path.parse(buildSimpleFilePath).dir;
                 if (false === fs.existsSync(fileSimplePathDir)) {
-                    this.runCommandLine(modulePath, "mkdir -p \"".concat(fileSimplePathDir, "\""), false);
+                    this.runCommandLine(packagePath, "mkdir -p \"".concat(fileSimplePathDir, "\""), false);
                 }
-                this.runCommandLine(modulePath, "cp \"".concat(buildFilePath, "\" \"").concat(buildSimpleFilePath, "\""), false);
+                this.runCommandLine(packagePath, "cp \"".concat(buildFilePath, "\" \"").concat(buildSimpleFilePath, "\""), false);
                 // @ts-ignore
-                this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
+                //this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
             }
         }
         catch (e_3_1) { e_3 = { error: e_3_1 }; }
@@ -293,26 +288,26 @@ var ProjectBuilder = /** @class */ (function () {
         var consoleCommand = "cd \"".concat(tsconfigCatalogPath, "\" && tsc -p \"").concat(tsconfigFileName, "\"");
         return this.runCommandLine(tsconfigCatalogPath, consoleCommand, logToConsole);
     };
-    ProjectBuilder.prototype.transpileTypescriptSourcesWithPath = function (modulePath, tsconfigPath) {
-        var tsconfig = require(tsconfigPath);
+    ProjectBuilder.prototype.transpileTypescriptSourcesWithPath = function (packagePath, tsconfigPath) {
+        var tsconfig = fs.readFileSync(tsconfigPath);
         var compilerOptions = tsconfig["compilerOptions"];
         var transpileOptions = [];
         for (var compilerOptonName in compilerOptions) {
             var compilerOptionValue = compilerOptions[compilerOptonName];
             transpileOptions.push("--".concat(compilerOptonName, " ").concat(compilerOptionValue));
         }
-        var filesAndCatalogsList = fs.readdirSync("".concat(modulePath, "/src"), { recursive: true });
+        var filesAndCatalogsList = fs.readdirSync("".concat(packagePath, "/src"), { recursive: true });
         if (!filesAndCatalogsList || filesAndCatalogsList.length === 0) {
             return null;
         }
         var filesList = filesAndCatalogsList.filter(function (filePath) {
-            var absPath = "".concat(modulePath, "/src/").concat(filePath);
+            var absPath = "".concat(packagePath, "/src/").concat(filePath);
             return fs.lstatSync(absPath).isFile();
         });
         var filesListJoinedString = "src/" + filesList.join(" src/");
         var transpileOptionsString = transpileOptions.join(" ");
-        var transpileCommand = "cd \"".concat(modulePath, "\" && tsc ").concat(filesListJoinedString, " ").concat(transpileOptionsString);
-        return this.runCommandLine("".concat(modulePath), transpileCommand, true);
+        var transpileCommand = "cd \"".concat(packagePath, "\" && tsc ").concat(filesListJoinedString, " ").concat(transpileOptionsString);
+        return this.runCommandLine("".concat(packagePath), transpileCommand, true);
     };
     ProjectBuilder.prototype.prettifyWithEslint = function (eslintConfigCatalogPath, pathToFileToPrettify, logToConsole) {
         var consoleCommand = "npx eslint \"".concat(pathToFileToPrettify, "\" --fix");

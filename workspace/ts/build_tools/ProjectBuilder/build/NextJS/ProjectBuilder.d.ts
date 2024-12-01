@@ -23,11 +23,11 @@ export declare class ProjectBuilder {
     setBuildSimpleCatalogName(catalogName: string): ProjectBuilder;
     getSpawnSyncPayload(contextRoot: string): any;
     build(dataJson: any): any;
-    buildModule(moduleJson: any, rootPath: string): void;
-    installModuleDependencies(moduleJson: any, modulePath: string): void;
-    buildSimple(moduleJson: any, modulePath: string): void;
+    buildPackage(packageJson: any, rootPath: string): void;
+    installPackageDependencies(packageJson: any, packagePath: string): void;
+    buildSimple(packageJson: any, packagePath: string): void;
     transpileTypeScriptSources(tsconfigCatalogPath: string, tsconfigFileName: string, logToConsole: boolean): any;
-    transpileTypescriptSourcesWithPath(modulePath: string, tsconfigPath: string): any;
+    transpileTypescriptSourcesWithPath(packagePath: string, tsconfigPath: string): any;
     prettifyWithEslint(eslintConfigCatalogPath: string, pathToFileToPrettify: string, logToConsole: boolean): any;
     runCommandLine(configCatalogPath: string, consoleCommand: string, logToConsole: boolean): any;
 }
