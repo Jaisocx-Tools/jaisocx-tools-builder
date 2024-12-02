@@ -21,9 +21,8 @@ export declare class ProjectBuilder {
     setBuildCjsCatalogName(catalogName: string): ProjectBuilder;
     setBuildEsmCatalogName(catalogName: string): ProjectBuilder;
     setBuildSimpleCatalogName(catalogName: string): ProjectBuilder;
-    getSpawnSyncPayload(contextRoot: string): any;
     build(dataJson: any): any;
-    buildPackage(packageJson: any, rootPath: string): void;
+    buildPackage(packageJson: any): void;
     installPackageDependencies(packageJson: any, packagePath: string): void;
     buildSimple(packageJson: any, packagePath: string): void;
     transpileTypeScriptSources(tsconfigCatalogPath: string, tsconfigFileName: string, logToConsole: boolean): any;
@@ -31,5 +30,6 @@ export declare class ProjectBuilder {
     babelize(packagePath: string): any;
     prettifyWithEslint(packagePath: string, pathToPrettify: string, logToConsole: boolean): any;
     runCommandLine(configCatalogPath: string, consoleCommand: string, logToConsole: boolean): any;
+    getSpawnSyncPayload(contextRoot: string): any;
 }
 //# sourceMappingURL=ProjectBuilder.d.ts.map

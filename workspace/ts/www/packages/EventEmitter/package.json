@@ -4,11 +4,11 @@
   "private": false,
   "description": "",
   "type": "module",
-  "main": "./build/Babel/index.js",
+  "main": "./build/Babel/index.cjs",
   "types": "./build/ESNext/index.d.ts",
   "module": "./build/ESNext/index.js",
   "exports": {
-    "require": "./build/Babel/index.js",
+    "require": "./build/Babel/index.cjs",
     "import": "./build/ESNext/index.js"
   },
   "files": [

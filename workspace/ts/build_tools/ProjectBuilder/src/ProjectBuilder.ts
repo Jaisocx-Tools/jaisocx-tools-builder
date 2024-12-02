@@ -95,19 +95,7 @@ export class ProjectBuilder {
     return this;
   }
 
-  getSpawnSyncPayload(contextRoot: string): any {
-    return {
-      cwd: contextRoot,
-      stdio: 'inherit', 
-      shell: 'bash',
-      //shell: '/usr/bin/env bash',
-      //env: { ...process.env, PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') }
-    };
-  }
-
   build(dataJson: any): any {
-    //process.env = { ...process.env, PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') };
-
     if (!dataJson.packages || 0 === dataJson.packages.length) {
       throw new Error('no packages array set in BuildData.json');
     }
@@ -123,33 +111,30 @@ export class ProjectBuilder {
     }
 
     for (let packageJson of packages) {
-      this.buildPackage(packageJson, this.absolutePathToProjectRoot);
+      this.buildPackage(packageJson);
     }
   }
 
-  buildPackage(packageJson: any, rootPath: string) {
+  buildPackage(packageJson: any) {
     console.log(`\n\n\n===============================`);
     console.log(`MODULE ${packageJson.name}`);
     console.log(`===============================\n`);
 
-    let packagePath: string = this.absolutePathFromRootWww + '/' + packageJson.path;
+    let packagePath: string = path.resolve(this.absolutePathFromRootWww, packageJson.path);
 
     // install or link npm dependencies
     console.log(`Package [ ${packageJson.name} ]: Calling npm dependencies install`);
     this.installPackageDependencies(packageJson, packagePath);
 
-    // transpile .ts
+    // console output list of files in the package src catalog
     this.runCommandLine(packagePath, `ls -lahrts src`, true);
 
     console.log(`Package [ ${packageJson.name} ]: Prettifying with Eslint TypeScript code in ${packagePath}`);
     this.prettifyWithEslint(packagePath, `${packagePath}/src/**/*.ts`, false);
 
-    // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
-    // using local package environment, however tsconfig.ESNext.json is used from project root.
     console.log(`Package [ ${packageJson.name} ]: Transpiling TypeScript code in ${packagePath}`);
-    //const projectBuilderPath: string = `${this.absolutePathToProjectRoot}/build_tools/ProjectBuilder`;
 
-    // transpile modern ES2023 node version compatible
+    // transpile modern node version compatible
     const tsconfigESNextName: string = 'tsconfig.ESNext.json';
     const tsconfigESNextPath: string = `${this.absolutePathToProjectRoot}/${tsconfigESNextName}`;
     this.transpileTypescriptSourcesWithPath(packagePath, tsconfigESNextPath);
@@ -186,7 +171,7 @@ export class ProjectBuilder {
 
         const localDependenciesNames: string[] = [];
         for (localDependency of dependencies) {
-          dependencyCatalogPath = this.absolutePathFromRootWww + '/' + localDependency.path;
+          dependencyCatalogPath = path.resolve(this.absolutePathFromRootWww, localDependency.path);
 
           console.log(`cd && npm link in catalog: [ ${dependencyCatalogPath} ]`);
           this.runCommandLine(dependencyCatalogPath, `cd "${dependencyCatalogPath}" && npm link`, false);
@@ -329,6 +314,16 @@ export class ProjectBuilder {
     }
 
     return result;
+  }
+
+  getSpawnSyncPayload(contextRoot: string): any {
+    return {
+      cwd: contextRoot,
+      stdio: 'inherit', 
+      shell: 'bash',
+      //shell: '/usr/bin/env bash',
+      //env: { ...process.env, PATH: (process.env.PATH + ':/usr/local/bin:/usr/bin:/bin') }
+    };
   }
 
 }
