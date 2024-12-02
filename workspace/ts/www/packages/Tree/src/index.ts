@@ -2,10 +2,11 @@
 
 export {
   ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults, INodesOpenedMode
-} from "./typescript/Types";
-export { TreeAdapter } from "./typescript/TreeAdapter";
-export { TreeAdapterModeEase } from "./typescript/TreeAdapterModeEase";
-export { TreeAdapterModeMetadata } from "./typescript/TreeAdapterModeMetadata";
-export { TreeConstants } from "./typescript/TreeConstants";
-export { TreeMetadata } from "./typescript/TreeMetadata";
-export { Tree } from "./typescript/Tree";
+} from "./typescript/Types.js";
+export { TreeAdapter } from "./typescript/TreeAdapter.js";
+export { TreeAdapterModeEase } from "./typescript/TreeAdapterModeEase.js";
+export { TreeAdapterModeMetadata } from "./typescript/TreeAdapterModeMetadata.js";
+export { TreeConstants } from "./typescript/TreeConstants.js";
+export { TreeMetadata } from "./typescript/TreeMetadata.js";
+export { Tree } from "./typescript/Tree.js";
+

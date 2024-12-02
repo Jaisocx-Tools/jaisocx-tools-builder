@@ -1,9 +1,6 @@
-import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage";
-import { Tree } from "./Tree";
-import { TreeAdapter } from "./TreeAdapter";
-import { TreeConstants } from "./TreeConstants";
-import { TreeMetadata } from "./TreeMetadata";
-import { IRenderTemplateRendererData, ITreeAdapter } from "./Types";
+import { TreeAdapter } from "./TreeAdapter.js";
+import { TreeConstants } from "./TreeConstants.js";
+import { IRenderTemplateRendererData, ITreeAdapter } from "./Types.js";
 
 export class TreeAdapterModeMetadata extends TreeAdapter implements ITreeAdapter {
   getSubtreeNodeToRender(

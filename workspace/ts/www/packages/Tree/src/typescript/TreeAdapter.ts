@@ -1,6 +1,5 @@
-import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage";
-import { TreeConstants } from "./TreeConstants";
-import { TreeMetadata } from "./TreeMetadata";
+import { TreeConstants } from "./TreeConstants.js";
+import { TreeMetadata } from "./TreeMetadata.js";
 
 export class TreeAdapter {
   metadata: TreeMetadata;

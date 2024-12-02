@@ -1,6 +1,6 @@
-import { TreeAdapter } from "./TreeAdapter";
-import { TreeConstants } from "./TreeConstants";
-import { IRenderTemplateRendererData, ITreeAdapter } from "./Types";
+import { TreeAdapter } from "./TreeAdapter.js";
+import { TreeConstants } from "./TreeConstants.js";
+import { IRenderTemplateRendererData, ITreeAdapter } from "./Types.js";
 
 export class TreeAdapterModeEase extends TreeAdapter implements ITreeAdapter {
   getSubtreeNodeToRender(

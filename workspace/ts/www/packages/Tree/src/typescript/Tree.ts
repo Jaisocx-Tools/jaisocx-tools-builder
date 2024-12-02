@@ -5,12 +5,12 @@ import { TemplateRenderer } from "@jaisocx/template-renderer";
 
 import {
   ITreeRenderRetValue, IRenderingMode, IRenderTemplateRendererData, IRenderSubtreeResult, ITreeAdapter
-} from "./Types";
-import { TreeConstants } from "./TreeConstants";
-import { TreeMetadata } from "./TreeMetadata";
-import { TreeAdapterModeMetadata } from "./TreeAdapterModeMetadata";
-import { TreeAdapterModeEase } from "./TreeAdapterModeEase";
-import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage";
+} from "./Types.js";
+import { TreeConstants } from "./TreeConstants.js";
+import { TreeMetadata } from "./TreeMetadata.js";
+import { TreeAdapterModeMetadata } from "./TreeAdapterModeMetadata.js";
+import { TreeAdapterModeEase } from "./TreeAdapterModeEase.js";
+import { ArrayOrObjectPackage } from "./ArrayOrObjectPackage.js";
 
 import "@jaisocx-tree-assets/tree-styles-main-node_modules.css";
 

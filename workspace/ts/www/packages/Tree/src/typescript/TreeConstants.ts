@@ -1,8 +1,7 @@
-import { Tree } from "./Tree";
 import {
   IRenderingMode, ITreeCssClassNames, ITreeEventsNames, ITreeDefaults,
   INodesOpenedMode
-} from "./Types";
+} from "./Types.js";
 
 export class TreeConstants {
   static RenderingMode: IRenderingMode = {
