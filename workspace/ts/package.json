@@ -1,0 +1,44 @@
+{
+  "name": "@jaisocx/ts-tools",
+  "version": "1.2.01",
+  "private": false,
+  "description": "The Root ctalog of the project, with central config files, package.json devDependencies and node_modules catalog, keeping central devDependencies files hard copies.",
+  "type": "module",
+  "main": "./build/Babel/index.js",
+  "types": "./build/ESNext/index.d.ts",
+  "module": "./build/ESNext/index.js",
+  "exports": {
+    "require": "./build/Babel/index.js",
+    "import": "./build/ESNext/index.js"
+  },
+  "files": [
+    "build/Babel",
+    "build/ESNext",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "server": "http-server ./www -p 8083 -o"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-typescript": "^7.26.0",
+    "@types/node": "^22.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.16.0",
+    "@typescript-eslint/parser": "^8.16.0",
+    "core-js": "^3.39.0",
+    "cpx": "^1.5.0",
+    "eslint": "^9.16.0",
+    "eslint-plugin-jaisocx": "file:build_tools/EslintPlugins/EslintPluginJaisocxJS",
+    "typescript": "^5.7.x"
+  }
+}

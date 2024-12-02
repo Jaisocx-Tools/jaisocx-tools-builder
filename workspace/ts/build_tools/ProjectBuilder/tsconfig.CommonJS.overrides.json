@@ -1,0 +1,18 @@
+{
+  "extends": "./../../tsconfig.CommonJS.json",
+  "compilerOptions": {
+    "outDir": "/var/www/workspace/ts/build_tools/ProjectBuilder/build/CommonJS",
+    "declarationDir": "/var/www/workspace/ts/build_tools/ProjectBuilder/build/CommonJS"
+  },
+  "include": [
+    "./src/**/*.ts",  // Include TypeScript files from the source directory
+    "./src/**/*.tsx",  // Include React JSX files if necessary
+    "./typings/**/*.d.ts"  // Optionally include any additional declaration files
+  ],
+  "exclude": [
+    "node_modules",  // Exclude dependencies from being compiled
+    "build",  // Exclude the output directory from compilation
+    "**/*.spec.ts",  // Exclude test files from compilation (if applicable)
+    "**/*.test.ts"
+  ]
+}

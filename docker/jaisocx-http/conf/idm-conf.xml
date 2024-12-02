@@ -1,0 +1,18 @@
+<conf-idm>
+  <user id="User" password="password" granted-roles="READER" />
+  
+  <role id="READER">
+    <!-- with docker, here should be the port, set in the http-conf.xml (:443), and not the outer docker container port (:2291) -->
+    <granted-alias url="example-symfony-angular-dockerized.brightday.email:443/symfony/json/${any}" methods="GET" />
+  </role>
+  <role id="ADD" granted-roles="READER">
+    <granted-alias url="example-symfony-angular-dockerized.brightday.email:443/symfony/json/${any}" methods="POST" />
+  </role>
+  <role id="REMOVE" granted-roles="READER">
+    <granted-alias url="example-symfony-angular-dockerized.brightday.email:443/symfony/json/${any}" methods="DELETE" />
+  </role>
+  <role id="EDITOR" granted-roles="ADD,REMOVE">
+    <granted-alias url="example-symfony-angular-dockerized.brightday.email:443/symfony/json/${any}" methods="PUT,PATCH" />
+  </role>
+  <role id="ADMIN" granted-roles="EDITOR"></role>
+</conf-idm>

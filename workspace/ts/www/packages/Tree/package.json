@@ -1,0 +1,28 @@
+{
+  "name": "@jaisocx/tree",
+  "version": "1.2.05",
+  "private": false,
+  "description": "",
+  "type": "module",
+  "main": "./build/Babel/index.js",
+  "types": "./build/ESNext/index.d.ts",
+  "module": "./build/ESNext/index.js",
+  "exports": {
+    "require": "./build/Babel/index.js",
+    "import": "./build/ESNext/index.js"
+  },
+  "files": [
+    "build/Babel",
+    "build/ESNext",
+    "assets/",
+    "README.md",
+    "LICENSE"
+  ],
+  "optionalDependencies": {
+    "@jaisocx/event-emitter": "^1.2.x",
+    "@jaisocx/template-renderer": "^1.2.x"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

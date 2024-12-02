@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>Tree Example</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- OVERRIDING A DEFAULT THEME VARIABLES FILE WITH ANOTHER, SET IN CURRENT PROJECT, EVEN AFTER THE WEBPACK BUILD -->
+    <link href="examples/ExampleTree/build/webpack/theme-funny/theme-funny.css" rel="stylesheet" />
+
+
+    <!-- Task: to check out the css rules applied -->
+    <script src="examples/ExampleTree/build/webpack/bundle.js"></script>
+
+  </head>
+  <body>
+
+    <h1>Tree example</h1>
+
+    <h2>load by url (should work only when published at an http server)</h2>
+    <div id="tree-holder"></div>
+
+    <div id="tree-holder-configured" class="theme-funny"></div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        
+        //const exampleTree = new ExampleTree('tree-holder', 'https://api.artic.edu/api/v1/artworks');
+
+        class TreeMetadata2 {
+            constructor() {
+                this.NODE_ICON__SRC = "icon";
+                this.NODE_LABEL__TEXT = "title";
+                this.SUBTREE = "subtree";
+                this.NODE__ID = "id";
+                this.NODE__HOLDER_ID = "holderId";
+                this.NODE__PATH = "PATH";
+                this.NODE__ORDER = "order";
+                this.NODE__HYPERLINK = "href";
+                this.NODE__OPENED = "opened";
+                this.NODE__CSS_CLASS_NAME = "cssClassName";
+                this.NODE__ART = "art";
+            }
+        }
+
+        const tree = new Tree();
+        tree
+          .setDebug(false)
+          .setMainHtmlNodeId("tree-holder-configured")
+          .setDataTypesCssClassesEnabled(true)
+          .setNodesWithIcons(true)
+          .setNodesOpenedMode(TreeConstants.NodesOpenedMode.ALL_SHOWN)
+          .setRenderingMode(TreeConstants.RenderingMode.Ease)
+          //.setMetadata(new TreeMetadata2())
+          .setModifiable(false)
+          .addJSTreeEventListener(
+            TreeConstants.TreeEventsNames.EVENT_NAME__TREE_NODE_LABEL__CLICK,
+            (evt) => {
+              console.log(evt);
+            }
+          )
+          //.load('https://api.artic.edu/api/v1/artworks');
+          //.load('examples/ExampleTree/json/large_test_file_refined.json');
+          .load('examples/ExampleTree/json/tree-data.json');
+
+      });
+    </script>
+  </body>
+</html>
+

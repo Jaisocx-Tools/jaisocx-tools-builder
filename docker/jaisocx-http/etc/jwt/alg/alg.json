@@ -1,0 +1,50 @@
+[
+  {
+    "alg": "HS256",
+    "type": "mac",
+    "alg-java": "HmacSHA256",
+    "alg-size": 256
+  },
+  {
+    "alg": "HS384",
+    "type": "mac",
+    "alg-java": "HmacSHA384",
+    "alg-size": 384
+  },
+  {
+    "alg": "HS512",
+    "type": "mac",
+    "alg-java": "HmacSHA512",
+    "alg-size": 512
+  },
+  {
+    "alg": "RS256",
+    "type": "signature",
+    "alg-java": "SHA256withRSA"
+  },
+  {
+    "alg": "RS384",
+    "type": "signature",
+    "alg-java": "SHA384withRSA"
+  },
+  {
+    "alg": "RS512",
+    "type": "signature",
+    "alg-java": "SHA512withRSA"
+  },
+  {
+    "alg": "ES256",
+    "type": "signature",
+    "alg-java": "SHA256withECDSA"
+  },
+  {
+    "alg": "ES384",
+    "type": "signature",
+    "alg-java": "SHA384withECDSA"
+  },
+  {
+    "alg": "ES512",
+    "type": "signature",
+    "alg-java": "SHA512withECDSA"
+  }
+]

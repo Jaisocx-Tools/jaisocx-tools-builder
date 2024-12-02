@@ -1,0 +1,26 @@
+@import url('fonts.css');
+
+.theme-funny .tree > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show,
+.tree.theme-funny > ul > li > pre > pre.jstree-html-node-holder-icon.icon-show
+{
+  --datatype-array--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
+  --datatype-object--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
+}
+
+.theme-funny .tree, 
+.tree.theme-funny {
+
+  --node-label--font-family: 'Arial';
+
+  --datatype-array--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
+  --datatype-object--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
+  --datatype-number--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/track.png');
+  --datatype-string--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/money-transfer.png');
+  --datatype-boolean--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/html-intence.png');
+
+  --background-color--tree: #fff;
+  --size--jstree-html-node: 1.6rem;
+  --icon-holder-size: 1.2rem;
+}
+
+

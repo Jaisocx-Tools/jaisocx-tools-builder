@@ -1,0 +1,96 @@
+[
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Jaisocx",
+      "url": "https://jaisocx.com/",
+      "logo": "https://jaisocx.com/img/logo-skyblue-icon.jpg"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Jaisocx Web Server",
+      "operatingSystem": "Windows,Linux,MacOS",
+      "applicationCategory": "PHP Web Server",
+      "offers": {
+        "@type": "Offer",
+        "price": "0"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Latest HTTP Protocol HTTP/3",
+      "description": "Now the latest version of protocol for web sites publishing, HTTP/3 is built-in. You get it out-of-the-box!",
+      "datePublished": "2024-05-12",
+      "keywords": ["upgrade", "http/3", "quic"],
+      "articleSection": "Update",
+      "author": {
+        "@type": "Organization",
+        "name": "Jaisocx"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://jaisocx.com/img/logo-skyblue-little.jpg",
+        "height": 206,
+        "width": 300
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Free TLS Certificate by Certbot",
+      "description": "There is a script in the downloaded package, that issues free TLS certificate in the format, suitable for Your Jaisocx.",
+      "datePublished": "2024-05-01",
+      "keywords": ["free", "TLS", "HTTPS", "certificate", "security", "encryption"],
+      "articleSection": "Update",
+      "author": {
+        "@type": "Organization",
+        "name": "Jaisocx"
+      },
+        "image": {
+        "@type": "ImageObject",
+        "url": "https://jaisocx.com/img/logo-skyblue-little.jpg",
+        "height": 206,
+        "width": 300
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Proxy Endpoints",
+      "description": "Just add an alias tag with art=\"proxy\". This will proxy Your host to desired another host.",
+      "datePublished": "2024-04-19",
+      "keywords": ["new-alias", "proxy"],
+      "articleSection": "Update",
+      "author": {
+        "@type": "Organization",
+        "name": "Jaisocx"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://jaisocx.com/img/logo-skyblue-little.jpg",
+        "height": 206,
+        "width": 300
+      }  
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "NewsArticle",
+      "headline": "Security JSON Web Token",
+      "description": "Easily in few minutes after diving into JWT documentation block, restrict access to Your sensitive endpoints with JWT, allow only to trusted users. The up-to-date authorization technology.",
+      "datePublished": "2024-04-05",
+      "keywords": ["security", "authorization", "JWT"],
+      "articleSection": "Update",
+      "author": {
+        "@type": "Organization",
+        "name": "Jaisocx"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://jaisocx.com/img/logo-skyblue-little.jpg",
+        "height": 206,
+        "width": 300
+      }  
+    }
+]
