@@ -1,4 +1,4 @@
-import { EventHandlerReturnValue, EventEmitResult } from "./Types";
+import { EventHandlerReturnValue, EventEmitResult } from "./Types.js";
 
 export class EventEmitter {
   eventsHandlersSetThisClass: any;

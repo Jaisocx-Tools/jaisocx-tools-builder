@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { ProjectBuilder } from './ProjectBuilder';
+import { ProjectBuilder } from './ProjectBuilder.js';
 const argv = process.argv.slice(2); // Get command-line arguments starting from index 2
 const commandArgs = {
     ProjectRoot: '',
@@ -21,7 +21,8 @@ const packagesPath = path.resolve(commandArgs.ProjectRoot, commandArgs.PackagesP
 if (false === fs.existsSync(packagesPath)) {
     throw new Error(`modulesPath not available at path: ${packagesPath}`);
 }
-let buildData = fs.readFileSync(path.resolve(commandArgs.ProjectRoot, commandArgs.BuildData), 'utf8');
+const buildDataJson = fs.readFileSync(path.resolve(commandArgs.ProjectRoot, commandArgs.BuildData), 'utf8');
+const buildData = JSON.parse(buildDataJson);
 console.log("buildDataPath", buildDataPath);
 console.log("buildData", buildData);
 console.log("packagesPath", packagesPath);
@@ -34,6 +35,6 @@ builder
     .setRelativePathFromRootWww('www')
     .setBuildCjsCatalogName('build/CommonJS')
     .setBuildEsmCatalogName('build/ESNext')
-    .setBuildSimpleCatalogName('build/simple')
+    .setBuildSimpleCatalogName('build/Simple')
     .build(buildData);
 //# sourceMappingURL=index.js.map

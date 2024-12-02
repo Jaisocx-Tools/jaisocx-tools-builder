@@ -1,5 +1,5 @@
-import { EventEmitter } from "./EventEmitter";
-import { EventHandlerReturnValue, EventEmitResult } from "./Types";
+import { EventEmitter } from "./EventEmitter.js";
+import { EventHandlerReturnValue, EventEmitResult } from "./Types.js";
 
 // This class is used with JSTree to keep browser working with ease, even with several tens of MBs JSON data file.
 export class LargeDomEventEmitter extends EventEmitter {

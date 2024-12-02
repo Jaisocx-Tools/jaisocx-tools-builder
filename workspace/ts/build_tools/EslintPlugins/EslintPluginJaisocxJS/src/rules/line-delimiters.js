@@ -1,5 +1,5 @@
 // eslint-plugin-custom/rules/line-delimiters.js
-module.exports = {
+export const LineDelimiters = {
   meta: {
     type: "layout",
     docs: {

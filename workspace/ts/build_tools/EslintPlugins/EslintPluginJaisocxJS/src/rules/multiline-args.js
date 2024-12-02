@@ -1,5 +1,5 @@
 // lib/rules/multiline-args.js
-module.exports = {
+export const MultilineArgs = {
   meta: {
     type: "layout",
     docs: {

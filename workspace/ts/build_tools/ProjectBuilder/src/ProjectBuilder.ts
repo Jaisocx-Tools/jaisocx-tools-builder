@@ -1,7 +1,8 @@
 import { execSync } from 'child_process';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { IDependency } from './types';
+import JSON5 from 'json5';
+import { IDependency } from './types.js';
 
 
 export class ProjectBuilder {
@@ -141,19 +142,25 @@ export class ProjectBuilder {
     this.runCommandLine(packagePath, `ls -lahrts src`, true);
 
     console.log(`Package [ ${packageJson.name} ]: Prettifying with Eslint TypeScript code in ${packagePath}`);
-    //this.prettifyWithEslint(this.absolutePathToProjectRoot, `${packagePath}/src/**/*.ts`, false);
+    this.prettifyWithEslint(packagePath, `${packagePath}/src/**/*.ts`, false);
 
     // transpiling for BuildSimple .js prettified files, usable as are in <script src="" />
     // using local package environment, however tsconfig.ESNext.json is used from project root.
     console.log(`Package [ ${packageJson.name} ]: Transpiling TypeScript code in ${packagePath}`);
-    const projectBuilderPath: string = `${this.absolutePathToProjectRoot}/build_tools/ProjectBuilder`;
-    const tsconfigCjsName: string = 'tsconfig.CommonJS.json';
-    const tsconfigCjsPath: string = `${projectBuilderPath}/${tsconfigCjsName}`;
-    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigCjsPath);
+    //const projectBuilderPath: string = `${this.absolutePathToProjectRoot}/build_tools/ProjectBuilder`;
 
-    const tsconfigEsmName: string = 'tsconfig.ESNext.json';
-    const tsconfigEsmPath: string = `${projectBuilderPath}/${tsconfigEsmName}`;
-    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigEsmPath);
+    // transpile modern ES2023 node version compatible
+    const tsconfigESNextName: string = 'tsconfig.ESNext.json';
+    const tsconfigESNextPath: string = `${this.absolutePathToProjectRoot}/${tsconfigESNextName}`;
+    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigESNextPath);
+
+    // transpile legacy node versions compatible
+    const tsconfigCommonJSName: string = 'tsconfig.CommonJS.json';
+    const tsconfigCommonJSPath: string = `${this.absolutePathToProjectRoot}/${tsconfigCommonJSName}`;
+    this.transpileTypescriptSourcesWithPath(packagePath, tsconfigCommonJSPath);
+
+    // apply babel polyfills
+    this.babelize(packagePath);
 
     // link this package for usage in local development in other .ts files
     if (this.getIsLocalDevelopment()) {
@@ -241,7 +248,7 @@ export class ProjectBuilder {
       this.runCommandLine(packagePath, `cp "${buildFilePath}" "${buildSimpleFilePath}"`, false);
 
       // @ts-ignore
-      //this.prettifyWithEslint(this.absolutePathToProjectRoot, buildSimpleFilePath, false);
+      this.prettifyWithEslint(packagePath, `${this.buildSimpleCatalogName}/${buildFileName}`, false);
     }
   }
 
@@ -255,8 +262,12 @@ export class ProjectBuilder {
   }
 
   transpileTypescriptSourcesWithPath(packagePath: string, tsconfigPath: string): any {
-    const tsconfig: any = fs.readFileSync(tsconfigPath);
+    const tsconfigJson: any = fs.readFileSync(tsconfigPath);
+    const tsconfig: any = JSON5.parse(tsconfigJson);
     const compilerOptions: any = tsconfig["compilerOptions"];
+    if (!compilerOptions) {
+      throw new Error(`Typescript config file has no compilerOptions, or was not found at: ${tsconfigPath}`);
+    }
     const transpileOptions: string[] = [];
     for (let compilerOptonName in compilerOptions) {
       const compilerOptionValue: any = compilerOptions[compilerOptonName];
@@ -273,19 +284,29 @@ export class ProjectBuilder {
       return fs.lstatSync(absPath).isFile(); 
     });
 
-    const filesListJoinedString: string = "src/" + filesList.join(" src/");
+    const packagePathRelative = packagePath.replace(`${this.absolutePathToProjectRoot}/`, '');
+    //const filesListJoinedString: string = `${packagePathRelative}/src/` + filesList.join(` ${packagePathRelative}/src/`);
+    const filesListJoinedString: string = `src/` + filesList.join(` src/`);
     const transpileOptionsString: string = transpileOptions.join(" ");
-    const transpileCommand: string = `cd "${packagePath}" && tsc ${filesListJoinedString} ${transpileOptionsString}`;
+
+    // cd packagePath ensures usage of package.json installed deps for this exact subpackage.
+    const transpileCommand: string = `cd "${packagePath}" && npx tsc ${filesListJoinedString} ${transpileOptionsString}`;
     return this.runCommandLine(`${packagePath}`, transpileCommand, true);
   }
 
+  babelize(packagePath: string): any {
+    const packagePathRelative = packagePath.replace(`${this.absolutePathToProjectRoot}/`, '');
+    const babelCommand: string = `cd "${this.absolutePathToProjectRoot}" && npx cpx "${packagePathRelative}/build/CommonJS/**/*.d.ts" "${packagePathRelative}/build/Babel/" && npx cpx "${packagePathRelative}/build/CommonJS/**/*.map" "${packagePathRelative}/build/Babel/" && npx babel "${packagePathRelative}/build/CommonJS" --out-dir "${packagePathRelative}/build/Babel" --extensions ".js"`;
+    return this.runCommandLine(`${packagePath}`, babelCommand, true);
+  }
+
   prettifyWithEslint(
-    eslintConfigCatalogPath: string, 
-    pathToFileToPrettify: string, 
+    packagePath: string, 
+    pathToPrettify: string, 
     logToConsole: boolean
   ): any {
-    const consoleCommand: string = `npx eslint "${pathToFileToPrettify}" --fix`;
-    return this.runCommandLine(eslintConfigCatalogPath, consoleCommand, logToConsole);
+    const consoleCommand: string = `cd "${packagePath}" && npx eslint "${pathToPrettify}" --fix`;
+    return this.runCommandLine(packagePath, consoleCommand, logToConsole);
   }
 
   runCommandLine(
