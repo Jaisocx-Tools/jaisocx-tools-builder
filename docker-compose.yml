@@ -16,6 +16,7 @@ services:
     build: 
       context: ./docker/py
     volumes:
+      - ./docker/py/conf/:/uwsgi/:delegated
       - ./workspace/py/:/var/www/workspace/py/:delegated
     ports:
       - 8000:8000
