@@ -116,10 +116,10 @@ add new json entry for Your new .ts module
     },
 ```
 
-- *4. in the catalog workspace/ts/,* start build .ts files to .js
+- *4. in the root ctalog of this project,* start build .ts files to .js
 
 ```
-npm run build
+./buildPackages.sh
 ```
 
 ## how to prettify .ts soures:
