@@ -2,19 +2,19 @@
 
 ## STATUS OF THE PROJECT
 
-The Project is under development now, 2024-11-24.
+The Project is under development now, 2024-12-04.
 
 The infrastructure for building a multi submodules .ts libraries is ready to use.
-packages in `https_service_docker_volume/www/modules` catalog are ready to use, too.
+packages in `workspace/ts/www` catalog are ready to use, too.
 
 1. You can open an example .html file with "open with" => "browser",
 
 2. Here in this project there is also npm commad to use an `http server` for development. [https://www.npmjs.com/package/http-server](https://www.npmjs.com/package/http-server)
 
 
-For this `http-server` here in Project already defined reference and npm script in `package.json`.
+For this `http-server` here in Project already defined reference and npm script in `workspace/ts/package.json`.
 
-open terminal and cd to `https_service_docker_volume` first.
+open terminal and cd to `workspace/ts/` first.
 
 if did not install npm packages, do so:
 
@@ -28,7 +28,7 @@ start `Your http endpoint` like this:
 npm run server
 ```
 
-this command starts the server and opens the browser with the default listing of `https_service_docker_volume/www` catalog.
+this command starts the server and opens the browser with the default listing of `workspace/ts/www` catalog.
 
 
 
@@ -73,7 +73,7 @@ Feel free to use Your own.
 the dependency line, e.g. "@jaisocx/event-emitter": "^1.0.x", 
 You get from the local linked submodule catalog's package.json:
 
-https_service_docker_volume/www/modules/EventEmitter/package.json
+workspace/ts/www/modules/EventEmitter/package.json
 
 ```
 {
@@ -83,7 +83,7 @@ https_service_docker_volume/www/modules/EventEmitter/package.json
 ```
 
 
-- 2. in the `https_service_docker_volume/BuildData.json`
+- 2. in the `workspace/ts/BuildData.json`
 
 add new json entry for Your new .ts module
 
@@ -116,7 +116,7 @@ add new json entry for Your new .ts module
     },
 ```
 
-- *4. in the catalog https_service_docker_volume,* start build .ts files to .js
+- *4. in the catalog workspace/ts/,* start build .ts files to .js
 
 ```
 npm run build
@@ -124,9 +124,9 @@ npm run build
 
 ## how to prettify .ts soures:
 
-in terminal change to `https_service_docker_volume`
+in terminal change to `workspace/ts/`
 
-the eslint config `.eslintrc.js` is in this catalog.
+the eslint config `eslint.config.js` is in this catalog.
 
 then, run eslint
 ```
@@ -138,41 +138,39 @@ npx eslint www/modules/<YourModule>/src/**/*.ts --fix
 here is the path, where some custom eslint rules within one custom plugin were developed.
 
 Plugin "jaisocx":
-`https_service_docker_volume/build_tools/src/EslintPlugins/EslintPluginJaisocxJS`
+`workspace/ts/build_tools/EslintPlugins/EslintPluginJaisocxJS`
 
 eslint rules files:
 
-`https_service_docker_volume/build_tools/src/EslintPlugins/EslintPluginJaisocxJS/lib/rules`
+`workspace/ts/build_tools/EslintPlugins/EslintPluginJaisocxJS/src/rules`
 
 ## how to customize .js builds and other tasks, by customizing the ProjectBuilder:
 
 In the terminal change to 
 
-`https_service_docker_volume/build_tools`
+`workspace/ts/build_tools`
 
 this is the root catalog of ProjectBuilder tool.
 
 Here resides .ts code:
 
-`https_service_docker_volume/build_tools/src/ProjectBuilder`
+`workspace/ts/build_tools/ProjectBuilder/src/ProjectBuilder.ts`
 
 to transpile ProjectBuilder typescript code, if modified it,
 
 ```
-cd "https_service_docker_volume/build_tools"
-npm run build
+./buildProjectBuilder.sh
 ```
 
 Then, You can use Your new ProjectBuilder version to build Your packages in this project:
 
 ```
-cd https_service_docker_volume
-npm run build
+./buildPackages.sh
 ```
 
 ## THE WEBPACK BUILD EXAMPLE
 
-`https_service_docker_volume/www/examples/ExampleTree`
+`workspace/ts/www/examples/ExampleTree`
 
 ## Status of webpack build feature support in this project
 
@@ -184,7 +182,7 @@ npm run build
 
 ### what is Webpack build result?
 
-`https_service_docker_volume/www/examples/ExampleTree/build-webpack/bundle.js`
+`workspace/ts/www/examples/ExampleTree/build-webpack/bundle.js`
 
 is usable in a static `.html` page even, after each webpack rebuild, too.
 
@@ -220,10 +218,10 @@ usage of this `bundle.js` in a static `.html` page:
 - during development, once other local packages are npm linked locally, You don't need to use ProjectBuilder. for a faster rebuild, just use npm run webpack inside the subpackage catalog.
 
 ```
-cd https_service_docker_volume/www/examples/ExampleTree
+cd workspace/ts/www/examples/ExampleTree
 npm run webpack
 ```
 
-- reload this `.html` page, opened in Your browser to see effect: `https_service_docker_volume/www/TreeWebpackBuild.html`
+- reload this `.html` page, opened in Your browser to see effect: `workspace/ts/www/ExampleWebpack_Tree.html`
 
 
