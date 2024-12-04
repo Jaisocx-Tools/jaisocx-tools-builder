@@ -6,7 +6,7 @@
         "targets": {
           "node": "8" // Adjust for legacy Node.js versions
         },
-        "useBuiltIns": "usage",
+        "useBuiltIns": "entry",
         "corejs": "3"
       }
     ],

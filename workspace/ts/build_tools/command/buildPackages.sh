@@ -8,5 +8,15 @@ echo $projectRoot
 
 tsconfigVersion="$1"
 cd "${projectRoot}/build_tools/ProjectBuilder" 
-docker compose exec node /usr/bin/env bash -c "cd \"${dockerWorkingDir}/build_tools/ProjectBuilder\" && node \"./build/${tsconfigVersion}/index.js\" --ProjectRoot=\"${dockerWorkingDir}\" --BuildData=\"./BuildData.json\" --PackagesPath=\"./www/\""
+
+commands_array=(
+  "cd \"${dockerWorkingDir}/build_tools/ProjectBuilder\""
+  "export NODE_OPTIONS=\"--no-warnings\""
+  "node \"./build/${tsconfigVersion}/index.js\" --ProjectRoot=\"${dockerWorkingDir}\" --BuildData=\"./BuildData.json\" --PackagesPath=\"./www/\""
+)
+
+commands_concatenated=$(printf " && %s" "${commands_array[@]}")
+commands_concatenated=${commands_concatenated:4}
+
+docker compose exec node /usr/bin/env bash -c "${commands_concatenated}"
 

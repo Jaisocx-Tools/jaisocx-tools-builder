@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es.regexp.exec.js");
-require("core-js/modules/es.string.replace.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

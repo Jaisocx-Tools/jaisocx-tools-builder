@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
-    "target": "ES2017",  // Use modern JavaScript features but still compatible with many environments
-    "module": "CommonJS",  // Use ES modules (ESM), suitable for modern bundlers and Node.js
-    "moduleResolution": "classic",  // For resolving modules using Node.js resolution algorithm
-    "lib": ["ES2023", "DOM"],  // Include the latest JavaScript features and DOM for browser environments
+    "target": "ES2017",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "lib": ["ES2023", "DOM"],
     "types": ["node"],
     "downlevelIteration": true,
     "strict": true,  // Enforce strict type-checking

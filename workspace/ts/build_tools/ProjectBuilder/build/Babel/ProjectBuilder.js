@@ -138,11 +138,12 @@ class ProjectBuilder {
     this.runCommandLine(packagePath, `ls -lahrts src`, true);
     console.log(`Package [ ${packageJson.name} ]: Prettifying with Eslint TypeScript code in ${packagePath}`);
     this.prettifyWithEslint(packagePath, `${packagePath}/src/**/*.ts`, false);
-    console.log(`Package [ ${packageJson.name} ]: Transpiling TypeScript code in ${packagePath}`);
+    console.log(`Package [ ${packageJson.name} ]: ESNext Transpiling TypeScript code in ${packagePath}`);
     // transpile modern node version compatible
     const tsconfigESNextName = 'tsconfig.ESNext.json';
     const tsconfigESNextPath = `${this.absolutePathToProjectRoot}/${tsconfigESNextName}`;
     this.transpileTypescriptSourcesWithPath(packagePath, tsconfigESNextPath);
+    console.log(`Package [ ${packageJson.name} ]: CommonjS Transpiling TypeScript code in ${packagePath}`);
     // transpile legacy node versions compatible
     const tsconfigCommonJSName = 'tsconfig.CommonJS.json';
     const tsconfigCommonJSPath = `${this.absolutePathToProjectRoot}/${tsconfigCommonJSName}`;
@@ -270,9 +271,6 @@ class ProjectBuilder {
       result = (0, child_process_1.execSync)(consoleCommand, this.getSpawnSyncPayload(configCatalogPath));
     } catch (e) {
       result = e;
-    }
-    if (logToConsole === true) {
-      console.log(result);
     }
     return result;
   }

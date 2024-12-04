@@ -10,7 +10,7 @@
 .theme-funny .tree, 
 .tree.theme-funny {
 
-  --node-label--font-family: 'Arial';
+  --node-label--font-family: 'Niconne';
 
   --datatype-array--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
   --datatype-object--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/house.png');
@@ -19,8 +19,8 @@
   --datatype-boolean--image-url: url('examples/ExampleTree/build/webpack/theme-funny/mini-images/data-types/html-intence.png');
 
   --background-color--tree: #fff;
-  --size--jstree-html-node: 1.6rem;
-  --icon-holder-size: 1.2rem;
+  --size--jstree-html-node: 1.0rem;
+  --icon-holder-size: 0.9rem;
 }
 
 

@@ -1,6 +1,5 @@
 "use strict";
 
-require("core-js/modules/es.array.iterator.js");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });

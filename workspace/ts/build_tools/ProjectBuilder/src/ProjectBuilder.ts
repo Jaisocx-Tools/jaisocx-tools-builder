@@ -132,13 +132,13 @@ export class ProjectBuilder {
     console.log(`Package [ ${packageJson.name} ]: Prettifying with Eslint TypeScript code in ${packagePath}`);
     this.prettifyWithEslint(packagePath, `${packagePath}/src/**/*.ts`, false);
 
-    console.log(`Package [ ${packageJson.name} ]: Transpiling TypeScript code in ${packagePath}`);
-
+    console.log(`Package [ ${packageJson.name} ]: ESNext Transpiling TypeScript code in ${packagePath}`);
     // transpile modern node version compatible
     const tsconfigESNextName: string = 'tsconfig.ESNext.json';
     const tsconfigESNextPath: string = `${this.absolutePathToProjectRoot}/${tsconfigESNextName}`;
     this.transpileTypescriptSourcesWithPath(packagePath, tsconfigESNextPath);
 
+    console.log(`Package [ ${packageJson.name} ]: CommonjS Transpiling TypeScript code in ${packagePath}`);
     // transpile legacy node versions compatible
     const tsconfigCommonJSName: string = 'tsconfig.CommonJS.json';
     const tsconfigCommonJSPath: string = `${this.absolutePathToProjectRoot}/${tsconfigCommonJSName}`;
@@ -307,10 +307,6 @@ export class ProjectBuilder {
       );
     } catch (e: any) {
       result = e;
-    }
-
-    if ( logToConsole === true ) {
-      console.log(result);
     }
 
     return result;
